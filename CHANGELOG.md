@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.5 - 2026-08-27
+### Added
+- **Request Inspector Upgrade**: Complete overhaul of the inspector UI.
+- Support for capturing sub-paths in webhook URLs (e.g. `/w/[id]/my-custom-path`).
+- New request metadata header showing Path, Status, Content Type, Size, and Timestamp.
+- "Raw" tab to view the original HTTP request string.
+- Client-side JSON pretty-formatting and syntax highlighting via Highlight.js.
+- "Copy JSON" button for one-click payload copying.
+- "Copy as cURL" button to easily replay captured requests.
+
 All notable changes to this project will be documented in this file.
 
 ## [v0.1.4] - 2026-08-27

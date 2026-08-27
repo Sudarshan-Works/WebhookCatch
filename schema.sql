@@ -12,6 +12,7 @@ CREATE TABLE requests (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   session_id TEXT NOT NULL,
   method TEXT NOT NULL,
+  path TEXT NOT NULL,
   headers TEXT NOT NULL,
   query TEXT NOT NULL,
   body TEXT NOT NULL,

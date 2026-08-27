@@ -80,26 +80,68 @@ const { id } = Astro.params;
         </div>
 
         <div class="detail-content" id="detail-content" style="display: none;">
-          <!-- Request Summary -->
-          <div class="detail-summary" id="detail-summary">
-            <div class="detail-summary-left">
+          <!-- Request Meta Grid -->
+          <div class="detail-meta-grid" id="detail-summary">
+            <div class="meta-item">
+              <span class="meta-label">Method</span>
               <span class="badge-method" id="detail-method">GET</span>
-              <span class="text-body-md" style="font-weight: 500;" id="detail-path">/</span>
             </div>
-            <span class="text-body-sm" style="color: var(--color-mute);" id="detail-time">—</span>
+            <div class="meta-item">
+              <span class="meta-label">Status</span>
+              <span class="meta-value text-code" style="color: var(--color-success);">200 OK</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Path</span>
+              <span class="meta-value text-code" id="detail-path">/</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Timestamp</span>
+              <span class="meta-value" id="detail-time">—</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Content Type</span>
+              <span class="meta-value text-code" id="detail-content-type">—</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Size</span>
+              <span class="meta-value" id="detail-size">0 B</span>
+            </div>
           </div>
 
           <!-- Tabs -->
           <div class="detail-tabs-container">
             <div class="detail-tabs">
-              <button class="tab-ghost active" data-tab="headers" id="tab-headers">Headers</button>
+              <button class="tab-ghost active" data-tab="body" id="tab-body">Body</button>
+              <button class="tab-ghost" data-tab="headers" id="tab-headers">Headers</button>
               <button class="tab-ghost" data-tab="query" id="tab-query">Query Params</button>
-              <button class="tab-ghost" data-tab="body" id="tab-body">Body</button>
+              <button class="tab-ghost" data-tab="raw" id="tab-raw">Raw</button>
             </div>
           </div>
 
           <!-- Tab Panels -->
-          <div class="tab-panel active" id="panel-headers">
+          <div class="tab-panel active" id="panel-body">
+            <div class="panel-content">
+              <div id="body-empty" class="panel-empty" style="display: none;">
+                <p class="text-body-sm" style="color: var(--color-mute);">No body payload found in this request.</p>
+              </div>
+              <div class="code-editor-mockup" id="body-container" style="display: none;">
+                <div class="code-editor-header" style="justify-content: space-between;">
+                  <div style="display: flex; gap: 8px; align-items: center;">
+                    <span class="code-editor-dot" style="background-color: #ff5f56;"></span>
+                    <span class="code-editor-dot" style="background-color: #ffbd2e;"></span>
+                    <span class="code-editor-dot" style="background-color: #27c93f;"></span>
+                  </div>
+                  <div class="code-actions" style="display: flex; gap: 8px;">
+                    <button class="btn-ghost btn-sm" id="btn-copy-json">Copy JSON</button>
+                    <button class="btn-ghost btn-sm" id="btn-copy-curl">Copy as cURL</button>
+                  </div>
+                </div>
+                <pre style="margin: 0;"><code class="code-content text-code language-json" id="body-content" style="padding: 24px; display: block; overflow-x: auto;"></code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-headers" style="display: none;">
             <div class="panel-content">
               <table class="kv-table" id="headers-table">
                 <thead>
@@ -130,18 +172,15 @@ const { id } = Astro.params;
             </div>
           </div>
 
-          <div class="tab-panel" id="panel-body" style="display: none;">
+          <div class="tab-panel" id="panel-raw" style="display: none;">
             <div class="panel-content">
-              <div id="body-empty" class="panel-empty" style="display: none;">
-                <p class="text-body-sm" style="color: var(--color-mute);">No body payload found in this request.</p>
-              </div>
-              <div class="code-editor-mockup" id="body-container" style="display: none;">
+              <div class="code-editor-mockup">
                 <div class="code-editor-header">
                   <span class="code-editor-dot" style="background-color: #ff5f56;"></span>
                   <span class="code-editor-dot" style="background-color: #ffbd2e;"></span>
                   <span class="code-editor-dot" style="background-color: #27c93f;"></span>
                 </div>
-                <pre class="code-content text-code" id="body-content"></pre>
+                <pre class="code-content text-code" id="raw-content" style="margin:0;"></pre>
               </div>
             </div>
           </div>
@@ -151,6 +190,9 @@ const { id } = Astro.params;
   </div>
 </Layout>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
 <script>
   const app = document.getElementById('dashboard-app')!;
   const sessionId = app.dataset.sessionId!;
@@ -164,8 +206,14 @@ const { id } = Astro.params;
   const detailEmpty = document.getElementById('detail-empty')!;
   const detailContent = document.getElementById('detail-content')!;
   const detailMethod = document.getElementById('detail-method')!;
+  const detailPath = document.getElementById('detail-path')!;
   const detailTime = document.getElementById('detail-time')!;
+  const detailContentType = document.getElementById('detail-content-type')!;
+  const detailSize = document.getElementById('detail-size')!;
   const headersTbody = document.getElementById('headers-tbody')!;
+  const rawContent = document.getElementById('raw-content')!;
+  const btnCopyJson = document.getElementById('btn-copy-json')!;
+  const btnCopyCurl = document.getElementById('btn-copy-curl')!;
   const queryTbody = document.getElementById('query-tbody')!;
   const queryEmpty = document.getElementById('query-empty')!;
   const queryTable = document.getElementById('query-table')!;
@@ -280,9 +328,10 @@ const { id } = Astro.params;
     detailEmpty.style.display = 'none';
     detailContent.style.display = 'flex';
 
-    // Method badge
+    // Method & Path
     detailMethod.className = methodClass(req.method);
     detailMethod.textContent = req.method;
+    detailPath.textContent = req.path || '/';
 
     // Time
     const d = new Date(req.created_at);
@@ -299,6 +348,13 @@ const { id } = Astro.params;
       tr.innerHTML = `<td class="text-code">${escapeHtml(key)}</td><td class="text-code">${escapeHtml(value as string)}</td>`;
       headersTbody.appendChild(tr);
     });
+
+    // Content Type & Size
+    const contentType = Object.keys(headers).find(k => k.toLowerCase() === 'content-type');
+    detailContentType.textContent = contentType ? headers[contentType] : 'None';
+    
+    const bodySize = req.body ? new Blob([req.body]).size : 0;
+    detailSize.textContent = bodySize < 1024 ? `${bodySize} B` : `${(bodySize/1024).toFixed(2)} KB`;
 
     // Query
     const query = req.query || {};
@@ -322,17 +378,61 @@ const { id } = Astro.params;
     if (!body) {
       bodyContainer.style.display = 'none';
       bodyEmpty.style.display = 'flex';
+      btnCopyJson.style.display = 'none';
     } else {
       bodyEmpty.style.display = 'none';
       bodyContainer.style.display = 'block';
       // Try to pretty-print JSON
+      let formattedJson = body;
+      let isJson = false;
       try {
         const parsed = JSON.parse(body);
-        bodyContent.textContent = JSON.stringify(parsed, null, 2);
-      } catch {
-        bodyContent.textContent = body;
+        formattedJson = JSON.stringify(parsed, null, 2);
+        isJson = true;
+      } catch {}
+      
+      bodyContent.textContent = formattedJson;
+      // @ts-ignore
+      if (window.hljs && isJson) {
+        // @ts-ignore
+        bodyContent.dataset.highlighted = ''; // reset highlight.js flag
+        // @ts-ignore
+        hljs.highlightElement(bodyContent);
       }
+      
+      btnCopyJson.style.display = isJson ? 'inline-flex' : 'none';
+      btnCopyJson.onclick = () => {
+        navigator.clipboard.writeText(formattedJson);
+        const orig = btnCopyJson.textContent;
+        btnCopyJson.textContent = 'Copied!';
+        setTimeout(() => btnCopyJson.textContent = orig, 2000);
+      };
     }
+    
+    // Copy as cURL
+    btnCopyCurl.onclick = () => {
+      let curl = `curl -X ${req.method} "${baseUrl}${req.path || '/w/' + sessionId}"`;
+      for (const [key, val] of Object.entries(headers)) {
+        curl += ` \\\n  -H "${key}: ${val}"`;
+      }
+      if (body) {
+        const escapedBody = body.replace(/"/g, '\\"');
+        curl += ` \\\n  -d "${escapedBody}"`;
+      }
+      navigator.clipboard.writeText(curl);
+      const orig = btnCopyCurl.textContent;
+      btnCopyCurl.textContent = 'Copied!';
+      setTimeout(() => btnCopyCurl.textContent = orig, 2000);
+    };
+
+    // Raw
+    let rawStr = `${req.method} ${req.path || '/'} HTTP/1.1\r\n`;
+    for (const [key, val] of Object.entries(headers)) {
+      rawStr += `${key}: ${val}\r\n`;
+    }
+    rawStr += `\r\n`;
+    rawStr += body;
+    rawContent.textContent = rawStr;
 
     // Update selection highlight
     requestList.querySelectorAll('.request-item').forEach(el => {
@@ -607,6 +707,47 @@ const { id } = Astro.params;
     border-radius: 50%;
     background-color: var(--color-link);
     animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  /* Meta Grid */
+  .detail-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    padding: 24px 32px;
+    background-color: var(--color-canvas);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .meta-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-mute);
+    font-weight: 600;
+  }
+  .meta-value {
+    font-size: 13px;
+    color: var(--color-ink);
+    word-break: break-all;
+    line-height: 1.4;
+  }
+
+  .btn-sm {
+    padding: 4px 8px;
+    font-size: 12px;
+    border: 1px solid var(--color-hairline);
+    background-color: var(--color-canvas-soft);
+    color: var(--color-ink);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+  .btn-sm:hover {
+    background-color: var(--color-canvas-soft-2);
   }
 
   /* Main content */
