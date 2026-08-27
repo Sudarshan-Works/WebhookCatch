@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.1.7 - 2026-08-27
+### Added
+- **Automatic Diagnostics**: Automatically analyzes every incoming webhook request on the client-side to ensure deterministic results.
+- **Diagnostics Tab**: A new tab in the Request Inspector summarizing basic sanity checks and detected warnings.
+- **Provider Detection**: Automatically identifies incoming webhooks from popular services including Stripe, GitHub, Shopify, Slack, Discord, and PayPal.
+- **Security & Consistency Warnings**: Smart warnings that flag when a recognized provider's signature header is missing, if the payload is invalid JSON, or if a duplicate event is detected via idempotency keys.
+
 ## v0.1.6 - 2026-08-27
 ### Added
 - **Request Replay Feature**: Easily replay captured webhooks or forward them to an external testing server.
