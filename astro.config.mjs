@@ -7,9 +7,11 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   output: 'server',
   adapter: cloudflare({
+    imageService: 'cloudflare',
     platformProxy: {
-      enabled: true
-    }
+      enabled: true,
+    },
+    workerEntryPoint: 'src/worker.ts'
   }),
   security: {
     checkOrigin: false
