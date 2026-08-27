@@ -30,6 +30,12 @@ const { id } = Astro.params;
       </div>
       <div class="dash-header-right">
         <div class="session-meta">
+          <button class="btn-ghost" id="btn-settings" title="Mock Server Settings" style="padding: 6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
           <span class="badge" id="request-count">0 / 100 requests</span>
           <span class="badge" id="expires-badge" title="Time remaining">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -41,6 +47,10 @@ const { id } = Astro.params;
         </div>
       </div>
     </header>
+
+    <div id="limit-banner" style="display: none; background-color: var(--color-warning-soft); color: var(--color-warning); padding: 8px 24px; text-align: center; font-size: 13px; font-weight: 500;">
+      Request limit reached (100/100). New requests are being rejected.
+    </div>
 
     <!-- Main Layout -->
     <div class="dash-body">
@@ -300,6 +310,58 @@ const { id } = Astro.params;
       </div>
     </div>
   </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="text-body-md" style="font-weight: 600;">Mock Server Settings</h3>
+        <button class="btn-ghost btn-sm" id="btn-close-settings" style="padding: 4px;">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-body-sm" style="color: var(--color-mute);">Configure how this webhook endpoint responds to incoming requests.</p>
+        
+        <div class="form-group">
+          <label class="meta-label">HTTP Status Code</label>
+          <input type="number" class="input-text text-code" id="setting-status" placeholder="200" min="100" max="599" />
+        </div>
+        
+        <div class="form-group">
+          <label class="meta-label">Response Delay (ms)</label>
+          <input type="number" class="input-text text-code" id="setting-delay" placeholder="0" min="0" max="30000" />
+        </div>
+
+        <div class="form-group">
+          <label class="meta-label">Custom Headers (JSON)</label>
+          <textarea class="input-textarea text-code" id="setting-headers" rows="3" placeholder='{"X-Custom-Header": "value"}'></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="meta-label">Response Body</label>
+          <textarea class="input-textarea text-code" id="setting-body" rows="4" placeholder='{"ok": true}'></textarea>
+        </div>
+      </div>
+      
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <span id="settings-save-msg" class="text-body-sm" style="color: var(--color-success); display: none;">Saved successfully!</span>
+        <button class="btn-primary" id="btn-save-settings" style="margin-left: auto;">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expired Overlay -->
+  <div id="expired-overlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--color-canvas); z-index: 10000; align-items: center; justify-content: center; flex-direction: column;">
+    <div style="background-color: var(--color-canvas-soft); padding: 48px; border-radius: var(--radius-lg); text-align: center; border: 1px solid var(--color-hairline); max-width: 400px; box-shadow: var(--shadow-level-3);">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 24px;">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <h2 class="text-display-md" style="margin-bottom: 8px;">Session Expired</h2>
+      <p class="text-body-md" style="color: var(--color-body); margin-bottom: 24px;">This temporary webhook session has expired and all associated data has been deleted.</p>
+      <a href="/" class="btn-primary" style="text-decoration: none;">Create New URL</a>
+    </div>
+  </div>
 </Layout>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
@@ -334,6 +396,53 @@ const { id } = Astro.params;
   const bodyContainer = document.getElementById('body-container')!;
   const bodyContent = document.getElementById('body-content')!;
   const bodyEmpty = document.getElementById('body-empty')!;
+
+  const btnSettings = document.getElementById('btn-settings')!;
+  const settingsModal = document.getElementById('settings-modal')!;
+  const btnCloseSettings = document.getElementById('btn-close-settings')!;
+  const btnSaveSettings = document.getElementById('btn-save-settings')!;
+  const settingStatus = document.getElementById('setting-status') as HTMLInputElement;
+  const settingDelay = document.getElementById('setting-delay') as HTMLInputElement;
+  const settingHeaders = document.getElementById('setting-headers') as HTMLTextAreaElement;
+  const settingBody = document.getElementById('setting-body') as HTMLTextAreaElement;
+  const settingsSaveMsg = document.getElementById('settings-save-msg')!;
+
+  const limitBanner = document.getElementById('limit-banner')!;
+  const expiredOverlay = document.getElementById('expired-overlay')!;
+  const expiresBadge = document.getElementById('expires-badge')!;
+
+  btnSettings.onclick = () => settingsModal.style.display = 'flex';
+  btnCloseSettings.onclick = () => settingsModal.style.display = 'none';
+
+  btnSaveSettings.onclick = async () => {
+    btnSaveSettings.textContent = 'Saving...';
+    btnSaveSettings.disabled = true;
+    try {
+      let headersObj = null;
+      if (settingHeaders.value) {
+        headersObj = JSON.parse(settingHeaders.value);
+      }
+
+      await fetch(`/api/sessions/${sessionId}/settings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          custom_status: settingStatus.value ? parseInt(settingStatus.value) : null,
+          custom_delay: settingDelay.value ? parseInt(settingDelay.value) : null,
+          custom_headers: headersObj,
+          custom_body: settingBody.value || null
+        })
+      });
+
+      settingsSaveMsg.style.display = 'inline-block';
+      setTimeout(() => settingsSaveMsg.style.display = 'none', 3000);
+    } catch (e) {
+      alert('Failed to save settings. Check your JSON format for headers.');
+    } finally {
+      btnSaveSettings.textContent = 'Save Settings';
+      btnSaveSettings.disabled = false;
+    }
+  };
 
   // Build webhook URL
   const baseUrl = window.location.origin;
@@ -425,8 +534,17 @@ const { id } = Astro.params;
     const remaining = expiresAt - Date.now();
     if (remaining <= 0) {
       countdownEl.textContent = '00:00:00';
+      expiresBadge.style.color = 'var(--color-error)';
       return;
     }
+    
+    // Approaching expiration (less than 5 minutes)
+    if (remaining < 5 * 60 * 1000) {
+      expiresBadge.style.color = 'var(--color-warning)';
+    } else {
+      expiresBadge.style.color = '';
+    }
+
     const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
     const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
@@ -872,6 +990,16 @@ const { id } = Astro.params;
         expiresAt = data.session.expires_at;
         updateCountdown();
 
+        if (data.session.request_count >= 100) {
+          limitBanner.style.display = 'block';
+        }
+
+        // Initialize settings fields on first load if they exist
+        if (data.session.custom_status && !settingStatus.value) settingStatus.value = data.session.custom_status;
+        if (data.session.custom_delay && !settingDelay.value) settingDelay.value = data.session.custom_delay;
+        if (data.session.custom_headers && !settingHeaders.value) settingHeaders.value = JSON.stringify(data.session.custom_headers, null, 2);
+        if (data.session.custom_body && !settingBody.value) settingBody.value = data.session.custom_body;
+
         countEl.textContent = `${data.session.request_count} / 100 requests`;
 
         requests = data.requests;
@@ -891,9 +1019,11 @@ const { id } = Astro.params;
     };
     
     eventSource.addEventListener('error', (event: any) => {
-      if (event.data) {
+      if (event.data && event.data.includes('expired')) {
+        eventSource?.close();
+        expiredOverlay.style.display = 'flex';
+      } else if (event.data) {
         console.warn('Stream error:', event.data);
-        // Do not auto-reconnect if it's a hard error (like session expired)
         eventSource?.close();
       }
       // Note: EventSource automatically handles normal network reconnects

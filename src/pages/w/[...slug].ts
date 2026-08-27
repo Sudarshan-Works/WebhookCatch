@@ -30,8 +30,10 @@ const handler: APIRoute = async ({ params, request }) => {
     );
   }
 
-  // Check expired
+  // Check expired - enforce cleanup synchronously
   if (Date.now() > (session.expires_at as number)) {
+    // Session is expired, delete it (and cascade delete requests)
+    await db.prepare("DELETE FROM sessions WHERE id = ?").bind(sessionId).run();
     return new Response(
       JSON.stringify({ ok: false, error: "Webhook URL has expired" }),
       {
@@ -53,6 +55,12 @@ const handler: APIRoute = async ({ params, request }) => {
         headers: { "Content-Type": "application/json" },
       }
     );
+  }
+
+  // Handle mock server delays
+  if (session.custom_delay && (session.custom_delay as number) > 0) {
+    // Artificial delay
+    await new Promise((resolve) => setTimeout(resolve, session.custom_delay as number));
   }
 
   // Collect headers
@@ -91,18 +99,34 @@ const handler: APIRoute = async ({ params, request }) => {
     .bind(sessionId)
     .run();
 
-  return new Response(
-    JSON.stringify({ ok: true, message: "Request captured" }),
-    {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD",
-        "Access-Control-Allow-Headers": "*",
-      },
+  // Prepare custom mock response
+  const responseStatus = (session.custom_status as number) || 200;
+  const responseBody = session.custom_body
+    ? (session.custom_body as string)
+    : JSON.stringify({ ok: true, message: "Request captured" });
+
+  const responseHeaders: Record<string, string> = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD",
+    "Access-Control-Allow-Headers": "*",
+  };
+
+  if (session.custom_headers) {
+    try {
+      const parsedCustomHeaders = JSON.parse(session.custom_headers as string);
+      for (const [k, v] of Object.entries(parsedCustomHeaders)) {
+        responseHeaders[k] = v as string;
+      }
+    } catch (e) {
+      // Ignore invalid headers
     }
-  );
+  }
+
+  return new Response(responseBody, {
+    status: responseStatus,
+    headers: responseHeaders,
+  });
 };
 
 export const GET = handler;

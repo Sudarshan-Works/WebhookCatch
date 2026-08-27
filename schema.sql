@@ -6,7 +6,11 @@ CREATE TABLE sessions (
   created_at INTEGER NOT NULL,
   expires_at INTEGER NOT NULL,
   request_count INTEGER NOT NULL DEFAULT 0,
-  replay_count INTEGER NOT NULL DEFAULT 0
+  replay_count INTEGER NOT NULL DEFAULT 0,
+  custom_status INTEGER,
+  custom_body TEXT,
+  custom_headers TEXT,
+  custom_delay INTEGER DEFAULT 0
 );
 
 CREATE TABLE requests (

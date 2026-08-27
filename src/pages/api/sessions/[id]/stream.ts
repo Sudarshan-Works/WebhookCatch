@@ -18,7 +18,7 @@ export const GET: APIRoute = async ({ params, request }) => {
         try {
           // Check session and count
           const session = await db
-            .prepare("SELECT request_count, expires_at FROM sessions WHERE id = ?")
+            .prepare("SELECT * FROM sessions WHERE id = ?")
             .bind(sessionId)
             .first();
 
@@ -29,10 +29,13 @@ export const GET: APIRoute = async ({ params, request }) => {
           }
 
           const currentCount = session.request_count as number;
+          // Hash settings lightly to detect changes
+          const currentSettingsHash = `${session.custom_status}-${session.custom_delay}-${session.custom_headers}-${session.custom_body}`;
 
-          // If new requests arrived, fetch and send the state
-          if (currentCount !== lastCount) {
+          // If new requests arrived or settings changed, fetch and send the state
+          if (currentCount !== lastCount || currentSettingsHash !== (controller as any).lastSettingsHash) {
             lastCount = currentCount;
+            (controller as any).lastSettingsHash = currentSettingsHash;
             
             const requests = await db
               .prepare(
@@ -45,6 +48,10 @@ export const GET: APIRoute = async ({ params, request }) => {
               session: {
                 request_count: currentCount,
                 expires_at: session.expires_at,
+                custom_status: session.custom_status,
+                custom_body: session.custom_body,
+                custom_headers: session.custom_headers ? JSON.parse(session.custom_headers as string) : null,
+                custom_delay: session.custom_delay,
               },
               requests: requests.results.map((r: any) => ({
                 id: r.id,
