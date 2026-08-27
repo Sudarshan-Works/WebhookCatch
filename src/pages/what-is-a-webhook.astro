@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = "What is a Webhook? A Complete Guide for Developers - WebhookCatch";
+const description = "Learn what a webhook is, how it works, and how it differs from a traditional API. Read our comprehensive guide with examples.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a webhook?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A webhook is an HTTP-based callback function that allows lightweight, event-driven communication between two APIs. It automatically sends data to a specified URL when a specific event occurs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is a webhook different from an API?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An API requires you to constantly poll or ask for data, whereas a webhook pushes data to you automatically as soon as an event happens."
+      }
+    }
+  ]
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+        </svg>
+        <span>WebhookCatch</span>
+      </a>
+    </div>
+  </nav>
+
+  <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
+    <h1 class="text-heading-1" style="margin-bottom: 24px; font-weight: 700;">What is a Webhook?</h1>
+    <p class="text-body-lg" style="color: var(--color-body); margin-bottom: 48px;">
+      A webhook (also called a web callback or HTTP push API) is a way for an app to provide other applications with real-time information. Unlike traditional APIs where you have to poll for data frequently, a webhook delivers data to other applications as it happens.
+    </p>
+
+    <h2 class="text-heading-2" style="margin-bottom: 16px;">How does a webhook work?</h2>
+    <p class="text-body" style="color: var(--color-body); margin-bottom: 24px;">
+      When an event occurs in the source application (like a new user signing up, or a payment succeeding), it triggers an HTTP request (usually a <code>POST</code> request) to a destination URL that you configure. This destination URL is known as the webhook endpoint.
+    </p>
+    <div style="background: var(--color-surface); padding: 24px; border-radius: 8px; border: 1px solid var(--color-hairline); margin-bottom: 48px;">
+      <code style="font-family: monospace; display: block; margin-bottom: 8px;">Event Happens ➔ Application ➔ HTTP POST ➔ Your Webhook Endpoint</code>
+    </div>
+
+    <h2 class="text-heading-2" style="margin-bottom: 16px;">Common Use Cases</h2>
+    <ul class="text-body" style="color: var(--color-body); margin-bottom: 48px; padding-left: 20px;">
+      <li style="margin-bottom: 8px;"><strong>Payment Gateways (Stripe, PayPal):</strong> Notifying your database when a subscription renews or a payment fails.</li>
+      <li style="margin-bottom: 8px;"><strong>CI/CD & Source Control (GitHub, GitLab):</strong> Triggering an automated build pipeline when a developer pushes code.</li>
+      <li style="margin-bottom: 8px;"><strong>Chat Apps (Slack, Discord):</strong> Sending an automated message to a channel when a specific event happens on your server.</li>
+    </ul>
+
+    <h2 class="text-heading-2" style="margin-bottom: 16px;">How to test webhooks?</h2>
+    <p class="text-body" style="color: var(--color-body); margin-bottom: 24px;">
+      When you are building an integration that relies on webhooks, you need a way to see exactly what payload the provider is sending you. Because webhooks are sent from a third-party server directly to a URL, you can't just view them in your browser network tab.
+    </p>
+    <p class="text-body" style="color: var(--color-body); margin-bottom: 48px;">
+      That's where a Webhook Tester comes in. By using a tool like <a href="/">WebhookCatch</a>, you can instantly generate a unique URL, plug it into the third-party service, and watch the HTTP requests stream in.
+    </p>
+
+    <div style="text-align: center; margin-top: 64px; padding: 48px; background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 12px;">
+      <h3 class="text-heading-3" style="margin-bottom: 16px;">Ready to test a webhook?</h3>
+      <a href="/" class="btn-primary" style="text-decoration: none; display: inline-flex; justify-content: center;">Generate Free Webhook URL</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-bottom text-caption" style="color: var(--color-mute); text-align: center;">
+        <a href="/">Back to WebhookCatch Home</a>
+      </div>
+    </div>
+  </footer>
+</Layout>

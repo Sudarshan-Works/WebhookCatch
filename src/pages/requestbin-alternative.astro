@@ -1,0 +1,108 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = "RequestBin Alternative: The No-Signup Webhook Tester - WebhookCatch";
+const description = "Looking for the legacy RequestBin experience? WebhookCatch is the best free alternative for instant, no-signup webhook testing and HTTP request debugging.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "author": {
+    "@type": "Organization",
+    "name": "WebhookCatch"
+  }
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+        </svg>
+        <span>WebhookCatch</span>
+      </a>
+    </div>
+  </nav>
+
+  <main style="max-width: 900px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
+    <div style="text-align: center; margin-bottom: 64px;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; background: var(--color-canvas-soft-2); padding: 4px 12px; border-radius: var(--radius-full); margin-bottom: 24px; font-size: 14px; font-family: var(--font-mono);">
+        WebhookCatch vs RequestBin (Pipedream)
+      </div>
+      <h1 class="text-display-lg" style="margin-bottom: 24px; font-weight: 700;">The Best RequestBin Alternative</h1>
+      <p class="text-body-lg" style="color: var(--color-body); max-width: 600px; margin: 0 auto;">
+        Missing the old RequestBin? When RequestBin merged into Pipedream, it stopped being a simple, no-signup tool. WebhookCatch brings back the instant, frictionless experience developers loved.
+      </p>
+    </div>
+
+    <div style="margin-bottom: 64px; overflow-x: auto; border-radius: 12px; box-shadow: var(--shadow-level-2); border: 1px solid var(--color-hairline);">
+      <table style="width: 100%; border-collapse: collapse; background: var(--color-canvas); text-align: left;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--color-hairline); background: var(--color-canvas-soft-2);">
+            <th style="padding: 16px 24px; font-weight: 600;">Feature</th>
+            <th style="padding: 16px 24px; font-weight: 600;">RequestBin (Pipedream)</th>
+            <th style="padding: 16px 24px; font-weight: 600; background: #e0f2fe; color: #0369a1;">WebhookCatch</th>
+          </tr>
+        </thead>
+        <tbody class="text-body">
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 16px 24px; font-weight: 500; color: var(--color-ink);">Signup Required?</td>
+            <td style="padding: 16px 24px;">Yes</td>
+            <td style="padding: 16px 24px; font-weight: 600; background: #f0f9ff; color: #0369a1;">No (Instant)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 16px 24px; font-weight: 500; color: var(--color-ink);">Primary Use Case</td>
+            <td style="padding: 16px 24px;">Workflow Automation</td>
+            <td style="padding: 16px 24px; font-weight: 600; background: #f0f9ff; color: #0369a1;">Debugging & Inspection</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 16px 24px; font-weight: 500; color: var(--color-ink);">Usage Limits</td>
+            <td style="padding: 16px 24px;">Daily Compute Credits</td>
+            <td style="padding: 16px 24px; background: #f0f9ff;">100 Requests per session</td>
+          </tr>
+          <tr>
+            <td style="padding: 16px 24px; font-weight: 500; color: var(--color-ink);">Cost</td>
+            <td style="padding: 16px 24px;">Free tier (Paid from $29/mo)</td>
+            <td style="padding: 16px 24px; font-weight: 600; background: #f0f9ff; color: #0369a1;">100% Free</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-bottom: 64px;">
+      <div>
+        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">The Legacy Experience</h3>
+        <p class="text-body" style="color: var(--color-body);">
+          The original RequestBin was beloved for its simplicity: click a button, get a URL, send data, and see the result. Today, RequestBin is a trigger within the Pipedream workflow engine. If you just want to quickly dump a payload, WebhookCatch is exactly what you are looking for.
+        </p>
+      </div>
+      <div>
+        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">No Credits, No Hassle</h3>
+        <p class="text-body" style="color: var(--color-body);">
+          Because Pipedream is a powerful serverless platform, it relies on a credit-based pricing model based on compute time. WebhookCatch doesn't run complex code—it just catches webhooks. That means no daily credit limits to worry about while testing.
+        </p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 64px; padding: 64px 24px; background: var(--color-canvas); border: 1px solid var(--color-hairline); border-radius: 16px; box-shadow: var(--shadow-level-3);">
+      <h3 class="text-display-sm" style="margin-bottom: 16px; font-weight: 700;">Get back to debugging</h3>
+      <p class="text-body" style="color: var(--color-body); margin-bottom: 32px;">Get a free, private URL instantly. No account required.</p>
+      <a href="/" class="btn-primary" style="text-decoration: none; display: inline-flex; justify-content: center; font-size: 18px; padding: 16px 32px;">Generate Webhook URL</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-bottom text-caption" style="color: var(--color-mute); text-align: center;">
+        <a href="/">Back to WebhookCatch Home</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
