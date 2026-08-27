@@ -50,6 +50,34 @@ const { id } = Astro.params;
           <span class="text-caption-mono">Inbox</span>
           <span class="text-caption" style="color: var(--color-mute);" id="total-label">0 requests</span>
         </div>
+        <div class="sidebar-filters" style="padding: 12px; border-bottom: 1px solid var(--color-hairline); display: flex; flex-direction: column; gap: 8px;">
+          <input type="text" class="input-text text-body-sm" id="search-input" placeholder="Search body, path, headers..." style="width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--color-hairline); background-color: var(--color-canvas); padding: 8px 12px; font-family: var(--font-sans); box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);" />
+          <div style="display: flex; gap: 4px;">
+            <select class="input-select btn-sm" id="filter-method" style="flex: 1; padding: 4px; font-size: 11px; font-family: var(--font-sans);">
+              <option value="">Method</option>
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="PATCH">PATCH</option>
+            </select>
+            <select class="input-select btn-sm" id="filter-status" style="flex: 1; padding: 4px; font-size: 11px; font-family: var(--font-sans);">
+              <option value="">Status</option>
+              <option value="2">2xx</option>
+              <option value="3">3xx</option>
+              <option value="4">4xx</option>
+              <option value="5">5xx</option>
+            </select>
+            <select class="input-select btn-sm" id="filter-provider" style="flex: 1; padding: 4px; font-size: 11px; font-family: var(--font-sans);">
+              <option value="">Provider</option>
+              <option value="Stripe">Stripe</option>
+              <option value="GitHub">GitHub</option>
+              <option value="Shopify">Shopify</option>
+              <option value="Slack">Slack</option>
+              <option value="Discord">Discord</option>
+              <option value="PayPal">PayPal</option>
+            </select>
+          </div>
+        </div>
         <div class="sidebar-list" id="request-list">
           <div class="empty-state" id="empty-state">
             <div class="pulse-indicator">
@@ -339,8 +367,57 @@ const { id } = Astro.params;
 
   // State
   let requests: any[] = [];
+  let filteredRequests: any[] = [];
   let selectedId: number | null = null;
   let expiresAt: number | null = null;
+
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const filterMethod = document.getElementById('filter-method') as HTMLSelectElement;
+  const filterStatus = document.getElementById('filter-status') as HTMLSelectElement;
+  const filterProvider = document.getElementById('filter-provider') as HTMLSelectElement;
+
+  function applyFilters() {
+    const q = (searchInput?.value || '').toLowerCase();
+    const fMethod = filterMethod?.value || '';
+    const fStatus = filterStatus?.value || '';
+    const fProv = filterProvider?.value || '';
+
+    filteredRequests = requests.filter(req => {
+      // Method filter
+      if (fMethod && req.method !== fMethod) return false;
+      
+      // Status filter
+      if (fStatus) {
+        if (!req.status) return false;
+        const sString = String(req.status);
+        if (!sString.startsWith(fStatus)) return false;
+      }
+      
+      // Provider filter
+      const { providerName, eventName } = detectProviderInfo(req);
+      if (fProv && providerName !== fProv) return false;
+      
+      // Text search
+      if (q) {
+        let match = false;
+        if (req.method.toLowerCase().includes(q)) match = true;
+        if (req.path && req.path.toLowerCase().includes(q)) match = true;
+        if (providerName.toLowerCase().includes(q)) match = true;
+        if (eventName.toLowerCase().includes(q)) match = true;
+        if (!match && req.body && String(req.body).toLowerCase().includes(q)) match = true;
+        if (!match && req.headers && JSON.stringify(req.headers).toLowerCase().includes(q)) match = true;
+        if (!match) return false;
+      }
+      return true;
+    });
+
+    renderList();
+  }
+
+  searchInput?.addEventListener('input', applyFilters);
+  filterMethod?.addEventListener('change', applyFilters);
+  filterStatus?.addEventListener('change', applyFilters);
+  filterProvider?.addEventListener('change', applyFilters);
 
   // Countdown timer
   function updateCountdown() {
@@ -448,6 +525,53 @@ const { id } = Astro.params;
 
   btnSendReplay.onclick = executeReplay;
 
+  function detectProviderInfo(req: any) {
+    const headersLow: Record<string, string> = {};
+    if (req.headers) {
+      for (const [k, v] of Object.entries(req.headers)) {
+        headersLow[k.toLowerCase()] = String(v);
+      }
+    }
+    const ua = (headersLow['user-agent'] || '').toLowerCase();
+    
+    let providerName = 'Unknown';
+    let eventName = '';
+    let confidence = false;
+
+    // Stripe
+    if (headersLow['stripe-signature']) {
+      providerName = 'Stripe'; confidence = true; eventName = 'event';
+    } else if (ua.includes('stripe')) {
+      providerName = 'Stripe';
+    }
+    // GitHub
+    if (headersLow['x-github-event'] || headersLow['x-github-delivery']) {
+      providerName = 'GitHub'; confidence = true;
+      eventName = headersLow['x-github-event'] || '';
+    } else if (ua.includes('github-hooks')) {
+      providerName = 'GitHub';
+    }
+    // Shopify
+    if (headersLow['x-shopify-topic']) {
+      providerName = 'Shopify'; confidence = true;
+      eventName = headersLow['x-shopify-topic'] || '';
+    }
+    // Slack
+    if (headersLow['x-slack-signature'] || headersLow['x-slack-request-timestamp']) {
+      providerName = 'Slack'; confidence = true;
+    }
+    // Discord
+    if (headersLow['x-signature-ed25519'] || headersLow['x-signature-timestamp']) {
+      providerName = 'Discord'; confidence = true;
+    }
+    // PayPal
+    if (headersLow['paypal-auth-algo'] || headersLow['paypal-cert-url'] || headersLow['paypal-transmission-id']) {
+      providerName = 'PayPal'; confidence = true;
+    }
+
+    return { providerName, confidence, eventName, headersLow };
+  }
+
   // Diagnostics Logic
   const diagProvider = document.getElementById('diag-provider')!;
   const diagChecks = document.getElementById('diag-checks')!;
@@ -460,8 +584,8 @@ const { id } = Astro.params;
 
     const checks: string[] = [];
     const warnings: string[] = [];
-    let providerName = 'Unknown';
-    let confidence = false;
+    
+    const { providerName, confidence, headersLow } = detectProviderInfo(req);
 
     if (req.method === 'POST') checks.push('POST request');
     else warnings.push(`Not a POST request (${req.method})`);
@@ -489,47 +613,13 @@ const { id } = Astro.params;
       warnings.push(`HTTP ${req.status} Error`);
     }
 
-    const headersLow: Record<string, string> = {};
-    if (req.headers) {
-      for (const [k, v] of Object.entries(req.headers)) {
-        headersLow[k.toLowerCase()] = String(v);
-      }
-    }
-    const ua = (headersLow['user-agent'] || '').toLowerCase();
-    
-    // Stripe
-    if (headersLow['stripe-signature']) {
-      providerName = 'Stripe'; confidence = true;
-    } else if (ua.includes('stripe')) {
-      providerName = 'Stripe'; warnings.push('Missing expected signature header (stripe-signature)');
-    }
-    // GitHub
-    if (headersLow['x-github-event'] || headersLow['x-github-delivery']) {
-      providerName = 'GitHub'; confidence = true;
-      if (!headersLow['x-hub-signature-256'] && !headersLow['x-hub-signature']) warnings.push('Missing expected signature header (x-hub-signature-256)');
-    } else if (ua.includes('github-hooks')) {
-      providerName = 'GitHub'; warnings.push('Missing expected signature header (x-hub-signature-256)');
-    }
-    // Shopify
-    if (headersLow['x-shopify-topic']) {
-      providerName = 'Shopify'; confidence = true;
-      if (!headersLow['x-shopify-hmac-sha256']) warnings.push('Missing expected signature header (x-shopify-hmac-sha256)');
-    }
-    // Slack
-    if (headersLow['x-slack-signature'] || headersLow['x-slack-request-timestamp']) {
-      providerName = 'Slack'; confidence = true;
-      if (!headersLow['x-slack-signature']) warnings.push('Missing expected signature header (x-slack-signature)');
-    }
-    // Discord
-    if (headersLow['x-signature-ed25519'] || headersLow['x-signature-timestamp']) {
-      providerName = 'Discord'; confidence = true;
-      if (!headersLow['x-signature-ed25519']) warnings.push('Missing expected signature header (x-signature-ed25519)');
-    }
-    // PayPal
-    if (headersLow['paypal-auth-algo'] || headersLow['paypal-cert-url'] || headersLow['paypal-transmission-id']) {
-      providerName = 'PayPal'; confidence = true;
-      if (!headersLow['paypal-transmission-id']) warnings.push('Missing expected signature header (paypal-transmission-id)');
-    }
+    // Provider warnings
+    if (providerName === 'Stripe' && !headersLow['stripe-signature']) warnings.push('Missing expected signature header (stripe-signature)');
+    if (providerName === 'GitHub' && !headersLow['x-hub-signature-256'] && !headersLow['x-hub-signature']) warnings.push('Missing expected signature header (x-hub-signature-256)');
+    if (providerName === 'Shopify' && !headersLow['x-shopify-hmac-sha256']) warnings.push('Missing expected signature header (x-shopify-hmac-sha256)');
+    if (providerName === 'Slack' && !headersLow['x-slack-signature']) warnings.push('Missing expected signature header (x-slack-signature)');
+    if (providerName === 'Discord' && !headersLow['x-signature-ed25519']) warnings.push('Missing expected signature header (x-signature-ed25519)');
+    if (providerName === 'PayPal' && !headersLow['paypal-transmission-id']) warnings.push('Missing expected signature header (paypal-transmission-id)');
 
     // Duplicate Check
     const dupKeys = ['x-github-delivery', 'stripe-signature', 'paypal-transmission-id', 'x-slack-signature'];
@@ -595,8 +685,17 @@ const { id } = Astro.params;
 
   // Render request list
   function renderList() {
-    if (requests.length === 0) {
+    totalLabel.textContent = `${filteredRequests.length} request${filteredRequests.length !== 1 ? 's' : ''}`;
+
+    if (filteredRequests.length === 0) {
       emptyState.style.display = 'flex';
+      const existing = requestList.querySelectorAll('.request-item');
+      existing.forEach(el => el.remove());
+      if (requests.length > 0) {
+        emptyState.innerHTML = '<p class="text-body-sm" style="color: var(--color-mute); margin: 8px 0 4px;">No matching requests</p>';
+      } else {
+        emptyState.innerHTML = '<div class="pulse-indicator"><span class="pulse-dot"></span></div><p class="text-body-sm-strong" style="color: var(--color-ink); margin: 8px 0 4px;">Waiting for first request</p><p class="text-caption" style="color: var(--color-mute);">Send a request to your webhook URL</p>';
+      }
       return;
     }
     emptyState.style.display = 'none';
@@ -605,7 +704,7 @@ const { id } = Astro.params;
     const existing = requestList.querySelectorAll('.request-item');
     existing.forEach(el => el.remove());
 
-    requests.forEach((req, index) => {
+    filteredRequests.forEach((req, index) => {
       const item = document.createElement('button');
       item.className = `request-item ${req.id === selectedId ? 'selected' : ''}`;
       item.dataset.requestId = String(req.id);
@@ -622,7 +721,7 @@ const { id } = Astro.params;
           </div>
         </div>
       `;
-      if (index === 0 && requests.length > (existing?.length ?? 0)) {
+      if (index === 0 && filteredRequests.length > (existing?.length ?? 0)) {
         item.style.animation = 'slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
       }
       item.addEventListener('click', () => selectRequest(req));
@@ -774,14 +873,13 @@ const { id } = Astro.params;
         updateCountdown();
 
         countEl.textContent = `${data.session.request_count} / 100 requests`;
-        totalLabel.textContent = `${data.requests.length} request${data.requests.length !== 1 ? 's' : ''}`;
 
         requests = data.requests;
-        renderList();
+        applyFilters();
 
         // Auto-select first request if none selected and new requests arrived
-        if (selectedId === null && requests.length > 0) {
-          selectRequest(requests[0]);
+        if (selectedId === null && filteredRequests.length > 0) {
+          selectRequest(filteredRequests[0]);
         } else if (selectedId !== null) {
           // Re-render detail if selected request might have changed
           const selected = requests.find((r: any) => r.id === selectedId);
