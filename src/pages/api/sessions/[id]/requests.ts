@@ -44,6 +44,7 @@ export const GET: APIRoute = async ({ params }) => {
       requests: requests.results.map((r: any) => ({
         id: r.id,
         method: r.method,
+        path: r.path,
         headers: JSON.parse(r.headers as string),
         query: JSON.parse(r.query as string),
         body: r.body,

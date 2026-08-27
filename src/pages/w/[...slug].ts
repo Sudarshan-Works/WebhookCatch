@@ -4,7 +4,15 @@ import { env } from "cloudflare:workers";
 // Catch ALL methods
 const handler: APIRoute = async ({ params, request }) => {
   const db = env.DB;
-  const sessionId = params.id;
+  
+  // The slug will be like "1x2g2y5c6l0e/some/path" or just "1x2g2y5c6l0e"
+  const slug = params.slug || "";
+  const parts = slug.split('/');
+  const sessionId = parts[0];
+
+  // We capture the raw URL pathname for the DB record
+  const url = new URL(request.url);
+  const path = url.pathname; // This will be e.g. /w/1x2g2y5c6l0e/foo
 
   // Check session exists
   const session = await db
@@ -54,7 +62,6 @@ const handler: APIRoute = async ({ params, request }) => {
   });
 
   // Collect query parameters
-  const url = new URL(request.url);
   const query: Record<string, string> = {};
   url.searchParams.forEach((value, key) => {
     query[key] = value;
@@ -73,9 +80,9 @@ const handler: APIRoute = async ({ params, request }) => {
   // Insert request
   await db
     .prepare(
-      "INSERT INTO requests (session_id, method, headers, query, body, created_at) VALUES (?, ?, ?, ?, ?, ?)"
+      "INSERT INTO requests (session_id, method, path, headers, query, body, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
     )
-    .bind(sessionId, request.method, JSON.stringify(headers), JSON.stringify(query), body, now)
+    .bind(sessionId, request.method, path, JSON.stringify(headers), JSON.stringify(query), body, now)
     .run();
 
   // Increment request count
