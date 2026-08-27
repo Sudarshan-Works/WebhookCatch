@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.6 - 2026-08-27
+### Added
+- **Request Replay Feature**: Easily replay captured webhooks or forward them to an external testing server.
+- **Edit & Replay Modal**: Fully featured UI to modify the URL, Method, Headers, Query Parameters, and Body before replaying.
+- **Response View**: Instantly see the target server's response status, execution time, and response body inside the Replay Modal.
+- **Strong SSRF Protection**: Included rigorous Server-Side Request Forgery protections to securely perform outbound network requests without exposing internal systems:
+  - DNS-over-HTTPS (DoH) resolution wrapper.
+  - Blocking of private IP ranges, loopback addresses, AWS/GCP cloud metadata endpoints, and DNS rebinding attacks.
+  - Hardened streaming parser that aborts huge response bodies over 5MB.
+  - Manual redirect tracking to prevent redirect escapes.
+  - Strict 5-second connection timeouts.
+
 ## v0.1.5 - 2026-08-27
 ### Added
 - **Request Inspector Upgrade**: Complete overhaul of the inspector UI.
