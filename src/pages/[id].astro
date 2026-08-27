@@ -119,10 +119,11 @@ const { id } = Astro.params;
           <!-- Tabs -->
           <div class="detail-tabs-container">
             <div class="detail-tabs">
-              <button class="tab-ghost active" data-tab="body" id="tab-body">Body</button>
-              <button class="tab-ghost" data-tab="headers" id="tab-headers">Headers</button>
-              <button class="tab-ghost" data-tab="query" id="tab-query">Query Params</button>
-              <button class="tab-ghost" data-tab="raw" id="tab-raw">Raw</button>
+              <button class="tab-btn active" data-tab="panel-body">Body</button>
+              <button class="tab-btn" data-tab="panel-headers">Headers</button>
+              <button class="tab-btn" data-tab="panel-query">Query Params</button>
+              <button class="tab-btn" data-tab="panel-raw">Raw</button>
+              <button class="tab-btn" data-tab="panel-diagnostics">Diagnostics</button>
             </div>
           </div>
 
@@ -189,6 +190,29 @@ const { id } = Astro.params;
                   <span class="code-editor-dot" style="background-color: #27c93f;"></span>
                 </div>
                 <pre class="code-content text-code" id="raw-content" style="margin:0;"></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="panel-diagnostics" style="display: none;">
+            <div class="panel-content" style="display: flex; flex-direction: column; gap: 32px;">
+              <div>
+                <h3 class="text-body-md" style="font-weight: 600; margin-bottom: 12px;">Provider Detection</h3>
+                <div id="diag-provider" class="meta-value" style="display:flex; align-items:center; gap:8px;">
+                  <span class="badge" style="background-color: var(--color-canvas-soft); color: var(--color-mute);">Analyzing...</span>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-body-md" style="font-weight: 600; margin-bottom: 12px;">Checks Passed</h3>
+                <ul id="diag-checks" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                </ul>
+              </div>
+
+              <div>
+                <h3 class="text-body-md" style="font-weight: 600; margin-bottom: 12px;">Warnings</h3>
+                <ul id="diag-warnings" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                </ul>
               </div>
             </div>
           </div>
@@ -298,18 +322,18 @@ const { id } = Astro.params;
   });
 
   // Tabs
-  document.querySelectorAll('.tab-ghost').forEach(tab => {
+  document.querySelectorAll('.tab-btn').forEach(tab => {
     tab.addEventListener('click', () => {
-      document.querySelectorAll('.tab-ghost').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab-panel').forEach(p => {
         (p as HTMLElement).style.display = 'none';
         p.classList.remove('active');
       });
       tab.classList.add('active');
-      const panelId = `panel-${(tab as HTMLElement).dataset.tab}`;
+      const panelId = (tab as HTMLElement).dataset.tab!;
       const panel = document.getElementById(panelId)!;
       panel.style.display = 'block';
-      setTimeout(() => panel.classList.add('active'), 10); // for fade in
+      setTimeout(() => panel.classList.add('active'), 10);
     });
   });
 
@@ -423,6 +447,140 @@ const { id } = Astro.params;
   }
 
   btnSendReplay.onclick = executeReplay;
+
+  // Diagnostics Logic
+  const diagProvider = document.getElementById('diag-provider')!;
+  const diagChecks = document.getElementById('diag-checks')!;
+  const diagWarnings = document.getElementById('diag-warnings')!;
+
+  function runDiagnostics(req: any) {
+    diagChecks.innerHTML = '';
+    diagWarnings.innerHTML = '';
+    diagProvider.innerHTML = '';
+
+    const checks: string[] = [];
+    const warnings: string[] = [];
+    let providerName = 'Unknown';
+    let confidence = false;
+
+    if (req.method === 'POST') checks.push('POST request');
+    else warnings.push(`Not a POST request (${req.method})`);
+
+    const contentType = req.headers && (req.headers['content-type'] || req.headers['Content-Type']);
+    if (contentType) checks.push(`Content-Type detected: ${contentType}`);
+    else warnings.push('No Content-Type header');
+
+    if (req.body) {
+      try {
+        JSON.parse(req.body);
+        checks.push('Valid JSON payload');
+      } catch (e) {
+        if (contentType && contentType.toLowerCase().includes('json')) {
+          warnings.push('Invalid JSON payload despite application/json header');
+        }
+      }
+    }
+
+    if (req.size !== undefined) {
+      checks.push(`Payload size: ${formatSize(req.size)}`);
+    }
+
+    if (req.status && req.status >= 400) {
+      warnings.push(`HTTP ${req.status} Error`);
+    }
+
+    const headersLow: Record<string, string> = {};
+    if (req.headers) {
+      for (const [k, v] of Object.entries(req.headers)) {
+        headersLow[k.toLowerCase()] = String(v);
+      }
+    }
+    const ua = (headersLow['user-agent'] || '').toLowerCase();
+    
+    // Stripe
+    if (headersLow['stripe-signature']) {
+      providerName = 'Stripe'; confidence = true;
+    } else if (ua.includes('stripe')) {
+      providerName = 'Stripe'; warnings.push('Missing expected signature header (stripe-signature)');
+    }
+    // GitHub
+    if (headersLow['x-github-event'] || headersLow['x-github-delivery']) {
+      providerName = 'GitHub'; confidence = true;
+      if (!headersLow['x-hub-signature-256'] && !headersLow['x-hub-signature']) warnings.push('Missing expected signature header (x-hub-signature-256)');
+    } else if (ua.includes('github-hooks')) {
+      providerName = 'GitHub'; warnings.push('Missing expected signature header (x-hub-signature-256)');
+    }
+    // Shopify
+    if (headersLow['x-shopify-topic']) {
+      providerName = 'Shopify'; confidence = true;
+      if (!headersLow['x-shopify-hmac-sha256']) warnings.push('Missing expected signature header (x-shopify-hmac-sha256)');
+    }
+    // Slack
+    if (headersLow['x-slack-signature'] || headersLow['x-slack-request-timestamp']) {
+      providerName = 'Slack'; confidence = true;
+      if (!headersLow['x-slack-signature']) warnings.push('Missing expected signature header (x-slack-signature)');
+    }
+    // Discord
+    if (headersLow['x-signature-ed25519'] || headersLow['x-signature-timestamp']) {
+      providerName = 'Discord'; confidence = true;
+      if (!headersLow['x-signature-ed25519']) warnings.push('Missing expected signature header (x-signature-ed25519)');
+    }
+    // PayPal
+    if (headersLow['paypal-auth-algo'] || headersLow['paypal-cert-url'] || headersLow['paypal-transmission-id']) {
+      providerName = 'PayPal'; confidence = true;
+      if (!headersLow['paypal-transmission-id']) warnings.push('Missing expected signature header (paypal-transmission-id)');
+    }
+
+    // Duplicate Check
+    const dupKeys = ['x-github-delivery', 'stripe-signature', 'paypal-transmission-id', 'x-slack-signature'];
+    for (const key of dupKeys) {
+      if (headersLow[key]) {
+        const val = headersLow[key];
+        const count = requests.filter(r => {
+          const rHeaders: Record<string, string> = {};
+          if (r.headers) Object.entries(r.headers).forEach(([k,v]) => rHeaders[k.toLowerCase()] = String(v));
+          return rHeaders[key] === val;
+        }).length;
+        if (count > 1) {
+          warnings.push('Possible duplicate event (matching idempotency key)');
+          break;
+        }
+      }
+    }
+
+    if (confidence) {
+      diagProvider.innerHTML = `<span class="badge" style="background-color: var(--color-ink); color: var(--color-canvas); font-weight:600;">${providerName}</span>`;
+    } else {
+      diagProvider.innerHTML = `<span class="badge" style="background-color: var(--color-canvas-soft); color: var(--color-mute);">Unknown Provider</span>`;
+    }
+
+    if (checks.length === 0) {
+      diagChecks.innerHTML = '<li class="text-caption" style="color:var(--color-mute);">No basic checks passed.</li>';
+    } else {
+      checks.forEach(c => {
+        const li = document.createElement('li');
+        li.style.display = 'flex'; li.style.alignItems = 'center'; li.style.gap = '8px';
+        li.innerHTML = `<span style="color: #27c93f; font-weight:bold;">✓</span> <span class="meta-value">${c}</span>`;
+        diagChecks.appendChild(li);
+      });
+    }
+
+    if (warnings.length === 0) {
+      diagWarnings.innerHTML = '<li class="text-caption" style="color:var(--color-mute);">No warnings detected.</li>';
+    } else {
+      warnings.forEach(w => {
+        const li = document.createElement('li');
+        li.style.display = 'flex'; li.style.alignItems = 'center'; li.style.gap = '8px';
+        li.innerHTML = `<span style="color: #ffbd2e; font-weight:bold;">⚠</span> <span class="meta-value">${w}</span>`;
+        diagWarnings.appendChild(li);
+      });
+    }
+  }
+
+  function formatSize(bytes: number): string {
+    if (bytes < 1024) return `${bytes} B`;
+    return `${(bytes/1024).toFixed(2)} KB`;
+  }
 
   // Method color class
   function methodClass(method: string): string {
@@ -580,6 +738,8 @@ const { id } = Astro.params;
     rawStr += `\r\n`;
     rawStr += body;
     rawContent.textContent = rawStr;
+    
+    runDiagnostics(req);
 
     // Update selection highlight
     requestList.querySelectorAll('.request-item').forEach(el => {
