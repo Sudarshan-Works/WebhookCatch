@@ -1,0 +1,55 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import CreateSessionButton from '../components/CreateSessionButton.astro';
+
+const title = "Discord Webhook Tester - Test Discord Messages & Events";
+const description = "Test and debug your Discord webhooks instantly. Generate a URL to simulate Discord interactions, verify payload formats, and inspect events.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Discord Webhook Tester",
+  "url": "https://webhookcatch.com/discord-webhook-tester",
+  "description": description,
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All"
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <Navbar />
+
+  <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; text-align: center; color: var(--color-ink);">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="badge-secondary text-caption-mono">Discord Integration</span>
+      </div>
+      <h1 class="hero-title text-heading-1" style="color: var(--color-ink); margin-bottom: 24px; font-weight: 700; letter-spacing: -0.02em;">
+        Discord Webhook Tester
+      </h1>
+      <p class="hero-subtitle text-body-lg" style="color: var(--color-body); margin-bottom: 40px; max-width: 600px; margin-inline: auto;">
+        Testing a Discord bot or incoming webhooks? Generate an endpoint to inspect payloads, verify JSON formatting, and debug interaction events.
+      </p>
+      
+      <div class="hero-actions" style="margin-top: 32px;">
+        <CreateSessionButton text="Generate Discord Webhook URL" />
+      </div>
+
+      <div class="text-left" style="max-width: 800px; margin: 0 auto; text-align: left; padding: 48px 24px; background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 12px;">
+        <h2 class="text-heading-2" style="margin-bottom: 16px;">How to test Discord Webhooks</h2>
+        <ol class="text-body" style="padding-left: 20px; display: flex; flex-direction: column; gap: 12px; color: var(--color-body);">
+          <li>Click the button above to generate a unique WebhookCatch URL.</li>
+          <li>Use this URL in your application code where you would normally specify a Discord webhook destination.</li>
+          <li>Fire an event from your app (e.g., a message send).</li>
+          <li>Inspect the exact JSON payload on WebhookCatch to ensure it matches Discord's expected embed/message schema.</li>
+        </ol>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

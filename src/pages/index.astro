@@ -1,23 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import CreateSessionButton from '../components/CreateSessionButton.astro';
+
 ---
 
-<Layout title="WebhookCatch — Test & debug webhooks instantly.">
-  <!-- Nav -->
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <a href="/" class="nav-brand">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-        </svg>
-        <span>WebhookCatch</span>
-      </a>
-      <div class="nav-links">
-        <a href="https://github.com/Sudarshan-Works/WebhookCatch" target="_blank" rel="noopener" class="nav-link">GitHub</a>
-      </div>
-    </div>
-  </nav>
+<Layout title="WebhookCatch - Instant, private webhook testing">
+
+  <Navbar />
 
   <!-- Hero -->
   <main class="hero mesh-gradient">
@@ -32,23 +23,7 @@ import Layout from '../layouts/Layout.astro';
         Generate a unique URL and inspect every incoming HTTP request in real-time — headers, body, query params, everything.
       </p>
       <div class="hero-actions">
-        <button id="create-webhook-btn" class="btn-primary" type="button">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-          </svg>
-          <span id="create-btn-text">Create Webhook URL</span>
-          <svg id="create-btn-spinner" class="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none; width: 18px; height: 18px;">
-            <line x1="12" y1="2" x2="12" y2="6"></line>
-            <line x1="12" y1="18" x2="12" y2="22"></line>
-            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
-            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
-            <line x1="2" y1="12" x2="6" y2="12"></line>
-            <line x1="18" y1="12" x2="22" y2="12"></line>
-            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
-            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
-          </svg>
-        </button>
+        <CreateSessionButton text="Create Webhook URL" />
       </div>
       <p class="hero-meta text-caption" style="color: var(--color-mute); margin-top: 16px;">
         Active for 7 days · Up to 100 requests · No signup required
@@ -99,120 +74,10 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-        </svg>
-        <span>WebhookCatch</span>
-      </div>
-      <div class="footer-links" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
-        <a href="https://github.com/Sudarshan-Works/WebhookCatch" target="_blank" rel="noopener" class="text-body-sm">GitHub</a>
-        <a href="/what-is-a-webhook" class="text-body-sm">What is a Webhook?</a>
-        <a href="/webhook-vs-api" class="text-body-sm">Webhook vs API</a>
-        <a href="/webhook-site-alternative" class="text-body-sm">Webhook.site Alternative</a>
-        <a href="/webhookcatcher-alternative" class="text-body-sm">WebhookCatcher Alternative</a>
-        <a href="/requestbin-alternative" class="text-body-sm">RequestBin Alternative</a>
-      </div>
-      <p class="text-caption" style="color: var(--color-mute); margin-top: 24px; text-align: center;">
-        &copy; {new Date().getFullYear()} WebhookCatch. Built on the edge with Cloudflare.
-      </p>
-    </div>
-  </footer>
+  <Footer />
 </Layout>
 
-<script>
-  const btn = document.getElementById('create-webhook-btn');
-  const btnText = document.getElementById('create-btn-text');
-  const btnSpinner = document.getElementById('create-btn-spinner');
-
-  if (btn && btnText && btnSpinner) {
-    btn.addEventListener('click', async () => {
-      btn.setAttribute('disabled', 'true');
-      btn.style.opacity = '0.7';
-      btn.style.cursor = 'wait';
-      btnText.textContent = 'Creating…';
-      btnSpinner.style.display = 'block';
-      const icon = btn.querySelector('svg:not(.spinner)');
-      if (icon) (icon as HTMLElement).style.display = 'none';
-
-      try {
-        const res = await fetch('/api/sessions', { method: 'POST' });
-        const data = await res.json();
-        if (data.id) {
-          window.location.href = `/${data.id}`;
-        }
-      } catch (err) {
-        btn.removeAttribute('disabled');
-        btn.style.opacity = '1';
-        btn.style.cursor = 'pointer';
-        btnText.textContent = 'Create Webhook URL';
-        btnSpinner.style.display = 'none';
-        if (icon) (icon as HTMLElement).style.display = 'block';
-        console.error('Failed to create session', err);
-      }
-    });
-  }
-</script>
-
 <style>
-  /* Nav */
-  .nav-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    height: 64px;
-    background-color: rgba(255,255,255,0.8);
-    backdrop-filter: saturate(180%) blur(12px);
-    border-bottom: 1px solid var(--color-hairline);
-  }
-
-  .nav-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-  }
-
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: var(--color-ink);
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: -0.3px;
-  }
-
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .nav-link {
-    color: var(--color-body);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 400;
-    padding: 6px 12px;
-    border-radius: var(--radius-full);
-    transition: color 0.15s ease, background-color 0.15s ease;
-  }
-
-  .nav-link:hover {
-    color: var(--color-ink);
-    background-color: var(--color-canvas-soft-2);
-  }
-
   /* Hero */
   .hero {
     min-height: 100vh;
@@ -293,40 +158,6 @@ import Layout from '../layouts/Layout.astro';
 
   .feature-card p {
     margin: 0;
-  }
-
-  /* Footer */
-  .footer {
-    padding: 64px 24px;
-    border-top: 1px solid var(--color-hairline);
-    background-color: var(--color-canvas);
-  }
-
-  .footer-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-  }
-  
-  .footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--color-ink);
-    font-weight: 600;
-  }
-  
-  .footer-links a {
-    color: var(--color-body);
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-  
-  .footer-links a:hover {
-    color: var(--color-ink);
   }
 
   /* Animations */

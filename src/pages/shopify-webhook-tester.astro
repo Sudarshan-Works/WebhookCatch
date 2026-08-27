@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import CreateSessionButton from '../components/CreateSessionButton.astro';
+
+const title = "Shopify Webhook Tester - Inspect Shopify Events";
+const description = "Test and debug your Shopify webhooks instantly. Generate a secure URL to inspect Shopify events like orders/create and app/uninstalled.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Shopify Webhook Tester",
+  "url": "https://webhookcatch.com/shopify-webhook-tester",
+  "description": description,
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All"
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <Navbar />
+
+  <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; text-align: center; color: var(--color-ink);">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="badge-secondary text-caption-mono">Shopify Integration</span>
+      </div>
+      <h1 class="hero-title text-heading-1" style="color: var(--color-ink); margin-bottom: 24px; font-weight: 700; letter-spacing: -0.02em;">
+        Shopify Webhook Tester
+      </h1>
+      <p class="hero-subtitle text-body-lg" style="color: var(--color-body); margin-bottom: 40px; max-width: 600px; margin-inline: auto;">
+        Developing a Shopify App? Generate a unique endpoint to catch and inspect events like <code>orders/create</code>, <code>products/update</code>, or <code>app/uninstalled</code> in real-time.
+      </p>
+      
+      <div class="hero-actions" style="margin-top: 32px;">
+        <CreateSessionButton text="Generate Shopify Webhook URL" />
+      </div>
+
+      <div class="text-left" style="max-width: 800px; margin: 0 auto; text-align: left; padding: 48px 24px; background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 12px;">
+        <h2 class="text-heading-2" style="margin-bottom: 16px;">How to test Shopify Webhooks</h2>
+        <ol class="text-body" style="padding-left: 20px; display: flex; flex-direction: column; gap: 12px; color: var(--color-body);">
+          <li>Click the button above to generate a unique WebhookCatch URL.</li>
+          <li>Go to your Shopify Admin > <strong>Settings</strong> > <strong>Notifications</strong> (or in your App Setup).</li>
+          <li>Scroll to Webhooks and click <strong>Create webhook</strong>.</li>
+          <li>Select the event (e.g., Order creation) and paste your WebhookCatch URL.</li>
+          <li>Click Save, then click <strong>Send test notification</strong> to instantly view the payload in WebhookCatch!</li>
+        </ol>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

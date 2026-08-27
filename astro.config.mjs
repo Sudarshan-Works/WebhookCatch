@@ -2,9 +2,11 @@
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://webhookcatch.com',
   output: 'server',
   adapter: cloudflare({
     imageService: 'cloudflare',
@@ -24,4 +26,9 @@ export default defineConfig({
       }
     }
   },
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes('/api/') && !page.includes('/w/')
+    })
+  ]
 });

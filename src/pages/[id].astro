@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 const { id } = Astro.params;
 ---
 
-<Layout title={`WebhookCatch — Session ${id}`} description="Inspect incoming webhook requests in real-time.">
+<Layout title={`WebhookCatch — Session ${id}`} description="Inspect incoming webhook requests in real-time." noindex={true}>
   <div class="dashboard" id="dashboard-app" data-session-id={id}>
     <!-- Top Bar -->
     <header class="dash-header">
@@ -706,10 +706,10 @@ const { id } = Astro.params;
     const { providerName, confidence, headersLow } = detectProviderInfo(req);
 
     if (req.method === 'POST') checks.push('POST request');
-    else warnings.push(`Not a POST request (${req.method})`);
+    else warnings.push(`Not a POST request (${escapeHtml(req.method)})`);
 
     const contentType = req.headers && (req.headers['content-type'] || req.headers['Content-Type']);
-    if (contentType) checks.push(`Content-Type detected: ${contentType}`);
+    if (contentType) checks.push(`Content-Type detected: ${escapeHtml(String(contentType))}`);
     else warnings.push('No Content-Type header');
 
     if (req.body) {
@@ -717,7 +717,7 @@ const { id } = Astro.params;
         JSON.parse(req.body);
         checks.push('Valid JSON payload');
       } catch (e) {
-        if (contentType && contentType.toLowerCase().includes('json')) {
+        if (contentType && String(contentType).toLowerCase().includes('json')) {
           warnings.push('Invalid JSON payload despite application/json header');
         }
       }
@@ -757,7 +757,7 @@ const { id } = Astro.params;
     }
 
     if (confidence) {
-      diagProvider.innerHTML = `<span class="badge" style="background-color: var(--color-ink); color: var(--color-canvas); font-weight:600;">${providerName}</span>`;
+      diagProvider.innerHTML = `<span class="badge" style="background-color: var(--color-ink); color: var(--color-canvas); font-weight:600;">${escapeHtml(providerName)}</span>`;
     } else {
       diagProvider.innerHTML = `<span class="badge" style="background-color: var(--color-canvas-soft); color: var(--color-mute);">Unknown Provider</span>`;
     }
@@ -831,7 +831,7 @@ const { id } = Astro.params;
         <div class="request-item-indicator"></div>
         <div class="request-item-content">
           <div class="request-item-top">
-            <span class="${methodClass(req.method)}">${req.method}</span>
+            <span class="${escapeHtml(methodClass(req.method))}">${escapeHtml(req.method)}</span>
             <span class="request-item-time text-caption">${formatTimeShort(req.created_at)}</span>
           </div>
           <div class="request-item-bottom" style="margin-top: 8px;">

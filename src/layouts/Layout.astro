@@ -1,10 +1,17 @@
 ---
+import SEO from '../components/SEO.astro';
+
 interface Props {
   title: string;
   description?: string;
+  noindex?: boolean;
 }
 
-const { title, description = "Instantly generate a unique webhook URL to test, inspect, and debug incoming HTTP requests in real-time. No signup required." } = Astro.props;
+const { 
+  title, 
+  description = "Instantly generate a unique webhook URL to test, inspect, and debug incoming HTTP requests in real-time. No signup required.",
+  noindex = false 
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -14,20 +21,12 @@ const { title, description = "Instantly generate a unique webhook URL to test, i
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content="https://webhookcatch.com" />
-    <meta property="og:site_name" content="WebhookCatch" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    
+    <SEO 
+      title={title}
+      description={description}
+      noindex={noindex}
+    />
 
     <!-- Fonts: Geist Sans + Geist Mono -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />

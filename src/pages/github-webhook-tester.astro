@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import CreateSessionButton from '../components/CreateSessionButton.astro';
+
+const title = "GitHub Webhook Tester & Payload Inspector - WebhookCatch";
+const description = "Debug GitHub webhook events seamlessly. Generate a URL to catch push, pull_request, and issues events in real-time.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "GitHub Webhook Tester",
+  "url": "https://webhookcatch.com/github-webhook-tester",
+  "description": description,
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All"
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <Navbar />
+
+  <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; text-align: center; color: var(--color-ink);">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="badge-secondary text-caption-mono">GitHub Integration</span>
+      </div>
+      <h1 class="hero-title text-heading-1" style="color: var(--color-ink); margin-bottom: 24px; font-weight: 700; letter-spacing: -0.02em;">
+        GitHub Webhook Tester
+      </h1>
+      <p class="hero-subtitle text-body-lg" style="color: var(--color-body); margin-bottom: 40px; max-width: 600px; margin-inline: auto;">
+        Building a CI/CD pipeline or GitHub App? Generate a unique endpoint to catch and inspect events like <code>push</code>, <code>pull_request</code>, or <code>issues</code> instantly.
+      </p>
+      
+      <div class="hero-actions" style="margin-top: 32px;">
+        <CreateSessionButton text="Generate GitHub Webhook URL" />
+      </div>
+
+      <div class="text-left" style="max-width: 800px; margin: 0 auto; text-align: left; padding: 48px 24px; background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 12px;">
+        <h2 class="text-heading-2" style="margin-bottom: 16px;">How to test GitHub Webhooks</h2>
+        <ol class="text-body" style="padding-left: 20px; display: flex; flex-direction: column; gap: 12px; color: var(--color-body);">
+          <li>Click the button above to generate a temporary WebhookCatch URL.</li>
+          <li>Go to your GitHub Repository > <strong>Settings</strong> > <strong>Webhooks</strong>.</li>
+          <li>Click <strong>Add webhook</strong> and paste your WebhookCatch URL into the <em>Payload URL</em> field.</li>
+          <li>Set the Content type to <code>application/json</code> and select your desired events.</li>
+          <li>Click <strong>Add webhook</strong>. GitHub will immediately send a <code>ping</code> event to verify the connection, which you can see in your WebhookCatch dashboard!</li>
+        </ol>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
