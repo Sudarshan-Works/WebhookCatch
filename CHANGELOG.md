@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.1.3] - 2026-08-27
+### Changed
+- Complete UI Overhaul: Implemented a modern 2026 developer-tool interface inspired by Vercel's Geist design language.
+- Redesigned Homepage: Added multi-stop mesh gradients, stacked pill badges, refined typography, and smooth hover animations.
+- Redesigned Dashboard: Implemented a split-pane app shell with a polished top navigation bar, refined request inbox sidebar, and a code-editor mockup for body payload inspection.
+- Improved Empty States: Added animated pulse indicators and sleek placeholder cards for the dashboard.
+- Button Feedback: Added loading spinner and disabled state to the "Create Webhook" button.
+
+## [0.1.2] - 2026-08-27
+### Fixed
+- Fixed an issue in local development where Vite's file watcher was tracking the `.wrangler` state directory, causing infinite page reloads.
+
 ## [0.1.1] - 2026-08-27
 ### Fixed
 - Fixed an issue in local development where Vite's file watcher was tracking the `.wrangler` state directory, causing infinite page reloads.

@@ -14,7 +14,7 @@ import Layout from '../layouts/Layout.astro';
         <span>WebhookCatch</span>
       </a>
       <div class="nav-links">
-        <a href="https://github.com" target="_blank" rel="noopener" class="nav-link">GitHub</a>
+        <a href="https://github.com/Sudarshan-Works/WebhookCatch" target="_blank" rel="noopener" class="nav-link">GitHub</a>
       </div>
     </div>
   </nav>
@@ -22,8 +22,8 @@ import Layout from '../layouts/Layout.astro';
   <!-- Hero -->
   <main class="hero mesh-gradient">
     <div class="hero-content">
-      <div class="hero-eyebrow text-caption-mono">
-        <span class="badge">Free · No signup</span>
+      <div class="hero-eyebrow">
+        <span class="badge-secondary text-caption-mono">Free · No signup</span>
       </div>
       <h1 class="text-display-xl hero-title">
         Catch webhooks instantly.
@@ -37,7 +37,17 @@ import Layout from '../layouts/Layout.astro';
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
           </svg>
-          Create Webhook URL
+          <span id="create-btn-text">Create Webhook URL</span>
+          <svg id="create-btn-spinner" class="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none; width: 18px; height: 18px;">
+            <line x1="12" y1="2" x2="12" y2="6"></line>
+            <line x1="12" y1="18" x2="12" y2="22"></line>
+            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+            <line x1="2" y1="12" x2="6" y2="12"></line>
+            <line x1="18" y1="12" x2="22" y2="12"></line>
+            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+          </svg>
         </button>
       </div>
       <p class="hero-meta text-caption" style="color: var(--color-mute); margin-top: 16px;">
@@ -82,7 +92,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <h3 class="text-display-sm">7-day sessions.</h3>
         <p class="text-body-md" style="color: var(--color-body);">
-          Each webhook URL stays active for 7 days and captures up to 100 requests with a live countdown.
+          Each webhook stays active for 7 days and captures up to 100 requests with a live countdown.
         </p>
       </div>
     </div>
@@ -91,7 +101,17 @@ import Layout from '../layouts/Layout.astro';
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
-      <p class="text-caption" style="color: var(--color-mute);">
+      <div class="footer-brand">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+        </svg>
+        <span>WebhookCatch</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/Sudarshan-Works/WebhookCatch" target="_blank" rel="noopener" class="text-body-sm">GitHub</a>
+      </div>
+      <p class="text-caption" style="color: var(--color-mute); margin-top: 24px; text-align: center;">
         &copy; {new Date().getFullYear()} WebhookCatch. Built on the edge with Cloudflare.
       </p>
     </div>
@@ -100,10 +120,19 @@ import Layout from '../layouts/Layout.astro';
 
 <script>
   const btn = document.getElementById('create-webhook-btn');
-  if (btn) {
+  const btnText = document.getElementById('create-btn-text');
+  const btnSpinner = document.getElementById('create-btn-spinner');
+
+  if (btn && btnText && btnSpinner) {
     btn.addEventListener('click', async () => {
       btn.setAttribute('disabled', 'true');
-      btn.textContent = 'Creating…';
+      btn.style.opacity = '0.7';
+      btn.style.cursor = 'wait';
+      btnText.textContent = 'Creating…';
+      btnSpinner.style.display = 'block';
+      const icon = btn.querySelector('svg:not(.spinner)');
+      if (icon) (icon as HTMLElement).style.display = 'none';
+
       try {
         const res = await fetch('/api/sessions', { method: 'POST' });
         const data = await res.json();
@@ -112,7 +141,11 @@ import Layout from '../layouts/Layout.astro';
         }
       } catch (err) {
         btn.removeAttribute('disabled');
-        btn.textContent = 'Create Webhook URL';
+        btn.style.opacity = '1';
+        btn.style.cursor = 'pointer';
+        btnText.textContent = 'Create Webhook URL';
+        btnSpinner.style.display = 'none';
+        if (icon) (icon as HTMLElement).style.display = 'block';
         console.error('Failed to create session', err);
       }
     });
@@ -129,12 +162,12 @@ import Layout from '../layouts/Layout.astro';
     z-index: 100;
     height: 64px;
     background-color: rgba(255,255,255,0.8);
-    backdrop-filter: blur(12px);
+    backdrop-filter: saturate(180%) blur(12px);
     border-bottom: 1px solid var(--color-hairline);
   }
 
   .nav-inner {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     height: 100%;
     display: flex;
@@ -195,7 +228,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .hero-title {
-    margin: 0 0 20px;
+    margin: 0 0 24px;
     color: var(--color-ink);
   }
 
@@ -229,6 +262,12 @@ import Layout from '../layouts/Layout.astro';
 
   .feature-card {
     padding: 32px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-level-3);
   }
 
   .feature-icon {
@@ -253,21 +292,52 @@ import Layout from '../layouts/Layout.astro';
 
   /* Footer */
   .footer {
-    padding: 48px 24px;
+    padding: 64px 24px;
     border-top: 1px solid var(--color-hairline);
+    background-color: var(--color-canvas);
   }
 
   .footer-inner {
     max-width: 1200px;
     margin: 0 auto;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  
+  .footer-links a {
+    color: var(--color-body);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  
+  .footer-links a:hover {
+    color: var(--color-ink);
+  }
+
+  /* Animations */
+  @keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .spinner {
+    animation: spinner 1s linear infinite;
   }
 
   /* Responsive */
   @media (max-width: 768px) {
     .hero-title {
-      font-size: 32px;
-      line-height: 36px;
+      font-size: 36px;
+      line-height: 40px;
       letter-spacing: -1.28px;
     }
 

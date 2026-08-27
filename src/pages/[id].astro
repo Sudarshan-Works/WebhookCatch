@@ -10,11 +10,11 @@ const { id } = Astro.params;
     <header class="dash-header">
       <div class="dash-header-left">
         <a href="/" class="dash-brand">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
           </svg>
-          <span>WebhookCatch</span>
+          <span class="brand-text">WebhookCatch</span>
         </a>
       </div>
       <div class="dash-header-center">
@@ -30,13 +30,13 @@ const { id } = Astro.params;
       </div>
       <div class="dash-header-right">
         <div class="session-meta">
-          <span class="badge" id="request-count">0 / 100</span>
+          <span class="badge" id="request-count">0 / 100 requests</span>
           <span class="badge" id="expires-badge" title="Time remaining">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"/>
               <polyline points="12 6 12 12 16 14"/>
             </svg>
-            <span id="countdown">—</span>
+            <span id="countdown" class="text-caption-mono">—</span>
           </span>
         </div>
       </div>
@@ -55,8 +55,8 @@ const { id } = Astro.params;
             <div class="pulse-indicator">
               <span class="pulse-dot"></span>
             </div>
-            <p class="text-body-sm" style="color: var(--color-mute); margin: 8px 0 4px;">Waiting for first request…</p>
-            <p class="text-caption" style="color: var(--color-hairline-strong);">Send a request to your webhook URL</p>
+            <p class="text-body-sm-strong" style="color: var(--color-ink); margin: 8px 0 4px;">Waiting for first request</p>
+            <p class="text-caption" style="color: var(--color-mute);">Send a request to your webhook URL</p>
           </div>
         </div>
       </aside>
@@ -64,14 +64,17 @@ const { id } = Astro.params;
       <!-- Main: Request Detail -->
       <main class="dash-main" id="request-detail">
         <div class="detail-empty" id="detail-empty">
-          <div class="detail-empty-inner">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-hairline-strong)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-              <path d="M3 9h18"/>
-              <path d="M9 21V9"/>
-            </svg>
-            <p class="text-body-md" style="color: var(--color-mute); margin: 16px 0 0;">
-              Select a request to inspect
+          <div class="detail-empty-card">
+            <div class="detail-empty-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18"/>
+                <path d="M9 21V9"/>
+              </svg>
+            </div>
+            <h3 class="text-display-sm" style="margin: 0 0 8px;">No request selected</h3>
+            <p class="text-body-sm" style="color: var(--color-body); margin: 0;">
+              Select a request from the sidebar to inspect its method, headers, and payload.
             </p>
           </div>
         </div>
@@ -79,50 +82,68 @@ const { id } = Astro.params;
         <div class="detail-content" id="detail-content" style="display: none;">
           <!-- Request Summary -->
           <div class="detail-summary" id="detail-summary">
-            <span class="badge-method" id="detail-method">GET</span>
+            <div class="detail-summary-left">
+              <span class="badge-method" id="detail-method">GET</span>
+              <span class="text-body-md" style="font-weight: 500;" id="detail-path">/</span>
+            </div>
             <span class="text-body-sm" style="color: var(--color-mute);" id="detail-time">—</span>
           </div>
 
           <!-- Tabs -->
-          <div class="detail-tabs">
-            <button class="tab active" data-tab="headers" id="tab-headers">Headers</button>
-            <button class="tab" data-tab="query" id="tab-query">Query</button>
-            <button class="tab" data-tab="body" id="tab-body">Body</button>
+          <div class="detail-tabs-container">
+            <div class="detail-tabs">
+              <button class="tab-ghost active" data-tab="headers" id="tab-headers">Headers</button>
+              <button class="tab-ghost" data-tab="query" id="tab-query">Query Params</button>
+              <button class="tab-ghost" data-tab="body" id="tab-body">Body</button>
+            </div>
           </div>
 
           <!-- Tab Panels -->
           <div class="tab-panel active" id="panel-headers">
-            <table class="kv-table" id="headers-table">
-              <thead>
-                <tr>
-                  <th class="text-caption-mono">Key</th>
-                  <th class="text-caption-mono">Value</th>
-                </tr>
-              </thead>
-              <tbody id="headers-tbody"></tbody>
-            </table>
+            <div class="panel-content">
+              <table class="kv-table" id="headers-table">
+                <thead>
+                  <tr>
+                    <th class="text-caption-mono">Header</th>
+                    <th class="text-caption-mono">Value</th>
+                  </tr>
+                </thead>
+                <tbody id="headers-tbody"></tbody>
+              </table>
+            </div>
           </div>
 
           <div class="tab-panel" id="panel-query" style="display: none;">
-            <table class="kv-table" id="query-table">
-              <thead>
-                <tr>
-                  <th class="text-caption-mono">Key</th>
-                  <th class="text-caption-mono">Value</th>
-                </tr>
-              </thead>
-              <tbody id="query-tbody"></tbody>
-            </table>
-            <div id="query-empty" class="panel-empty text-body-sm" style="display: none; color: var(--color-mute); padding: 24px; text-align: center;">
-              No query parameters
+            <div class="panel-content">
+              <table class="kv-table" id="query-table">
+                <thead>
+                  <tr>
+                    <th class="text-caption-mono">Parameter</th>
+                    <th class="text-caption-mono">Value</th>
+                  </tr>
+                </thead>
+                <tbody id="query-tbody"></tbody>
+              </table>
+              <div id="query-empty" class="panel-empty" style="display: none;">
+                <p class="text-body-sm" style="color: var(--color-mute);">No query parameters found in this request.</p>
+              </div>
             </div>
           </div>
 
           <div class="tab-panel" id="panel-body" style="display: none;">
-            <div id="body-empty" class="panel-empty text-body-sm" style="display: none; color: var(--color-mute); padding: 24px; text-align: center;">
-              Empty body
+            <div class="panel-content">
+              <div id="body-empty" class="panel-empty" style="display: none;">
+                <p class="text-body-sm" style="color: var(--color-mute);">No body payload found in this request.</p>
+              </div>
+              <div class="code-editor-mockup" id="body-container" style="display: none;">
+                <div class="code-editor-header">
+                  <span class="code-editor-dot" style="background-color: #ff5f56;"></span>
+                  <span class="code-editor-dot" style="background-color: #ffbd2e;"></span>
+                  <span class="code-editor-dot" style="background-color: #27c93f;"></span>
+                </div>
+                <pre class="code-content text-code" id="body-content"></pre>
+              </div>
             </div>
-            <pre class="code-block" id="body-content" style="display: none;"></pre>
           </div>
         </div>
       </main>
@@ -148,6 +169,7 @@ const { id } = Astro.params;
   const queryTbody = document.getElementById('query-tbody')!;
   const queryEmpty = document.getElementById('query-empty')!;
   const queryTable = document.getElementById('query-table')!;
+  const bodyContainer = document.getElementById('body-container')!;
   const bodyContent = document.getElementById('body-content')!;
   const bodyEmpty = document.getElementById('body-empty')!;
 
@@ -162,13 +184,13 @@ const { id } = Astro.params;
     copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
     setTimeout(() => {
       copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
-    }, 1500);
+    }, 2000);
   });
 
   // Tabs
-  document.querySelectorAll('.tab').forEach(tab => {
+  document.querySelectorAll('.tab-ghost').forEach(tab => {
     tab.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-ghost').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab-panel').forEach(p => {
         (p as HTMLElement).style.display = 'none';
         p.classList.remove('active');
@@ -177,7 +199,7 @@ const { id } = Astro.params;
       const panelId = `panel-${(tab as HTMLElement).dataset.tab}`;
       const panel = document.getElementById(panelId)!;
       panel.style.display = 'block';
-      panel.classList.add('active');
+      setTimeout(() => panel.classList.add('active'), 10); // for fade in
     });
   });
 
@@ -191,18 +213,18 @@ const { id } = Astro.params;
     if (!expiresAt) return;
     const remaining = expiresAt - Date.now();
     if (remaining <= 0) {
-      countdownEl.textContent = 'Expired';
+      countdownEl.textContent = '00:00:00';
       return;
     }
     const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
     const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+    
     if (days > 0) {
       countdownEl.textContent = `${days}d ${hours}h`;
-    } else if (hours > 0) {
-      countdownEl.textContent = `${hours}h ${minutes}m`;
     } else {
-      countdownEl.textContent = `${minutes}m`;
+      countdownEl.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
   }
   setInterval(updateCountdown, 1000);
@@ -212,8 +234,8 @@ const { id } = Astro.params;
     return `badge-method badge-method-${method.toLowerCase()}`;
   }
 
-  // Format time
-  function formatTime(ts: number): string {
+  // Format time relative or absolute
+  function formatTimeShort(ts: number): string {
     const d = new Date(ts);
     return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   }
@@ -234,12 +256,18 @@ const { id } = Astro.params;
       const item = document.createElement('button');
       item.className = `request-item ${req.id === selectedId ? 'selected' : ''}`;
       item.dataset.requestId = String(req.id);
+      
       item.innerHTML = `
-        <span class="${methodClass(req.method)}">${req.method}</span>
-        <span class="request-item-time text-caption">${formatTime(req.created_at)}</span>
+        <div class="request-item-indicator"></div>
+        <div class="request-item-content">
+          <div class="request-item-top">
+            <span class="${methodClass(req.method)}">${req.method}</span>
+            <span class="request-item-time text-caption">${formatTimeShort(req.created_at)}</span>
+          </div>
+        </div>
       `;
       if (index === 0 && requests.length > (existing?.length ?? 0)) {
-        item.style.animation = 'slideInRight 0.2s ease-out';
+        item.style.animation = 'slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
       }
       item.addEventListener('click', () => selectRequest(req));
       requestList.appendChild(item);
@@ -250,14 +278,18 @@ const { id } = Astro.params;
   function selectRequest(req: any) {
     selectedId = req.id;
     detailEmpty.style.display = 'none';
-    detailContent.style.display = 'block';
+    detailContent.style.display = 'flex';
 
     // Method badge
     detailMethod.className = methodClass(req.method);
     detailMethod.textContent = req.method;
 
     // Time
-    detailTime.textContent = new Date(req.created_at).toLocaleString();
+    const d = new Date(req.created_at);
+    detailTime.textContent = d.toLocaleString(undefined, {
+      month: 'short', day: 'numeric', year: 'numeric',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3
+    });
 
     // Headers
     headersTbody.innerHTML = '';
@@ -273,7 +305,7 @@ const { id } = Astro.params;
     const queryKeys = Object.keys(query);
     if (queryKeys.length === 0) {
       queryTable.style.display = 'none';
-      queryEmpty.style.display = 'block';
+      queryEmpty.style.display = 'flex';
     } else {
       queryTable.style.display = 'table';
       queryEmpty.style.display = 'none';
@@ -288,11 +320,11 @@ const { id } = Astro.params;
     // Body
     const body = req.body || '';
     if (!body) {
-      bodyContent.style.display = 'none';
-      bodyEmpty.style.display = 'block';
+      bodyContainer.style.display = 'none';
+      bodyEmpty.style.display = 'flex';
     } else {
       bodyEmpty.style.display = 'none';
-      bodyContent.style.display = 'block';
+      bodyContainer.style.display = 'block';
       // Try to pretty-print JSON
       try {
         const parsed = JSON.parse(body);
@@ -324,7 +356,7 @@ const { id } = Astro.params;
       expiresAt = data.session.expires_at;
       updateCountdown();
 
-      countEl.textContent = `${data.session.request_count} / 100`;
+      countEl.textContent = `${data.session.request_count} / 100 requests`;
       totalLabel.textContent = `${data.requests.length} request${data.requests.length !== 1 ? 's' : ''}`;
 
       const oldLength = requests.length;
@@ -344,9 +376,9 @@ const { id } = Astro.params;
     }
   }
 
-  // Initial fetch + poll every 3s
+  // Initial fetch + poll every 2s
   fetchRequests();
-  setInterval(fetchRequests, 3000);
+  setInterval(fetchRequests, 2000);
 </script>
 
 <style>
@@ -355,7 +387,7 @@ const { id } = Astro.params;
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-color: var(--color-canvas-soft);
+    background-color: var(--color-canvas);
   }
 
   /* Header */
@@ -363,16 +395,17 @@ const { id } = Astro.params;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 56px;
-    padding: 0 16px;
+    height: 64px;
+    padding: 0 24px;
     background-color: var(--color-canvas);
     border-bottom: 1px solid var(--color-hairline);
     flex-shrink: 0;
-    gap: 16px;
+    gap: 24px;
   }
 
   .dash-header-left {
     flex-shrink: 0;
+    width: 256px; /* align with sidebar */
   }
 
   .dash-header-center {
@@ -384,6 +417,9 @@ const { id } = Astro.params;
 
   .dash-header-right {
     flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    width: 256px;
   }
 
   .dash-brand {
@@ -393,8 +429,8 @@ const { id } = Astro.params;
     text-decoration: none;
     color: var(--color-ink);
     font-weight: 600;
-    font-size: 14px;
-    letter-spacing: -0.28px;
+    font-size: 15px;
+    letter-spacing: -0.3px;
   }
 
   .url-bar {
@@ -403,10 +439,17 @@ const { id } = Astro.params;
     gap: 8px;
     background-color: var(--color-canvas-soft);
     border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-sm);
-    padding: 4px 8px 4px 12px;
-    max-width: 500px;
+    border-radius: var(--radius-full);
+    padding: 4px 6px 4px 16px;
+    max-width: 600px;
     width: 100%;
+    box-shadow: var(--shadow-level-1);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  
+  .url-bar:hover {
+    box-shadow: var(--shadow-level-2);
+    border-color: var(--color-hairline-strong);
   }
 
   .url-text {
@@ -417,11 +460,21 @@ const { id } = Astro.params;
     color: var(--color-ink);
     font-size: 13px;
   }
+  
+  .copy-btn {
+    border-radius: var(--radius-full);
+    padding: 6px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .session-meta {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
   }
 
   /* Body */
@@ -429,44 +482,65 @@ const { id } = Astro.params;
     display: flex;
     flex: 1;
     min-height: 0;
+    background-color: var(--color-canvas-soft);
   }
 
   /* Sidebar */
   .dash-sidebar {
-    width: 280px;
+    width: 320px;
     border-right: 1px solid var(--color-hairline);
     background-color: var(--color-canvas);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    z-index: 10;
+    box-shadow: 1px 0 2px rgba(0,0,0,0.02);
   }
 
   .sidebar-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 16px;
+    padding: 16px 24px;
     border-bottom: 1px solid var(--color-hairline);
+    background-color: var(--color-canvas-soft);
   }
 
   .sidebar-list {
     flex: 1;
     overflow-y: auto;
-    padding: 4px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
   .request-item {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    align-items: stretch;
     width: 100%;
-    padding: 10px 12px;
     border: none;
     background: transparent;
     cursor: pointer;
-    border-radius: var(--radius-sm);
-    transition: background-color 0.1s ease;
+    border-radius: var(--radius-md);
+    transition: background-color 0.15s ease;
     text-align: left;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  .request-item-indicator {
+    width: 3px;
+    background-color: transparent;
+    transition: background-color 0.15s ease;
+  }
+
+  .request-item-content {
+    flex: 1;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
   .request-item:hover {
@@ -476,10 +550,19 @@ const { id } = Astro.params;
   .request-item.selected {
     background-color: var(--color-canvas-soft-2);
   }
+  
+  .request-item.selected .request-item-indicator {
+    background-color: var(--color-ink);
+  }
+
+  .request-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   .request-item-time {
     color: var(--color-mute);
-    margin-left: auto;
   }
 
   /* Empty state */
@@ -490,22 +573,26 @@ const { id } = Astro.params;
     justify-content: center;
     padding: 48px 16px;
     text-align: center;
+    height: 100%;
   }
 
   .pulse-indicator {
-    width: 32px;
-    height: 32px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50%;
+    background-color: var(--color-canvas-soft-2);
+    margin-bottom: 16px;
   }
 
   .pulse-dot {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background-color: var(--color-link);
-    animation: pulse-dot 1.5s ease-in-out infinite;
+    animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
   /* Main content */
@@ -513,6 +600,8 @@ const { id } = Astro.params;
     flex: 1;
     overflow-y: auto;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
   }
 
   .detail-empty {
@@ -520,35 +609,66 @@ const { id } = Astro.params;
     align-items: center;
     justify-content: center;
     height: 100%;
+    padding: 24px;
   }
 
-  .detail-empty-inner {
+  .detail-empty-card {
+    background-color: var(--color-canvas);
+    padding: 48px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-level-2);
     text-align: center;
+    max-width: 400px;
+  }
+
+  .detail-empty-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 24px;
+    background-color: var(--color-canvas-soft);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-mute);
   }
 
   .detail-content {
-    animation: fadeIn 0.2s ease-out;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.3s ease-out;
   }
 
   .detail-summary {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 16px 24px;
-    border-bottom: 1px solid var(--color-hairline);
+    justify-content: space-between;
+    padding: 24px 32px;
     background-color: var(--color-canvas);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+  
+  .detail-summary-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
 
   /* Tabs */
-  .detail-tabs {
-    display: flex;
-    gap: 0;
-    padding: 0 24px;
+  .detail-tabs-container {
+    padding: 16px 32px 0;
     background-color: var(--color-canvas);
     border-bottom: 1px solid var(--color-hairline);
   }
 
-  .tab {
+  .detail-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: -1px;
+  }
+
+  .tab-ghost {
     padding: 10px 16px;
     border: none;
     background: transparent;
@@ -561,18 +681,39 @@ const { id } = Astro.params;
     transition: color 0.15s ease, border-color 0.15s ease;
   }
 
-  .tab:hover {
+  .tab-ghost:hover {
     color: var(--color-ink);
   }
 
-  .tab.active {
+  .tab-ghost.active {
     color: var(--color-ink);
     border-bottom-color: var(--color-ink);
   }
 
   /* Tab panels */
   .tab-panel {
-    padding: 0;
+    padding: 32px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  
+  .tab-panel.active {
+    opacity: 1;
+  }
+
+  .panel-content {
+    background-color: var(--color-canvas);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-level-2);
+    overflow: hidden;
+  }
+
+  .panel-empty {
+    padding: 48px 24px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .kv-table {
@@ -582,14 +723,14 @@ const { id } = Astro.params;
 
   .kv-table th {
     text-align: left;
-    padding: 8px 24px;
+    padding: 12px 24px;
     background-color: var(--color-canvas-soft);
     border-bottom: 1px solid var(--color-hairline);
-    color: var(--color-body);
+    color: var(--color-mute);
   }
 
   .kv-table td {
-    padding: 8px 24px;
+    padding: 12px 24px;
     border-bottom: 1px solid var(--color-hairline);
     color: var(--color-ink);
     word-break: break-all;
@@ -598,7 +739,7 @@ const { id } = Astro.params;
 
   .kv-table td:first-child {
     color: var(--color-body);
-    width: 240px;
+    width: 280px;
     font-weight: 500;
   }
 
@@ -606,31 +747,74 @@ const { id } = Astro.params;
     border-bottom: none;
   }
 
-  /* Code block in body tab */
-  .tab-panel .code-block {
-    margin: 16px 24px;
-    border-radius: var(--radius-md);
+  /* Code Editor Mockup */
+  .code-editor-mockup {
+    background-color: var(--color-ink);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-level-3);
+  }
+  
+  .code-editor-header {
+    background-color: rgba(255,255,255,0.1);
+    padding: 12px 16px;
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  
+  .code-editor-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .code-content {
+    color: var(--color-on-primary);
+    padding: 24px;
+    margin: 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-size: 13px;
+    line-height: 1.6;
   }
 
   /* Responsive */
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
     .dash-sidebar {
-      width: 100%;
-      max-height: 40vh;
-      border-right: none;
-      border-bottom: 1px solid var(--color-hairline);
+      width: 260px;
     }
+  }
 
+  @media (max-width: 768px) {
+    .dash-header {
+      padding: 0 16px;
+      gap: 12px;
+    }
+    
+    .dash-header-left, .dash-header-right {
+      width: auto;
+    }
+    
+    .brand-text, .dash-header-right {
+      display: none;
+    }
+    
     .dash-body {
       flex-direction: column;
     }
-
-    .url-bar {
-      max-width: 240px;
+    
+    .dash-sidebar {
+      width: 100%;
+      height: 40vh;
+      border-right: none;
+      border-bottom: 1px solid var(--color-hairline);
+      box-shadow: none;
     }
-
-    .dash-brand span {
-      display: none;
+    
+    .tab-panel {
+      padding: 16px;
     }
   }
 </style>
