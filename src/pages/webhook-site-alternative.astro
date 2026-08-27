@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = "Webhook.site Alternative: Why Developers Choose WebhookCatch";
+const description = "Looking for a free alternative to Webhook.site? WebhookCatch offers double the free request limits (100) and keeps your debugging sessions private by default.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "author": {
+    "@type": "Organization",
+    "name": "WebhookCatch"
+  }
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+        </svg>
+        <span>WebhookCatch</span>
+      </a>
+    </div>
+  </nav>
+
+  <main style="max-width: 900px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
+    <div style="text-align: center; margin-bottom: 64px;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; background: var(--color-canvas-soft-2); padding: 4px 12px; border-radius: var(--radius-full); margin-bottom: 24px; font-size: 14px; font-family: var(--font-mono);">
+        WebhookCatch vs Webhook.site
+      </div>
+      <h1 class="text-display-lg" style="margin-bottom: 24px; font-weight: 700;">The Best Webhook.site Alternative</h1>
+      <p class="text-body-lg" style="color: var(--color-body); max-width: 600px; margin: 0 auto;">
+        Webhook.site is a popular tool, but its free tier has strict limits and data is public. See why developers use WebhookCatch for secure, high-limit webhook debugging without the paywall.
+      </p>
+    </div>
+
+    <div style="margin-bottom: 64px; overflow-x: auto; border-radius: 12px; box-shadow: var(--shadow-level-2); border: 1px solid var(--color-hairline);">
+      <table style="width: 100%; border-collapse: collapse; background: var(--color-canvas); text-align: left;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--color-hairline); background: var(--color-canvas-soft-2);">
+            <th style="padding: 16px 24px; font-weight: 600;">Feature (Free Tier)</th>
+            <th style="padding: 16px 24px; font-weight: 600;">Webhook.site</th>
+            <th style="padding: 16px 24px; font-weight: 600; background: #e0f2fe; color: #0369a1;">WebhookCatch</th>
+          </tr>
+        </thead>
+        <tbody class="text-body">
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 16px 24px; font-weight: 500; color: var(--color-ink);">Request Limit</td>
+            <td style="padding: 16px 24px;">50 requests</td>
+            <td style="padding: 16px 24px; font-weight: 600; background: #f0f9ff; color: #0369a1;">100 requests (2x more)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 16px 24px; font-weight: 500; color: var(--color-ink);">Data Privacy</td>
+            <td style="padding: 16px 24px;">Public (anyone with the URL)</td>
+            <td style="padding: 16px 24px; font-weight: 600; background: #f0f9ff; color: #0369a1;">Private (Unguessable UUIDs)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 16px 24px; font-weight: 500; color: var(--color-ink);">Session Expiry</td>
+            <td style="padding: 16px 24px;">7 Days</td>
+            <td style="padding: 16px 24px; background: #f0f9ff;">7 Days</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 16px 24px; font-weight: 500; color: var(--color-ink);">Account Required</td>
+            <td style="padding: 16px 24px;">No</td>
+            <td style="padding: 16px 24px; background: #f0f9ff;">No</td>
+          </tr>
+          <tr>
+            <td style="padding: 16px 24px; font-weight: 500; color: var(--color-ink);">Cost</td>
+            <td style="padding: 16px 24px;">Free (Paid plans up to $69/mo)</td>
+            <td style="padding: 16px 24px; font-weight: 600; background: #f0f9ff; color: #0369a1;">100% Free</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-bottom: 64px;">
+      <div>
+        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">Double the Limits</h3>
+        <p class="text-body" style="color: var(--color-body);">
+          Webhook.site restricts free users to just 50 requests before the URL stops accepting data, forcing you to create a new session or upgrade to a $9/mo plan. WebhookCatch gives you 100 requests per session completely free.
+        </p>
+      </div>
+      <div>
+        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">Private by Default</h3>
+        <p class="text-body" style="color: var(--color-body);">
+          On Webhook.site's free tier, your payload data isn't secure. WebhookCatch uses high-entropy UUIDv4 identifiers, meaning nobody can guess your URL and view your sensitive webhook payloads.
+        </p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 64px; padding: 64px 24px; background: var(--color-canvas); border: 1px solid var(--color-hairline); border-radius: 16px; box-shadow: var(--shadow-level-3);">
+      <h3 class="text-display-sm" style="margin-bottom: 16px; font-weight: 700;">Ready to test a webhook?</h3>
+      <p class="text-body" style="color: var(--color-body); margin-bottom: 32px;">Get a free, private URL instantly. No account required.</p>
+      <a href="/" class="btn-primary" style="text-decoration: none; display: inline-flex; justify-content: center; font-size: 18px; padding: 16px 32px;">Generate Webhook URL</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-bottom text-caption" style="color: var(--color-mute); text-align: center;">
+        <a href="/">Back to WebhookCatch Home</a>
+      </div>
+    </div>
+  </footer>
+</Layout>

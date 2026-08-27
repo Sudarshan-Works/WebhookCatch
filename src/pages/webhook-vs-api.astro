@@ -1,0 +1,100 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = "Webhook vs API: What's the Difference? - WebhookCatch";
+const description = "Understand the key differences between Webhooks and APIs. Learn when to use polling vs pushing, and how they work together in modern integrations.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Webhook vs API: What's the Difference?",
+  "description": description,
+  "author": {
+    "@type": "Organization",
+    "name": "WebhookCatch"
+  }
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+        </svg>
+        <span>WebhookCatch</span>
+      </a>
+    </div>
+  </nav>
+
+  <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
+    <h1 class="text-heading-1" style="margin-bottom: 24px; font-weight: 700;">Webhook vs API: What's the Difference?</h1>
+    <p class="text-body-lg" style="color: var(--color-body); margin-bottom: 48px;">
+      When building integrations, developers frequently ask: "Should I use an API or a webhook?" The short answer is that <strong>APIs are for pulling data, while Webhooks are for pushing data.</strong> Here is a complete breakdown of when to use which.
+    </p>
+
+    <h2 class="text-heading-2" style="margin-bottom: 16px;">The "Polling" Problem with APIs</h2>
+    <p class="text-body" style="color: var(--color-body); margin-bottom: 24px;">
+      In a traditional REST API, the client application has to send a request to the server to see if any new data is available. If you want to know the moment a user makes a payment, your app would have to repeatedly ask the API every few seconds: "Is the payment done yet?"
+    </p>
+    <p class="text-body" style="color: var(--color-body); margin-bottom: 48px;">
+      This technique is called <em>polling</em>. It wastes server resources, eats up bandwidth, and often results in delays because the event might happen right after your last poll.
+    </p>
+
+    <h2 class="text-heading-2" style="margin-bottom: 16px;">Webhooks: The Event-Driven Solution</h2>
+    <p class="text-body" style="color: var(--color-body); margin-bottom: 24px;">
+      Webhooks solve the polling problem by reversing the flow of data. Instead of the client asking the server for data, you provide the server with a URL (the webhook endpoint), and the server promises to send an HTTP POST request to that URL the instant the event occurs.
+    </p>
+    
+    <div style="margin-bottom: 48px; overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; background: var(--color-surface); border: 1px solid var(--color-hairline); text-align: left;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <th style="padding: 12px; font-weight: 600;">Feature</th>
+            <th style="padding: 12px; font-weight: 600;">API (Polling)</th>
+            <th style="padding: 12px; font-weight: 600;">Webhook</th>
+          </tr>
+        </thead>
+        <tbody class="text-body">
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 12px;"><strong>Direction</strong></td>
+            <td style="padding: 12px;">Client pulls from Server</td>
+            <td style="padding: 12px;">Server pushes to Client</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--color-hairline);">
+            <td style="padding: 12px;"><strong>Trigger</strong></td>
+            <td style="padding: 12px;">Manual or Scheduled</td>
+            <td style="padding: 12px;">Event-Driven (Real-time)</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px;"><strong>Efficiency</strong></td>
+            <td style="padding: 12px;">Low (lots of empty responses)</td>
+            <td style="padding: 12px;">High (only fires when needed)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-heading-2" style="margin-bottom: 16px;">Can they work together?</h2>
+    <p class="text-body" style="color: var(--color-body); margin-bottom: 48px;">
+      Absolutely. In fact, most modern applications use both. A webhook might notify you that a new invoice was created (push), and then your application might use an API to fetch the full details of the customer associated with that invoice (pull).
+    </p>
+
+    <div style="text-align: center; margin-top: 64px; padding: 48px; background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 12px;">
+      <h3 class="text-heading-3" style="margin-bottom: 16px;">Need an endpoint to inspect webhooks?</h3>
+      <a href="/" class="btn-primary" style="text-decoration: none; display: inline-flex; justify-content: center;">Generate Free Webhook URL</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-bottom text-caption" style="color: var(--color-mute); text-align: center;">
+        <a href="/">Back to WebhookCatch Home</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
