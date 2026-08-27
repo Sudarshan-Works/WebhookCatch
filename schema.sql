@@ -5,7 +5,8 @@ CREATE TABLE sessions (
   id TEXT PRIMARY KEY,
   created_at INTEGER NOT NULL,
   expires_at INTEGER NOT NULL,
-  request_count INTEGER NOT NULL DEFAULT 0
+  request_count INTEGER NOT NULL DEFAULT 0,
+  replay_count INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE requests (
