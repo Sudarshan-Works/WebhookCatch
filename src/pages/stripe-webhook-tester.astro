@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import CreateSessionButton from '../components/CreateSessionButton.astro';
+
+const title = "Stripe Webhook Tester & Debugger - WebhookCatch";
+const description = "Test and debug your Stripe webhooks instantly. Generate a secure URL to inspect Stripe events like payment_intent.succeeded in real-time.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Stripe Webhook Tester",
+  "url": "https://webhookcatch.com/stripe-webhook-tester",
+  "description": description,
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All"
+};
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <Navbar />
+
+  <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; text-align: center; color: var(--color-ink);">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="badge-secondary text-caption-mono">Stripe Integration</span>
+      </div>
+      <h1 class="hero-title text-heading-1" style="color: var(--color-ink); margin-bottom: 24px; font-weight: 700; letter-spacing: -0.02em;">
+        Stripe Webhook Tester
+      </h1>
+      <p class="hero-subtitle text-body-lg" style="color: var(--color-body); margin-bottom: 40px; max-width: 600px; margin-inline: auto;">
+        Developing a Stripe integration? Generate a unique endpoint to catch and inspect events like <code>checkout.session.completed</code> or <code>invoice.paid</code> in real-time.
+      </p>
+      
+      <div class="hero-actions" style="margin-top: 32px;">
+        <CreateSessionButton text="Generate Stripe Webhook URL" />
+      </div>
+
+      <div class="text-left" style="max-width: 800px; margin: 0 auto; text-align: left; padding: 48px 24px; background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 12px;">
+        <h2 class="text-heading-2" style="margin-bottom: 16px;">How to test Stripe Webhooks</h2>
+        <ol class="text-body" style="padding-left: 20px; display: flex; flex-direction: column; gap: 12px; color: var(--color-body);">
+          <li>Click the button above to generate your unique, temporary webhook URL.</li>
+          <li>Copy the URL and go to your <a href="https://dashboard.stripe.com/test/webhooks" target="_blank" rel="noopener">Stripe Dashboard Webhooks page</a>.</li>
+          <li>Click <strong>Add endpoint</strong> and paste your WebhookCatch URL.</li>
+          <li>Select the events you want to listen to (e.g., <code>payment_intent.succeeded</code>).</li>
+          <li>Trigger a test event from Stripe, or use the Stripe CLI. The incoming payload will instantly appear on your WebhookCatch dashboard!</li>
+        </ol>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

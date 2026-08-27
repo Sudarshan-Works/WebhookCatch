@@ -10,3 +10,21 @@ database_id = "00000000-0000-0000-0000-000000000000"
 [triggers]
 crons = [ "* * * * *" ] # Run every minute
 migrations_dir = "migrations"
+
+[[ratelimits]]
+name = "SESSION_LIMITER"
+namespace_id = "webhookcatch_session"
+[ratelimits.simple]
+limit = 10
+period = 60
+
+[[ratelimits]]
+name = "WEBHOOK_BURST_LIMITER"
+namespace_id = "webhookcatch_burst"
+[ratelimits.simple]
+limit = 50
+period = 10
+
+[vars]
+TURNSTILE_SECRET_KEY = ""
+TURNSTILE_SITE_KEY = ""

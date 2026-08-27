@@ -1,0 +1,60 @@
+---
+---
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+      </svg>
+      <span>WebhookCatch</span>
+    </div>
+    <div class="footer-links" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
+      <a href="https://github.com/Sudarshan-Works/WebhookCatch" target="_blank" rel="noopener" class="text-body-sm">GitHub</a>
+      <a href="/what-is-a-webhook" class="text-body-sm">What is a Webhook?</a>
+      <a href="/webhook-vs-api" class="text-body-sm">Webhook vs API</a>
+      <a href="/webhook-site-alternative" class="text-body-sm">Webhook.site Alternative</a>
+      <a href="/webhookcatcher-alternative" class="text-body-sm">WebhookCatcher Alternative</a>
+      <a href="/requestbin-alternative" class="text-body-sm">RequestBin Alternative</a>
+    </div>
+    <p class="text-caption" style="color: var(--color-mute); margin-top: 24px; text-align: center;">
+      &copy; {new Date().getFullYear()} WebhookCatch. Built on the edge with Cloudflare.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 64px 24px;
+    border-top: 1px solid var(--color-hairline);
+    background-color: var(--color-canvas);
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  
+  .footer-links a {
+    color: var(--color-body);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  
+  .footer-links a:hover {
+    color: var(--color-ink);
+  }
+</style>

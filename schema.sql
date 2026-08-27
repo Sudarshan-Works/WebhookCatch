@@ -10,7 +10,8 @@ CREATE TABLE sessions (
   custom_status INTEGER,
   custom_body TEXT,
   custom_headers TEXT,
-  custom_delay INTEGER DEFAULT 0
+  custom_delay INTEGER DEFAULT 0,
+  ip_fingerprint TEXT
 );
 
 CREATE TABLE requests (

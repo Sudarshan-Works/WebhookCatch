@@ -1,10 +1,41 @@
 import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
 
+import { SECURITY_CONFIG } from "../../config/security";
+
 // Catch ALL methods
 const handler: APIRoute = async ({ params, request }) => {
+  if (SECURITY_CONFIG.CIRCUIT_BREAKER_ACTIVE) {
+    return new Response(JSON.stringify({ ok: false, error: "Service unavailable" }), {
+      status: 503,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
   const db = env.DB;
-  
+  const limiter = env.WEBHOOK_BURST_LIMITER;
+
+  // Enforce IP Burst Rate Limit if bound
+  if (limiter) {
+    const ip = request.headers.get("cf-connecting-ip") || "unknown";
+    const { success } = await limiter.limit({ key: ip });
+    if (!success) {
+      return new Response(JSON.stringify({ ok: false, error: "Too many requests" }), {
+        status: 429,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+  }
+
+  // Enforce Payload Size Limit
+  const contentLength = request.headers.get("content-length");
+  if (contentLength && parseInt(contentLength, 10) > SECURITY_CONFIG.MAX_REQUEST_BODY_SIZE) {
+    return new Response(JSON.stringify({ ok: false, error: "Payload Too Large. Maximum size is 1MB." }), {
+      status: 413,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
   // The slug will be like "1x2g2y5c6l0e/some/path" or just "1x2g2y5c6l0e"
   const slug = params.slug || "";
   const parts = slug.split('/');
