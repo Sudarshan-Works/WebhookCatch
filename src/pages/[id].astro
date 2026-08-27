@@ -346,39 +346,53 @@ const { id } = Astro.params;
     return div.innerHTML;
   }
 
-  // Poll for new requests
-  async function fetchRequests() {
-    try {
-      const res = await fetch(`/api/sessions/${sessionId}/requests`);
-      if (!res.ok) return;
-      const data = await res.json();
+  // Listen for real-time updates via SSE
+  let eventSource: EventSource | null = null;
 
-      expiresAt = data.session.expires_at;
-      updateCountdown();
-
-      countEl.textContent = `${data.session.request_count} / 100 requests`;
-      totalLabel.textContent = `${data.requests.length} request${data.requests.length !== 1 ? 's' : ''}`;
-
-      const oldLength = requests.length;
-      requests = data.requests;
-      renderList();
-
-      // Auto-select first request if none selected and new requests arrived
-      if (selectedId === null && requests.length > 0) {
-        selectRequest(requests[0]);
-      } else if (selectedId !== null) {
-        // Re-render detail if selected request might have changed
-        const selected = requests.find((r: any) => r.id === selectedId);
-        if (selected) selectRequest(selected);
-      }
-    } catch (err) {
-      console.error('Fetch error:', err);
+  function connectStream() {
+    if (eventSource) {
+      eventSource.close();
     }
+    
+    eventSource = new EventSource(`/api/sessions/${sessionId}/stream`);
+    
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        
+        expiresAt = data.session.expires_at;
+        updateCountdown();
+
+        countEl.textContent = `${data.session.request_count} / 100 requests`;
+        totalLabel.textContent = `${data.requests.length} request${data.requests.length !== 1 ? 's' : ''}`;
+
+        requests = data.requests;
+        renderList();
+
+        // Auto-select first request if none selected and new requests arrived
+        if (selectedId === null && requests.length > 0) {
+          selectRequest(requests[0]);
+        } else if (selectedId !== null) {
+          // Re-render detail if selected request might have changed
+          const selected = requests.find((r: any) => r.id === selectedId);
+          if (selected) selectRequest(selected);
+        }
+      } catch (err) {
+        console.error('Error parsing stream data:', err);
+      }
+    };
+    
+    eventSource.addEventListener('error', (event: any) => {
+      if (event.data) {
+        console.warn('Stream error:', event.data);
+        // Do not auto-reconnect if it's a hard error (like session expired)
+        eventSource?.close();
+      }
+      // Note: EventSource automatically handles normal network reconnects
+    });
   }
 
-  // Initial fetch + poll every 2s
-  fetchRequests();
-  setInterval(fetchRequests, 2000);
+  connectStream();
 </script>
 
 <style>

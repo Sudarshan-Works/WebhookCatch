@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.1.4] - 2026-08-27
+### Changed
+- Real-Time Updates: Replaced aggressive client-side polling with a Server-Sent Events (SSE) stream endpoint.
+- Webhook requests now appear in the dashboard instantly without any manual reload or polling interval delays.
+- The EventSource implementation automatically handles network disconnects gracefully.
+
 ## [v0.1.3] - 2026-08-27
 ### Changed
 - Complete UI Overhaul: Implemented a modern 2026 developer-tool interface inspired by Vercel's Geist design language.
