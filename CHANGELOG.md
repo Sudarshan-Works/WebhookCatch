@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.1] - 2026-08-27
+### Fixed
+- Fixed an issue in local development where Vite's file watcher was tracking the `.wrangler` state directory, causing infinite page reloads.
+
 ## [0.1.0] - 2026-08-27
 ### Added
 - Initial project setup with Astro and Tailwind CSS v4.
