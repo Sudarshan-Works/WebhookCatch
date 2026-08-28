@@ -25,11 +25,77 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
       <div class="hero-actions">
         <CreateSessionButton text="Create Webhook URL" />
       </div>
-      <p class="hero-meta text-caption" style="color: var(--color-mute); margin-top: 16px;">
-        Active for 7 days · Up to 100 requests · No signup required
+      
+      <!-- Recent Webhooks (Client-side populated) -->
+      <div id="recent-sessions-container" style="display: none; margin-top: 24px; animation: fadeIn 0.5s ease-out;">
+        <h4 class="text-caption" style="color: var(--color-mute); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Recent Sessions</h4>
+        <div id="recent-sessions-list" style="display: flex; flex-direction: column; gap: 8px; align-items: center;"></div>
+      </div>
+
+      <p class="hero-meta text-caption" style="color: var(--color-mute); margin-top: 24px;">
+        Active for 7 days · Up to 500 requests · No signup required
       </p>
     </div>
   </main>
+
+  <script>
+    // Load recent sessions from localStorage
+    function loadRecentSessions() {
+      try {
+        const stored = localStorage.getItem('webhookcatch_recent_sessions');
+        if (stored) {
+          const sessions = JSON.parse(stored);
+          if (sessions && sessions.length > 0) {
+            const container = document.getElementById('recent-sessions-container');
+            const list = document.getElementById('recent-sessions-list');
+            if (container && list) {
+              list.innerHTML = '';
+              sessions.forEach((s: any) => {
+                const a = document.createElement('a');
+                a.href = `/${s.id}`;
+                a.className = 'recent-session-link';
+                
+                // Format relative time
+                let timeStr = '';
+                const diffMs = Date.now() - s.timestamp;
+                const diffMins = Math.floor(diffMs / 60000);
+                const diffHours = Math.floor(diffMins / 60);
+                const diffDays = Math.floor(diffHours / 24);
+                
+                if (diffMins < 1) timeStr = 'Just now';
+                else if (diffMins < 60) timeStr = `${diffMins}m ago`;
+                else if (diffHours < 24) timeStr = `${diffHours}h ago`;
+                else timeStr = `${diffDays}d ago`;
+                
+                a.innerHTML = `
+                  <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-mute);">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                      <span class="text-code" style="font-size: 13px;">${s.id}</span>
+                    </div>
+                    <span class="text-caption" style="color: var(--color-mute);">${timeStr}</span>
+                  </div>
+                `;
+                list.appendChild(a);
+              });
+              container.style.display = 'block';
+            }
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load recent sessions', e);
+      }
+    }
+
+    // Load on mount and when returning from BFCache
+    loadRecentSessions();
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted) loadRecentSessions();
+    });
+  </script>
 
   <!-- Features -->
   <section class="features-section">
@@ -67,7 +133,7 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
         </div>
         <h3 class="text-display-sm">7-day sessions.</h3>
         <p class="text-body-md" style="color: var(--color-body);">
-          Each webhook stays active for 7 days and captures up to 100 requests with a live countdown.
+          Each webhook stays active for 7 days and captures up to 500 requests with a live countdown.
         </p>
       </div>
     </div>
@@ -248,5 +314,23 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
       font-size: 14px;
       line-height: 20px;
     }
+  }
+
+  .recent-session-link {
+    display: flex;
+    background-color: var(--color-canvas-soft);
+    border: 1px solid var(--color-hairline);
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-ink);
+    width: 100%;
+    max-width: 320px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .recent-session-link:hover {
+    border-color: var(--color-hairline-strong);
+    box-shadow: var(--shadow-level-1);
+    transform: translateY(-1px);
   }
 </style>

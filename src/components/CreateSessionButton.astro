@@ -38,6 +38,20 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
   const originalText = btnText ? btnText.textContent : 'Create Webhook URL';
 
   if (btn && btnText && btnSpinner) {
+    // Reset state if page is restored from BFCache (when user hits Back button)
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        btn.removeAttribute('disabled');
+        btn.style.opacity = '1';
+        btn.style.cursor = 'pointer';
+        btnText.textContent = originalText;
+        btnSpinner.style.display = 'none';
+        const icon = btn.querySelector('svg:not(.spinner)');
+        // @ts-ignore
+        if (icon) (icon.style.display = 'block');
+      }
+    });
+
     btn.addEventListener('click', async () => {
       btn.setAttribute('disabled', 'true');
       btn.style.opacity = '0.7';
@@ -45,6 +59,7 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
       btnText.textContent = 'Creating…';
       btnSpinner.style.display = 'block';
       const icon = btn.querySelector('svg:not(.spinner)');
+      // @ts-ignore
       if (icon) (icon.style.display = 'none');
 
       try {
@@ -52,6 +67,7 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
         const data = await res.json();
         
         if (res.status === 201 && data.id) {
+          saveRecentSession(data.id);
           window.location.href = `/${data.id}`;
         } else if (res.status === 403 && data.error === "Challenge Required") {
           // Render Turnstile
@@ -59,10 +75,12 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
           document.getElementById('turnstile-container').style.display = 'block';
           btn.style.display = 'none';
           
+          // @ts-ignore
           if (window.turnstile) {
+            // @ts-ignore
             window.turnstile.render('#turnstile-container', {
               sitekey: siteKey,
-              callback: async function(token) {
+              callback: async function(token: string) {
                 // Retry session creation with token
                 const retryRes = await fetch('/api/sessions', {
                   method: 'POST',
@@ -71,9 +89,11 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
                 });
                 const retryData = await retryRes.json();
                 if (retryData.id) {
+                  saveRecentSession(retryData.id);
                   window.location.href = `/${retryData.id}`;
                 } else {
                   alert("Failed to verify challenge. Please try again.");
+                  // @ts-ignore
                   window.turnstile.reset();
                 }
               }
@@ -89,9 +109,31 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
         btn.style.cursor = 'pointer';
         btnText.textContent = originalText;
         btnSpinner.style.display = 'none';
+        // @ts-ignore
         if (icon) (icon.style.display = 'block');
         console.error('Failed to create session', err);
       }
     });
+  }
+
+  function saveRecentSession(id: string) {
+    try {
+      const MAX_SESSIONS = 5;
+      const key = 'webhookcatch_recent_sessions';
+      let sessions = [];
+      const stored = localStorage.getItem(key);
+      if (stored) {
+        sessions = JSON.parse(stored);
+      }
+      // Remove if it already exists to move it to the top
+      sessions = sessions.filter((s: any) => s.id !== id);
+      sessions.unshift({ id, timestamp: Date.now() });
+      if (sessions.length > MAX_SESSIONS) {
+        sessions = sessions.slice(0, MAX_SESSIONS);
+      }
+      localStorage.setItem(key, JSON.stringify(sessions));
+    } catch (e) {
+      console.error('Failed to save recent session to localStorage', e);
+    }
   }
 </script>

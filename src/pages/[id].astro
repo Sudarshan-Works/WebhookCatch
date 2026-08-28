@@ -495,11 +495,66 @@ if (!isValidSession) {
   const webhookUrl = `${baseUrl}/w/${sessionId}`;
   webhookUrlEl.textContent = webhookUrl;
 
+  // Save to recent sessions
+  try {
+    const MAX_SESSIONS = 5;
+    const key = 'webhookcatch_recent_sessions';
+    let sessions = [];
+    const stored = localStorage.getItem(key);
+    if (stored) {
+      sessions = JSON.parse(stored);
+    }
+    sessions = sessions.filter((s: any) => s.id !== sessionId);
+    sessions.unshift({ id: sessionId, timestamp: Date.now() });
+    if (sessions.length > MAX_SESSIONS) {
+      sessions = sessions.slice(0, MAX_SESSIONS);
+    }
+    localStorage.setItem(key, JSON.stringify(sessions));
+  } catch (e) {
+    console.error('Failed to save recent session', e);
+  }
+
   // Copy URL
   copyBtn.addEventListener('click', async () => {
-    await navigator.clipboard.writeText(webhookUrl);
-    // @ts-ignore
-    if (window.showToast) window.showToast('Copied URL to clipboard');
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(webhookUrl);
+      } else {
+        // Fallback for non-secure contexts (HTTP) or older browsers
+        const textArea = document.createElement("textarea");
+        textArea.value = webhookUrl;
+        
+        // Prevent scrolling to bottom
+        textArea.style.position = "fixed";
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.width = "2em";
+        textArea.style.height = "2em";
+        textArea.style.padding = "0";
+        textArea.style.border = "none";
+        textArea.style.outline = "none";
+        textArea.style.boxShadow = "none";
+        textArea.style.background = "transparent";
+        
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+          const successful = document.execCommand('copy');
+          if (!successful) throw new Error('execCommand failed');
+        } catch (err) {
+          console.error('Fallback copy failed', err);
+          prompt("Copy to clipboard: Ctrl+C, Enter", webhookUrl);
+        }
+        
+        document.body.removeChild(textArea);
+      }
+      // @ts-ignore
+      if (window.showToast) window.showToast('Copied URL to clipboard');
+    } catch (err) {
+      console.error('Failed to copy', err);
+    }
   });
 
   // Mobile Back Button

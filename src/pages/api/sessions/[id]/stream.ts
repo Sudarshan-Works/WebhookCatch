@@ -39,7 +39,7 @@ export const GET: APIRoute = async ({ params, request }) => {
             
             const requests = await db
               .prepare(
-                "SELECT * FROM requests WHERE session_id = ? ORDER BY created_at DESC LIMIT 100"
+                "SELECT * FROM requests WHERE session_id = ? ORDER BY created_at DESC LIMIT 500"
               )
               .bind(sessionId)
               .all();
