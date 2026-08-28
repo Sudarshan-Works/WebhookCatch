@@ -41,6 +41,41 @@ const {
   </head>
   <body>
     <slot />
+    
+    <!-- Global Toast Container -->
+    <div id="global-toast-container" class="toast-container"></div>
+    
+    <script>
+      // Global Toast Notification System
+      (window as any).showToast = function(message: string, type: 'success' | 'error' | 'info' = 'success') {
+        const container = document.getElementById('global-toast-container');
+        if (!container) return;
+        
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        
+        let icon = '';
+        if (type === 'success') {
+          icon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        } else if (type === 'info') {
+          icon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
+        }
+        
+        toast.innerHTML = `${icon}<span>${message}</span>`;
+        container.appendChild(toast);
+        
+        // Trigger reflow for animation
+        toast.offsetHeight;
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => {
+            toast.remove();
+          }, 300);
+        }, 3000);
+      };
+    </script>
   </body>
 </html>
 

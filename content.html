@@ -1,0 +1,1055 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v7.2.8"><!-- Core Meta --><title>Webhook Tester &amp; Webhook URL Generator - WebhookCatch</title><meta name="description" content="Instantly generate a free webhook URL to test, inspect, and debug incoming HTTP requests in real-time. No signup required."><meta name="robots" content="index, follow"><link rel="canonical" href="http://localhost:4321/"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="http://localhost:4321/"><meta property="og:title" content="Webhook Tester &amp; Webhook URL Generator - WebhookCatch"><meta property="og:description" content="Instantly generate a free webhook URL to test, inspect, and debug incoming HTTP requests in real-time. No signup required."><meta property="og:image" content="/og-image.png"><meta property="og:site_name" content="WebhookCatch"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="http://localhost:4321/"><meta property="twitter:title" content="Webhook Tester &amp; Webhook URL Generator - WebhookCatch"><meta property="twitter:description" content="Instantly generate a free webhook URL to test, inspect, and debug incoming HTTP requests in real-time. No signup required."><meta property="twitter:image" content="/og-image.png"><!-- Structured Data --><!-- Fonts: Geist Sans + Geist Mono --><link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css"><style data-vite-dev-id="D:/WebHookCatch.com/src/layouts/Layout.astro?astro&amp;type=style&amp;index=0&amp;lang.css">/*! tailwindcss v4.3.3 | MIT License | https://tailwindcss.com */
+@layer properties;
+@layer theme, base, components, utilities;
+@layer theme {
+  :root, :host {
+    --font-sans: "Geist", "Inter", system-ui, -apple-system, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    --color-red-500: oklch(63.7% 0.237 25.331);
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --default-transition-duration: 150ms;
+    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    --default-font-family: var(--font-sans);
+    --default-mono-font-family: var(--font-mono);
+    --color-ink: #171717;
+    --color-on-primary: #ffffff;
+    --color-body: #4d4d4d;
+    --color-mute: #888888;
+    --color-hairline: #ebebeb;
+    --color-hairline-strong: #a1a1a1;
+    --color-canvas: #ffffff;
+    --color-canvas-soft: #fafafa;
+    --color-canvas-soft-2: #f5f5f5;
+    --color-link: #0070f3;
+    --color-success: #0070f3;
+    --color-error: #ee0000;
+    --color-error-soft: #f7d4d6;
+    --color-warning: #f5a623;
+    --color-warning-soft: #ffefcf;
+    --color-violet: #7928ca;
+    --radius-pill: 100px;
+    --radius-full: 9999px;
+    --shadow-level-1: inset 0 0 0 1px rgba(0,0,0,0.08);
+    --shadow-level-2: 0px 1px 1px rgba(0,0,0,0.02), 0px 2px 2px rgba(0,0,0,0.04), inset 0 0 0 1px rgba(0,0,0,0.08);
+    --shadow-level-3: 0px 2px 2px rgba(0,0,0,0.04), 0px 8px 8px -8px rgba(0,0,0,0.04), inset 0 0 0 1px rgba(0,0,0,0.08);
+    --shadow-level-4: 0px 2px 2px rgba(0,0,0,0.04), 0px 8px 16px -4px rgba(0,0,0,0.04), inset 0 0 0 1px rgba(0,0,0,0.08);
+  }
+}
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+  html, :host {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    font-family: var(--default-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
+    font-feature-settings: var(--default-font-feature-settings, normal);
+    font-variation-settings: var(--default-font-variation-settings, normal);
+    -webkit-tap-highlight-color: transparent;
+  }
+  hr {
+    height: 0;
+    color: inherit;
+    border-top-width: 1px;
+  }
+  abbr:where([title]) {
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  a {
+    color: inherit;
+    -webkit-text-decoration: inherit;
+    text-decoration: inherit;
+  }
+  b, strong {
+    font-weight: bolder;
+  }
+  code, kbd, samp, pre {
+    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+    font-feature-settings: var(--default-mono-font-feature-settings, normal);
+    font-variation-settings: var(--default-mono-font-variation-settings, normal);
+    font-size: 1em;
+  }
+  small {
+    font-size: 80%;
+  }
+  sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  sub {
+    bottom: -0.25em;
+  }
+  sup {
+    top: -0.5em;
+  }
+  table {
+    text-indent: 0;
+    border-color: inherit;
+    border-collapse: collapse;
+  }
+  :-moz-focusring:where(:not(iframe)) {
+    outline: auto;
+  }
+  progress {
+    vertical-align: baseline;
+  }
+  summary {
+    display: list-item;
+  }
+  ol, ul, menu {
+    list-style: none;
+  }
+  img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    vertical-align: middle;
+  }
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+  button, input, select, optgroup, textarea, ::file-selector-button {
+    font: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1;
+  }
+  :where(select:is([multiple], [size])) optgroup {
+    font-weight: bolder;
+  }
+  :where(select:is([multiple], [size])) optgroup option {
+    padding-inline-start: 20px;
+  }
+  ::file-selector-button {
+    margin-inline-end: 4px;
+  }
+  ::placeholder {
+    opacity: 1;
+  }
+  @supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {
+    ::placeholder {
+      color: currentcolor;
+      @supports (color: color-mix(in lab, red, red)) {
+        color: color-mix(in oklab, currentcolor 50%, transparent);
+      }
+    }
+  }
+  textarea {
+    resize: vertical;
+  }
+  ::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+  ::-webkit-date-and-time-value {
+    min-height: 1lh;
+    text-align: inherit;
+  }
+  ::-webkit-datetime-edit {
+    display: inline-flex;
+  }
+  ::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+  }
+  ::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {
+    padding-block: 0;
+  }
+  ::-webkit-calendar-picker-indicator {
+    line-height: 1;
+  }
+  :-moz-ui-invalid {
+    box-shadow: none;
+  }
+  button, input:where([type="button"], [type="reset"], [type="submit"]), ::file-selector-button {
+    appearance: button;
+  }
+  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+    height: auto;
+  }
+  [hidden]:where(:not([hidden="until-found"])) {
+    display: none !important;
+  }
+}
+@layer utilities {
+  .collapse {
+    visibility: collapse;
+  }
+  .visible {
+    visibility: visible;
+  }
+  .absolute {
+    position: absolute;
+  }
+  .fixed {
+    position: fixed;
+  }
+  .relative {
+    position: relative;
+  }
+  .sticky {
+    position: sticky;
+  }
+  .container {
+    width: 100%;
+    @media (width >= 40rem) {
+      max-width: 40rem;
+    }
+    @media (width >= 48rem) {
+      max-width: 48rem;
+    }
+    @media (width >= 64rem) {
+      max-width: 64rem;
+    }
+    @media (width >= 80rem) {
+      max-width: 80rem;
+    }
+    @media (width >= 96rem) {
+      max-width: 96rem;
+    }
+  }
+  .block {
+    display: block;
+  }
+  .flex {
+    display: flex;
+  }
+  .grid {
+    display: grid;
+  }
+  .inline {
+    display: inline;
+  }
+  .inline-block {
+    display: inline-block;
+  }
+  .inline-flex {
+    display: inline-flex;
+  }
+  .table {
+    display: table;
+  }
+  .table-row {
+    display: table-row;
+  }
+  .flex-shrink {
+    flex-shrink: 1;
+  }
+  .border-collapse {
+    border-collapse: collapse;
+  }
+  .translate-none {
+    translate: none;
+  }
+  .scale-none {
+    scale: none;
+  }
+  .rotate-none {
+    rotate: none;
+  }
+  .transform {
+    transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
+  }
+  .transform-none {
+    transform: none;
+  }
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
+  .rounded {
+    border-radius: 0.25rem;
+  }
+  .border {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+  }
+  .bg-\(--brand-color\) {
+    background-color: var(--brand-color);
+  }
+  .bg-\[--brand-color\] {
+    background-color: --brand-color;
+  }
+  .bg-red-500\! {
+    background-color: var(--color-red-500) !important;
+  }
+  .text-left {
+    text-align: left;
+  }
+  .text-body {
+    color: var(--color-body);
+  }
+  .uppercase {
+    text-transform: uppercase;
+  }
+  .shadow {
+    --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .ring {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .outline {
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
+  }
+  .drop-shadow {
+    --tw-drop-shadow-size: drop-shadow(0 1px 2px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.1))) drop-shadow(0 1px 1px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.06)));
+    --tw-drop-shadow: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow( 0 1px 1px rgb(0 0 0 / 0.06));
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
+  .grayscale {
+    --tw-grayscale: grayscale(100%);
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
+  .filter {
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
+  .backdrop-filter {
+    -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+    backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  }
+  .transition {
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  background-color: var(--color-canvas-soft);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+.text-display-xl {
+  font-family: var(--font-sans);
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 48px;
+  letter-spacing: -2.4px;
+}
+.text-display-lg {
+  font-family: var(--font-sans);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: -1.28px;
+}
+.text-display-md {
+  font-family: var(--font-sans);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: -0.96px;
+}
+.text-display-sm {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.6px;
+}
+.text-body-lg {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+}
+.text-body-md {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+.text-body-sm {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+}
+.text-body-sm-strong {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+}
+.text-caption {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+.text-caption-mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.text-code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-ink);
+  color: var(--color-on-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  opacity: 0.85;
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-hairline);
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+  text-decoration: none;
+}
+.btn-secondary:hover {
+  border-color: var(--color-hairline-strong);
+}
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+.btn-sm {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 8px 16px;
+}
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--color-body);
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.btn-ghost:hover {
+  background-color: var(--color-canvas-soft-2);
+  color: var(--color-ink);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--color-canvas-soft-2);
+  color: var(--color-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+.badge-method {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+}
+.badge-method-get {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+.badge-method-post {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+.badge-method-put {
+  background-color: #fef9c3;
+  color: #a16207;
+}
+.badge-method-patch {
+  background-color: #ffedd5;
+  color: #c2410c;
+}
+.badge-method-delete {
+  background-color: var(--color-error-soft);
+  color: var(--color-error);
+}
+.badge-method-head {
+  background-color: #e9d5ff;
+  color: var(--color-violet);
+}
+.badge-method-options {
+  background-color: var(--color-canvas-soft-2);
+  color: var(--color-body);
+}
+.card {
+  background-color: var(--color-canvas);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-level-2);
+}
+.card-elevated {
+  box-shadow: var(--shadow-level-4);
+}
+.code-block {
+  background-color: var(--color-ink);
+  color: var(--color-on-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 20px;
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.mesh-gradient {
+  background: radial-gradient(ellipse at 20% 50%, rgba(0,124,240,0.15) 0%, transparent 50%), radial-gradient(ellipse at 60% 20%, rgba(121,40,202,0.12) 0%, transparent 50%), radial-gradient(ellipse at 80% 60%, rgba(255,0,128,0.10) 0%, transparent 50%), radial-gradient(ellipse at 40% 80%, rgba(0,223,216,0.10) 0%, transparent 50%);
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-hairline-strong);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-body);
+}
+::selection {
+  background-color: var(--color-ink);
+  color: #f2f2f2;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-inset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-ring-inset {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-offset-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --tw-ring-offset-color {
+  syntax: "*";
+  inherits: false;
+  initial-value: #fff;
+}
+@property --tw-ring-offset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-drop-shadow-size {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    *, ::before, ::after, ::backdrop {
+      --tw-rotate-x: initial;
+      --tw-rotate-y: initial;
+      --tw-rotate-z: initial;
+      --tw-skew-x: initial;
+      --tw-skew-y: initial;
+      --tw-border-style: solid;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-color: initial;
+      --tw-shadow-alpha: 100%;
+      --tw-inset-shadow: 0 0 #0000;
+      --tw-inset-shadow-color: initial;
+      --tw-inset-shadow-alpha: 100%;
+      --tw-ring-color: initial;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-inset-ring-color: initial;
+      --tw-inset-ring-shadow: 0 0 #0000;
+      --tw-ring-inset: initial;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-outline-style: solid;
+      --tw-blur: initial;
+      --tw-brightness: initial;
+      --tw-contrast: initial;
+      --tw-grayscale: initial;
+      --tw-hue-rotate: initial;
+      --tw-invert: initial;
+      --tw-opacity: initial;
+      --tw-saturate: initial;
+      --tw-sepia: initial;
+      --tw-drop-shadow: initial;
+      --tw-drop-shadow-color: initial;
+      --tw-drop-shadow-alpha: 100%;
+      --tw-drop-shadow-size: initial;
+      --tw-backdrop-blur: initial;
+      --tw-backdrop-brightness: initial;
+      --tw-backdrop-contrast: initial;
+      --tw-backdrop-grayscale: initial;
+      --tw-backdrop-hue-rotate: initial;
+      --tw-backdrop-invert: initial;
+      --tw-backdrop-opacity: initial;
+      --tw-backdrop-saturate: initial;
+      --tw-backdrop-sepia: initial;
+    }
+  }
+}
+</style><style data-vite-dev-id="D:/WebHookCatch.com/src/pages/index.astro?astro&amp;type=style&amp;index=0&amp;lang.css">.nav-bar[data-astro-cid-lcdefpme] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 64px;
+  background-color: #fffc;
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.nav-inner[data-astro-cid-lcdefpme] {
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.nav-brand[data-astro-cid-lcdefpme] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--color-ink);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -.3px;
+}
+
+.nav-links[data-astro-cid-lcdefpme] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link[data-astro-cid-lcdefpme] {
+  color: var(--color-body);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  transition: color .15s, background-color .15s;
+}
+
+.nav-link[data-astro-cid-lcdefpme]:hover {
+  color: var(--color-ink);
+  background-color: var(--color-canvas-soft-2);
+}
+
+.hero[data-astro-cid-lcdefpme] {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 128px 24px 96px;
+  text-align: center;
+}
+
+.hero-content[data-astro-cid-lcdefpme] {
+  max-width: 680px;
+  animation: .5s ease-out fadeIn;
+}
+
+.hero-eyebrow[data-astro-cid-lcdefpme] {
+  margin-bottom: 24px;
+}
+
+.hero-title[data-astro-cid-lcdefpme] {
+  margin: 0 0 24px;
+  color: var(--color-ink);
+}
+
+.hero-subtitle[data-astro-cid-lcdefpme] {
+  margin: 0 0 40px;
+  color: var(--color-body);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-actions[data-astro-cid-lcdefpme] {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.features-section[data-astro-cid-lcdefpme] {
+  padding: 96px 24px;
+  background-color: var(--color-canvas);
+}
+
+.features-grid[data-astro-cid-lcdefpme] {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.feature-card[data-astro-cid-lcdefpme] {
+  padding: 32px;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.feature-card[data-astro-cid-lcdefpme]:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-level-3);
+}
+
+.feature-icon[data-astro-cid-lcdefpme] {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-canvas-soft-2);
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  color: var(--color-ink);
+}
+
+.feature-card[data-astro-cid-lcdefpme] h3[data-astro-cid-lcdefpme] {
+  margin: 0 0 8px;
+}
+
+.feature-card[data-astro-cid-lcdefpme] p[data-astro-cid-lcdefpme] {
+  margin: 0;
+}
+
+.footer[data-astro-cid-lcdefpme] {
+  padding: 64px 24px;
+  border-top: 1px solid var(--color-hairline);
+  background-color: var(--color-canvas);
+}
+
+.footer-inner[data-astro-cid-lcdefpme] {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.footer-columns[data-astro-cid-lcdefpme] {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+
+.brand-col[data-astro-cid-lcdefpme] {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-brand[data-astro-cid-lcdefpme] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.footer-links-col[data-astro-cid-lcdefpme] {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links-col[data-astro-cid-lcdefpme] a[data-astro-cid-lcdefpme] {
+  color: var(--color-body);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color .15s;
+}
+
+.footer-links-col[data-astro-cid-lcdefpme] a[data-astro-cid-lcdefpme]:hover {
+  color: var(--color-ink);
+}
+
+.footer-bottom[data-astro-cid-lcdefpme] {
+  padding-top: 24px;
+  border-top: 1px solid var(--color-hairline);
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner[data-astro-cid-lcdefpme] {
+  animation: 1s linear infinite spinner;
+}
+
+@media (width <= 768px) {
+  .hero-title[data-astro-cid-lcdefpme] {
+    font-size: 36px;
+    line-height: 40px;
+    letter-spacing: -1.28px;
+  }
+
+  .features-grid[data-astro-cid-lcdefpme] {
+    grid-template-columns: 1fr;
+  }
+}
+</style><script type="module" src="/@vite/client"></script><script type="module" src="/@id/astro/runtime/client/dev-toolbar/entrypoint.js"></script><script>window.__astro_dev_toolbar__ = {"root":"file:///D:/WebHookCatch.com/","version":"7.2.8","debugInfo":""}</script><script type="module" src="/src/layouts/Layout.astro?astro&type=style&index=0&lang.css"></script><script type="module" src="/src/pages/index.astro?astro&type=style&index=0&lang.css"></script></head><body><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"WebhookCatch","url":"https://webhookcatch.com","description":"Free webhook tester and URL generator to inspect, test, and debug HTTP requests and webhooks.","applicationCategory":"DeveloperApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script><nav class="nav-bar" data-astro-cid-lcdefpme><div class="nav-inner" data-astro-cid-lcdefpme><a href="/" class="nav-brand" data-astro-cid-lcdefpme><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-lcdefpme><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" data-astro-cid-lcdefpme></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" data-astro-cid-lcdefpme></path></svg><span data-astro-cid-lcdefpme>WebhookCatch</span></a><div class="nav-links" data-astro-cid-lcdefpme><a href="https://github.com/Sudarshan-Works/WebhookCatch" target="_blank" rel="noopener" class="nav-link" data-astro-cid-lcdefpme>GitHub</a></div></div></nav><main class="hero mesh-gradient" data-astro-cid-lcdefpme><div class="hero-content" data-astro-cid-lcdefpme><div class="hero-eyebrow" data-astro-cid-lcdefpme><span class="badge-secondary text-caption-mono" data-astro-cid-lcdefpme>Free · No signup</span></div><h1 class="hero-title text-heading-1" style="color: var(--color-ink); margin-bottom: 24px; font-weight: 700; letter-spacing: -0.02em;" data-astro-cid-lcdefpme>Free Webhook Tester & URL Generator</h1><p class="hero-subtitle text-body-lg" style="color: var(--color-body); margin-bottom: 40px; max-width: 600px; margin-inline: auto;" data-astro-cid-lcdefpme>Instantly generate a unique URL to test, inspect, and debug incoming webhooks and HTTP requests. No signup required.</p><div class="hero-actions" data-astro-cid-lcdefpme><button id="create-webhook-btn" class="btn-primary" type="button" data-astro-cid-lcdefpme><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-lcdefpme><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" data-astro-cid-lcdefpme></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" data-astro-cid-lcdefpme></path></svg><span id="create-btn-text" data-astro-cid-lcdefpme>Create Webhook URL</span><svg id="create-btn-spinner" class="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none; width: 18px; height: 18px;" data-astro-cid-lcdefpme><line x1="12" y1="2" x2="12" y2="6" data-astro-cid-lcdefpme></line><line x1="12" y1="18" x2="12" y2="22" data-astro-cid-lcdefpme></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76" data-astro-cid-lcdefpme></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07" data-astro-cid-lcdefpme></line><line x1="2" y1="12" x2="6" y2="12" data-astro-cid-lcdefpme></line><line x1="18" y1="12" x2="22" y2="12" data-astro-cid-lcdefpme></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24" data-astro-cid-lcdefpme></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93" data-astro-cid-lcdefpme></line></svg></button></div><p class="hero-meta text-caption" style="color: var(--color-mute); margin-top: 16px;" data-astro-cid-lcdefpme>Active for 7 days · Up to 100 requests · No signup required</p></div></main><section class="features-section" data-astro-cid-lcdefpme><div class="features-grid" data-astro-cid-lcdefpme><div class="feature-card card" data-astro-cid-lcdefpme><div class="feature-icon" data-astro-cid-lcdefpme><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-lcdefpme><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" data-astro-cid-lcdefpme></path></svg></div><h3 class="text-display-sm" data-astro-cid-lcdefpme>Instant setup.</h3><p class="text-body-md" style="color: var(--color-body);" data-astro-cid-lcdefpme>One click to get a unique webhook URL. No signup, no configuration, no friction.</p></div><div class="feature-card card" data-astro-cid-lcdefpme><div class="feature-icon" data-astro-cid-lcdefpme><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-lcdefpme><rect x="3" y="3" width="18" height="18" rx="2" data-astro-cid-lcdefpme></rect><path d="M3 9h18" data-astro-cid-lcdefpme></path><path d="M9 21V9" data-astro-cid-lcdefpme></path></svg></div><h3 class="text-display-sm" data-astro-cid-lcdefpme>Full inspection.</h3><p class="text-body-md" style="color: var(--color-body);" data-astro-cid-lcdefpme>View method, headers, query parameters, and body — beautifully formatted in a developer-first UI.</p></div><div class="feature-card card" data-astro-cid-lcdefpme><div class="feature-icon" data-astro-cid-lcdefpme><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-lcdefpme><circle cx="12" cy="12" r="10" data-astro-cid-lcdefpme></circle><polyline points="12 6 12 12 16 14" data-astro-cid-lcdefpme></polyline></svg></div><h3 class="text-display-sm" data-astro-cid-lcdefpme>7-day sessions.</h3><p class="text-body-md" style="color: var(--color-body);" data-astro-cid-lcdefpme>Each webhook stays active for 7 days and captures up to 100 requests with a live countdown.</p></div></div></section><footer class="footer" data-astro-cid-lcdefpme><div class="footer-inner" data-astro-cid-lcdefpme><div class="footer-columns" data-astro-cid-lcdefpme><div class="footer-col brand-col" data-astro-cid-lcdefpme><div class="footer-brand" data-astro-cid-lcdefpme><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-lcdefpme><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" data-astro-cid-lcdefpme></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" data-astro-cid-lcdefpme></path></svg><span data-astro-cid-lcdefpme>WebhookCatch</span></div><p class="text-caption" style="color: var(--color-mute); margin-top: 12px; max-width: 250px;" data-astro-cid-lcdefpme>The fastest way to test, inspect, and debug webhooks. Built for developers.</p></div><div class="footer-col" data-astro-cid-lcdefpme><h4 class="text-caption-mono" style="color: var(--color-ink); margin-bottom: 12px;" data-astro-cid-lcdefpme>TOOLS</h4><div class="footer-links-col" data-astro-cid-lcdefpme><a href="/stripe-webhook-tester" data-astro-cid-lcdefpme>Stripe Webhook Tester</a><a href="/github-webhook-tester" data-astro-cid-lcdefpme>GitHub Webhook Tester</a><a href="/discord-webhook-tester" data-astro-cid-lcdefpme>Discord Webhook Tester</a><a href="/shopify-webhook-tester" data-astro-cid-lcdefpme>Shopify Webhook Tester</a></div></div><div class="footer-col" data-astro-cid-lcdefpme><h4 class="text-caption-mono" style="color: var(--color-ink); margin-bottom: 12px;" data-astro-cid-lcdefpme>LEARN</h4><div class="footer-links-col" data-astro-cid-lcdefpme><a href="/what-is-a-webhook" data-astro-cid-lcdefpme>What is a Webhook?</a><a href="/webhook-vs-api" data-astro-cid-lcdefpme>Webhook vs API</a><a href="/webhook-discord" data-astro-cid-lcdefpme>Discord Webhook Guide</a></div></div><div class="footer-col" data-astro-cid-lcdefpme><h4 class="text-caption-mono" style="color: var(--color-ink); margin-bottom: 12px;" data-astro-cid-lcdefpme>OPEN SOURCE</h4><div class="footer-links-col" data-astro-cid-lcdefpme><a href="https://github.com/Sudarshan-Works/WebhookCatch" target="_blank" rel="noopener" data-astro-cid-lcdefpme>GitHub Repository</a></div></div></div><div class="footer-bottom text-caption" style="color: var(--color-mute); text-align: center;" data-astro-cid-lcdefpme>&copy; 2026 WebhookCatch. Built on the edge with Cloudflare.</div></div></footer></body></html><script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script><script type="module" src="/@id/D:/WebHookCatch.com/src/pages/index.astro?astro&type=script&index=0&lang.ts"></script>

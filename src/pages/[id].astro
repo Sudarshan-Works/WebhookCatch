@@ -91,10 +91,19 @@ const { id } = Astro.params;
         <div class="sidebar-list" id="request-list">
           <div class="empty-state" id="empty-state">
             <div class="pulse-indicator">
-              <span class="pulse-dot"></span>
+              <div class="pulse-ring"></div>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-ink); position: relative; z-index: 2;">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
             </div>
-            <p class="text-body-sm-strong" style="color: var(--color-ink); margin: 8px 0 4px;">Waiting for first request</p>
-            <p class="text-caption" style="color: var(--color-mute);">Send a request to your webhook URL</p>
+            <p class="text-body-sm-strong" style="color: var(--color-ink); margin: 16px 0 4px;">Listening for events...</p>
+            <p class="text-caption" style="color: var(--color-mute); margin: 0 0 24px; line-height: 1.4;">Send a request to your webhook URL.</p>
+            
+            <div class="skeleton-list">
+              <div class="skeleton-item"></div>
+              <div class="skeleton-item"></div>
+              <div class="skeleton-item"></div>
+            </div>
           </div>
         </div>
       </aside>
@@ -119,7 +128,15 @@ const { id } = Astro.params;
 
         <div class="detail-content" id="detail-content" style="display: none;">
           <!-- Request Meta Grid -->
-          <div class="detail-meta-grid" id="detail-summary">
+          <div class="detail-summary" id="detail-summary">
+            <div class="detail-summary-left">
+              <button class="btn-ghost mobile-back-btn" id="btn-mobile-back" aria-label="Back to requests" style="display: none; padding: 6px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+              </button>
+              <h2 class="text-display-xs" style="margin: 0;">Request Details</h2>
+            </div>
+          </div>
+          <div class="detail-meta-grid">
             <div class="meta-item">
               <span class="meta-label">Method</span>
               <span class="badge-method" id="detail-method">GET</span>
@@ -364,7 +381,7 @@ const { id } = Astro.params;
   </div>
 </Layout>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
 <script>
@@ -452,10 +469,15 @@ const { id } = Astro.params;
   // Copy URL
   copyBtn.addEventListener('click', async () => {
     await navigator.clipboard.writeText(webhookUrl);
-    copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-    setTimeout(() => {
-      copyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
-    }, 2000);
+    // @ts-ignore
+    if (window.showToast) window.showToast('Copied URL to clipboard');
+  });
+
+  // Mobile Back Button
+  const btnMobileBack = document.getElementById('btn-mobile-back') as HTMLButtonElement;
+  const dashboardApp = document.getElementById('dashboard-app') as HTMLElement;
+  btnMobileBack.addEventListener('click', () => {
+    dashboardApp.classList.remove('is-viewing-detail');
   });
 
   // Tabs
@@ -852,6 +874,7 @@ const { id } = Astro.params;
     selectedId = req.id;
     detailEmpty.style.display = 'none';
     detailContent.style.display = 'flex';
+    dashboardApp.classList.add('is-viewing-detail');
 
     // Method & Path
     detailMethod.className = methodClass(req.method);
@@ -928,9 +951,8 @@ const { id } = Astro.params;
       btnCopyJson.style.display = isJson ? 'inline-flex' : 'none';
       btnCopyJson.onclick = () => {
         navigator.clipboard.writeText(formattedJson);
-        const orig = btnCopyJson.textContent;
-        btnCopyJson.textContent = 'Copied!';
-        setTimeout(() => btnCopyJson.textContent = orig, 2000);
+        // @ts-ignore
+        if (window.showToast) window.showToast('Copied JSON payload');
       };
     }
     
@@ -945,9 +967,8 @@ const { id } = Astro.params;
         curl += ` \\\n  -d "${escapedBody}"`;
       }
       navigator.clipboard.writeText(curl);
-      const orig = btnCopyCurl.textContent;
-      btnCopyCurl.textContent = 'Copied!';
-      setTimeout(() => btnCopyCurl.textContent = orig, 2000);
+      // @ts-ignore
+      if (window.showToast) window.showToast('Copied cURL command');
     };
 
     // Raw
@@ -1031,6 +1052,53 @@ const { id } = Astro.params;
   }
 
   connectStream();
+
+  // Keyboard Shortcuts
+  document.addEventListener('keydown', (e) => {
+    // Ignore if typing in an input or textarea
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) {
+      if (e.key === 'Escape') {
+        (e.target as HTMLElement).blur();
+      }
+      return;
+    }
+
+    if (e.key === 'c') {
+      btnCopyUrl.click();
+    } else if (e.key === '/') {
+      e.preventDefault();
+      searchInput.focus();
+    } else if (e.key === 'j' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (filteredRequests.length > 0) {
+        const currentIndex = filteredRequests.findIndex(r => r.id === selectedId);
+        const nextIndex = currentIndex < filteredRequests.length - 1 ? currentIndex + 1 : 0;
+        selectRequest(filteredRequests[nextIndex]);
+        // scroll sidebar to next element
+        const el = requestList.querySelector(`[data-request-id="${filteredRequests[nextIndex].id}"]`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    } else if (e.key === 'k' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (filteredRequests.length > 0) {
+        const currentIndex = filteredRequests.findIndex(r => r.id === selectedId);
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : filteredRequests.length - 1;
+        selectRequest(filteredRequests[prevIndex]);
+        // scroll sidebar to prev element
+        const el = requestList.querySelector(`[data-request-id="${filteredRequests[prevIndex].id}"]`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    } else if (e.key === 'r' && selectedId !== null) {
+      document.getElementById('btn-replay')?.click();
+    } else if (e.key === 'Escape') {
+      if (settingsModal.style.display === 'flex') {
+        settingsModal.style.display = 'none';
+      }
+      if (replayModal.style.display === 'flex') {
+        replayModal.style.display = 'none';
+      }
+    }
+  });
 </script>
 
 <style>
@@ -1150,6 +1218,9 @@ const { id } = Astro.params;
   }
 
   .sidebar-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1237,22 +1308,49 @@ const { id } = Astro.params;
   }
 
   .pulse-indicator {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-canvas);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background-color: var(--color-canvas-soft-2);
-    margin-bottom: 16px;
+    margin-bottom: 8px;
+    border: 1px solid var(--color-hairline);
+    position: relative;
+    box-shadow: var(--shadow-level-1);
   }
 
-  .pulse-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: var(--color-link);
-    animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  .pulse-ring {
+    position: absolute;
+    top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-hairline-strong);
+    animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% { transform: scale(0.95); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+
+  .skeleton-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .skeleton-item {
+    width: 100%;
+    height: 64px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(90deg, var(--color-canvas-soft) 25%, var(--color-hairline) 50%, var(--color-canvas-soft) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+  }
+  @keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
   }
 
   /* Meta Grid */
@@ -1380,6 +1478,9 @@ const { id } = Astro.params;
 
   /* Tabs */
   .detail-tabs-container {
+    position: sticky;
+    top: 0;
+    z-index: 20;
     padding: 16px 32px;
     background-color: var(--color-canvas);
     border-bottom: 1px solid var(--color-hairline);
@@ -1579,6 +1680,10 @@ const { id } = Astro.params;
   }
 
   @media (max-width: 768px) {
+    .mobile-back-btn {
+      display: inline-flex !important;
+    }
+
     .dash-header {
       padding: 0 16px;
       gap: 12px;
@@ -1593,19 +1698,47 @@ const { id } = Astro.params;
     }
     
     .dash-body {
-      flex-direction: column;
+      flex-direction: row;
+      overflow: hidden;
+      position: relative;
     }
     
     .dash-sidebar {
       width: 100%;
-      height: 40vh;
+      height: 100%;
       border-right: none;
-      border-bottom: 1px solid var(--color-hairline);
       box-shadow: none;
+      flex-shrink: 0;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .dash-main {
+      width: 100%;
+      height: 100%;
+      flex-shrink: 0;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      background-color: var(--color-canvas);
+      z-index: 30;
+    }
+    
+    .dashboard.is-viewing-detail .dash-sidebar {
+      transform: translateX(-100%);
+    }
+    
+    .dashboard.is-viewing-detail .dash-main {
+      transform: translateX(-100%);
     }
     
     .tab-panel {
       padding: 16px;
+    }
+    
+    .detail-summary, .detail-meta-grid, .detail-actions, .detail-tabs-container {
+      padding-left: 16px;
+      padding-right: 16px;
     }
   }
 </style>
