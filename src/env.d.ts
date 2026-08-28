@@ -9,3 +9,12 @@ type Runtime = import("@astrojs/cloudflare").Runtime<{
 declare namespace App {
   interface Locals extends Runtime {}
 }
+
+declare module "cloudflare:workers" {
+  export interface Env {
+    DB: D1Database;
+    SESSION_LIMITER?: any;
+    WEBHOOK_BURST_LIMITER?: any;
+    TURNSTILE_SECRET_KEY?: string;
+  }
+}

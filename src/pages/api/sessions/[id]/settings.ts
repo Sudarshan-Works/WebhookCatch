@@ -12,7 +12,7 @@ export const POST: APIRoute = async ({ params, request }) => {
     });
   }
 
-  let body;
+  let body: any;
   try {
     body = await request.json();
   } catch (err) {

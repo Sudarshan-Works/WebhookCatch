@@ -17,8 +17,7 @@ function isPrivateIP(ip: string): boolean {
   const parts = ip.split('.').map(Number);
   if (parts.length !== 4) return true; // Invalid format
 
-  const [a, b, c, d] = parts;
-
+  const [a, b] = parts;
   // 0.0.0.0/8
   if (a === 0) return true;
   // 10.0.0.0/8 (Private)
@@ -58,7 +57,7 @@ async function resolveHostname(hostname: string): Promise<string[]> {
 
     if (!response.ok) return [];
 
-    const data = await response.json();
+    const data = await response.json() as any;
     if (!data.Answer) return [];
 
     return data.Answer.filter((r: any) => r.type === 1 || r.type === 28).map((r: any) => r.data);

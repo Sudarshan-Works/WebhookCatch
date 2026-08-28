@@ -170,15 +170,83 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
   }
 
   /* Responsive */
+  @media (max-width: 960px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   @media (max-width: 768px) {
+    .hero {
+      padding: 96px 20px 64px;
+      min-height: auto;
+    }
+
     .hero-title {
       font-size: 36px;
       line-height: 40px;
       letter-spacing: -1.28px;
     }
 
+    .hero-subtitle {
+      margin-bottom: 32px;
+    }
+
+    .features-section {
+      padding: 64px 20px;
+    }
+
     .features-grid {
       grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .feature-card {
+      padding: 24px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero {
+      padding: 80px 16px 48px;
+    }
+
+    .hero-title {
+      font-size: 28px;
+      line-height: 32px;
+      letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      margin-bottom: 28px;
+    }
+
+    .hero-eyebrow {
+      margin-bottom: 16px;
+    }
+
+    .features-section {
+      padding: 48px 16px;
+    }
+
+    .feature-card {
+      padding: 20px;
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      font-size: 17px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      line-height: 20px;
     }
   }
 </style>

@@ -403,10 +403,11 @@ const { id } = Astro.params;
   const detailSize = document.getElementById('detail-size')!;
   const headersTbody = document.getElementById('headers-tbody')!;
   const rawContent = document.getElementById('raw-content')!;
-  const btnCopyJson = document.getElementById('btn-copy-json')!;
-  const btnCopyCurl = document.getElementById('btn-copy-curl')!;
-  const btnReplay = document.getElementById('btn-replay')!;
-  const btnEditReplay = document.getElementById('btn-edit-replay')!;
+  const btnCopyUrl = document.getElementById('copy-url-btn') as HTMLButtonElement;
+  const btnCopyJson = document.getElementById('btn-copy-json') as HTMLButtonElement;
+  const btnCopyCurl = document.getElementById('btn-copy-curl') as HTMLButtonElement;
+  const btnReplay = document.getElementById('btn-replay') as HTMLButtonElement;
+  const btnEditReplay = document.getElementById('btn-edit-replay') as HTMLButtonElement;
   const queryTbody = document.getElementById('query-tbody')!;
   const queryEmpty = document.getElementById('query-empty')!;
   const queryTable = document.getElementById('query-table')!;
@@ -414,10 +415,10 @@ const { id } = Astro.params;
   const bodyContent = document.getElementById('body-content')!;
   const bodyEmpty = document.getElementById('body-empty')!;
 
-  const btnSettings = document.getElementById('btn-settings')!;
+  const btnSettings = document.getElementById('btn-settings') as HTMLButtonElement;
   const settingsModal = document.getElementById('settings-modal')!;
-  const btnCloseSettings = document.getElementById('btn-close-settings')!;
-  const btnSaveSettings = document.getElementById('btn-save-settings')!;
+  const btnCloseSettings = document.getElementById('btn-close-settings') as HTMLButtonElement;
+  const btnSaveSettings = document.getElementById('btn-save-settings') as HTMLButtonElement;
   const settingStatus = document.getElementById('setting-status') as HTMLInputElement;
   const settingDelay = document.getElementById('setting-delay') as HTMLInputElement;
   const settingHeaders = document.getElementById('setting-headers') as HTMLTextAreaElement;
@@ -503,9 +504,9 @@ const { id } = Astro.params;
   let expiresAt: number | null = null;
 
   const searchInput = document.getElementById('search-input') as HTMLInputElement;
-  const filterMethod = document.getElementById('filter-method') as HTMLSelectElement;
-  const filterStatus = document.getElementById('filter-status') as HTMLSelectElement;
-  const filterProvider = document.getElementById('filter-provider') as HTMLSelectElement;
+  const filterMethod = document.getElementById('filter-method') as unknown as HTMLSelectElement;
+  const filterStatus = document.getElementById('filter-status') as unknown as HTMLSelectElement;
+  const filterProvider = document.getElementById('filter-provider') as unknown as HTMLSelectElement;
 
   function applyFilters() {
     const q = (searchInput?.value || '').toLowerCase();
@@ -582,8 +583,8 @@ const { id } = Astro.params;
 
   // Replay Logic
   const replayModal = document.getElementById('replay-modal')!;
-  const btnCloseModal = document.getElementById('btn-close-modal')!;
-  const btnSendReplay = document.getElementById('btn-send-replay')!;
+  const btnCloseModal = document.getElementById('btn-close-modal') as HTMLButtonElement;
+  const btnSendReplay = document.getElementById('btn-send-replay') as HTMLButtonElement;
   const replayMethod = document.getElementById('replay-method') as HTMLSelectElement;
   const replayUrl = document.getElementById('replay-url') as HTMLInputElement;
   const replayHeaders = document.getElementById('replay-headers') as HTMLTextAreaElement;
