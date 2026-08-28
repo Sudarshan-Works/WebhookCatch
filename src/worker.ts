@@ -9,7 +9,7 @@ export default {
     return handler.fetch(request, env, ctx);
   },
   async scheduled(event: any, env: any, ctx: any) {
-    const db = env.DB;
+    const db = (env as any).DB;
     const now = Date.now();
     try {
       console.log(`[Cron] Running scheduled cleanup at ${new Date(now).toISOString()}`);

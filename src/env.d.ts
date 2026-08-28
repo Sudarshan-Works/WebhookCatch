@@ -16,5 +16,6 @@ declare module "cloudflare:workers" {
     SESSION_LIMITER?: any;
     WEBHOOK_BURST_LIMITER?: any;
     TURNSTILE_SECRET_KEY?: string;
+    RESEND_API_KEY?: string;
   }
 }

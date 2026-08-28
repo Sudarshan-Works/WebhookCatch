@@ -585,7 +585,7 @@ const { id } = Astro.params;
   const replayModal = document.getElementById('replay-modal')!;
   const btnCloseModal = document.getElementById('btn-close-modal') as HTMLButtonElement;
   const btnSendReplay = document.getElementById('btn-send-replay') as HTMLButtonElement;
-  const replayMethod = document.getElementById('replay-method') as HTMLSelectElement;
+  const replayMethod = document.getElementById('replay-method') as unknown as HTMLSelectElement;
   const replayUrl = document.getElementById('replay-url') as HTMLInputElement;
   const replayHeaders = document.getElementById('replay-headers') as HTMLTextAreaElement;
   const replayQuery = document.getElementById('replay-query') as HTMLTextAreaElement;
@@ -639,7 +639,7 @@ const { id } = Astro.params;
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      const data = await res.json();
+      const data = await res.json() as any;
 
       replayResSection.style.display = 'block';
       if (data.error) {

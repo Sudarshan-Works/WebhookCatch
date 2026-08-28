@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+const title = "About Us - WebhookCatch";
+const description = "Learn more about WebhookCatch and our mission to simplify webhook testing for developers.";
+---
+
+<Layout title={title} description={description}>
+  <Navbar />
+  <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
+    <h1 class="text-heading-1" style="margin-bottom: 24px; font-weight: 700;">About Us</h1>
+    <p class="text-body-lg" style="color: var(--color-body); margin-bottom: 48px;">Building the fastest, most reliable way to test and debug webhooks in real-time.</p>
+
+    <div class="content-body" style="color: var(--color-body); display: flex; flex-direction: column; gap: 24px;">
+      <h2 class="text-heading-3">Our Mission</h2>
+      <p>WebhookCatch was built out of frustration with existing webhook testing tools. Developers need a fast, secure, and modern way to inspect incoming HTTP requests without worrying about outdated UI, missing features, or expensive paywalls. Our mission is to provide the best free webhook testing experience on the internet.</p>
+
+      <h2 class="text-heading-3">Why We Built WebhookCatch</h2>
+      <p>APIs and webhooks are the backbone of the modern internet. Whether you are integrating Stripe payments, GitHub actions, or Discord bots, you need to see exactly what payload the provider is sending to your server.</p>
+      <p>WebhookCatch gives you an instant, unique URL to catch these payloads in real-time. We engineered our platform on edge infrastructure to ensure that no matter where the webhook provider is located, your requests are caught and displayed instantly.</p>
+
+      <h2 class="text-heading-3">Built for Developers</h2>
+      <ul style="padding-left: 20px;">
+        <li><strong>Real-Time Updates:</strong> Watch requests stream in without refreshing the page.</li>
+        <li><strong>Privacy First:</strong> Your payloads are ephemeral and strictly tied to your session. We automatically purge old data.</li>
+        <li><strong>Modern UI:</strong> A clean, responsive interface that feels like a premium SaaS product, not an old tool from 2012.</li>
+      </ul>
+
+      <h2 class="text-heading-3">Get in Touch</h2>
+      <p>We are always looking to improve WebhookCatch. If you have feature requests, bug reports, or just want to say hi, reach out to us at <strong>contact@webhookcatch.com</strong> or visit our <a href="/contact" style="color: var(--color-primary); font-weight: 600;">Contact Page</a>.</p>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  @media (max-width: 768px) {
+    main { padding-top: 80px !important; padding-left: 16px !important; padding-right: 16px !important; }
+  }
+</style>

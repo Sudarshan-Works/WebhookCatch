@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+const title = "Terms and Conditions - WebhookCatch";
+const description = "Terms and Conditions of use for WebhookCatch.";
+---
+
+<Layout title={title} description={description}>
+  <Navbar />
+  <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
+    <h1 class="text-heading-1" style="margin-bottom: 24px; font-weight: 700;">Terms and Conditions</h1>
+    <p class="text-body-sm" style="color: var(--color-gray-500); margin-bottom: 48px;">Last updated: August 2026</p>
+
+    <div class="content-body" style="color: var(--color-body); display: flex; flex-direction: column; gap: 24px;">
+      <p>Welcome to WebhookCatch!</p>
+      <p>These terms and conditions outline the rules and regulations for the use of WebhookCatch's Website, located at webhookcatch.com.</p>
+      <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use WebhookCatch if you do not agree to take all of the terms and conditions stated on this page.</p>
+
+      <h2 class="text-heading-3">1. Acceptable Use Policy</h2>
+      <p>WebhookCatch is designed as a developer tool for testing and debugging HTTP callbacks. You agree not to use WebhookCatch for any malicious, illegal, or abusive purposes.</p>
+      <p>Specifically, you must not:</p>
+      <ul style="padding-left: 20px;">
+        <li>Use the service to orchestrate DDoS attacks or HTTP floods.</li>
+        <li>Send unlawful, abusive, or highly sensitive confidential material (like credit card numbers or passwords) through the service. Data transmitted is temporarily stored in our database.</li>
+        <li>Attempt to bypass our rate limits or abuse protections.</li>
+        <li>Use automated scripts to generate thousands of unused sessions (bots will be blocked by our security layers).</li>
+      </ul>
+
+      <h2 class="text-heading-3">2. Limitation of Liability</h2>
+      <p>The Service is provided "as is" and "as available" without any warranties. WebhookCatch, its owners, and operators will not be liable for any indirect, incidental, or consequential damages resulting from the use or inability to use the service.</p>
+      <p>We do not guarantee that the service will be available 100% of the time or that webhook requests will never be dropped.</p>
+
+      <h2 class="text-heading-3">3. Intellectual Property Rights</h2>
+      <p>Unless otherwise stated, WebhookCatch and/or its licensors own the intellectual property rights for all material on WebhookCatch. All intellectual property rights are reserved. You may access this from WebhookCatch for your own personal use subjected to restrictions set in these terms and conditions.</p>
+
+      <h2 class="text-heading-3">4. Modifications to the Service</h2>
+      <p>We reserve the right to modify or discontinue, temporarily or permanently, the service (or any part thereof) with or without notice. We shall not be liable to you or to any third party for any modification, suspension, or discontinuance of the service.</p>
+
+      <h2 class="text-heading-3">5. Contact Us</h2>
+      <p>If you have any questions about these Terms, please contact us at <strong>contact@webhookcatch.com</strong>.</p>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  @media (max-width: 768px) {
+    main { padding-top: 80px !important; padding-left: 16px !important; padding-right: 16px !important; }
+  }
+</style>
