@@ -2,6 +2,7 @@ name = "webhookcatch"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
+
 [[d1_databases]]
 binding = "DB"
 database_name = "webhookcatch-db"
@@ -11,19 +12,12 @@ database_id = "00000000-0000-0000-0000-000000000000"
 crons = [ "* * * * *" ] # Run every minute
 migrations_dir = "migrations"
 
-[[ratelimits]]
-name = "SESSION_LIMITER"
-namespace_id = "webhookcatch_session"
-[ratelimits.simple]
-limit = 10
-period = 60
+[[kv_namespaces]]
+binding = "SESSION"
+id = "0469c1c2b4d644dfa15974646a905d0e"
+migrations_dir = "migrations"
 
-[[ratelimits]]
-name = "WEBHOOK_BURST_LIMITER"
-namespace_id = "webhookcatch_burst"
-[ratelimits.simple]
-limit = 50
-period = 10
+
 
 [vars]
 TURNSTILE_SECRET_KEY = ""
