@@ -47,7 +47,6 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
         btnText.textContent = originalText;
         btnSpinner.style.display = 'none';
         const icon = btn.querySelector('svg:not(.spinner)');
-        // @ts-ignore
         if (icon) (icon.style.display = 'block');
       }
     });
@@ -59,7 +58,6 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
       btnText.textContent = 'Creating…';
       btnSpinner.style.display = 'block';
       const icon = btn.querySelector('svg:not(.spinner)');
-      // @ts-ignore
       if (icon) (icon.style.display = 'none');
 
       try {
@@ -75,12 +73,10 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
           document.getElementById('turnstile-container').style.display = 'block';
           btn.style.display = 'none';
           
-          // @ts-ignore
           if (window.turnstile) {
-            // @ts-ignore
             window.turnstile.render('#turnstile-container', {
               sitekey: siteKey,
-              callback: async function(token: string) {
+              callback: async function(token) {
                 // Retry session creation with token
                 const retryRes = await fetch('/api/sessions', {
                   method: 'POST',
@@ -93,7 +89,6 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
                   window.location.href = `/${retryData.id}`;
                 } else {
                   alert("Failed to verify challenge. Please try again.");
-                  // @ts-ignore
                   window.turnstile.reset();
                 }
               }
@@ -109,14 +104,13 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
         btn.style.cursor = 'pointer';
         btnText.textContent = originalText;
         btnSpinner.style.display = 'none';
-        // @ts-ignore
         if (icon) (icon.style.display = 'block');
         console.error('Failed to create session', err);
       }
     });
   }
 
-  function saveRecentSession(id: string) {
+  function saveRecentSession(id) {
     try {
       const MAX_SESSIONS = 5;
       const key = 'webhookcatch_recent_sessions';
@@ -126,7 +120,7 @@ const turnstileSiteKey = (env as any).TURNSTILE_SITE_KEY || '1x00000000000000000
         sessions = JSON.parse(stored);
       }
       // Remove if it already exists to move it to the top
-      sessions = sessions.filter((s: any) => s.id !== id);
+      sessions = sessions.filter((s) => s.id !== id);
       sessions.unshift({ id, timestamp: Date.now() });
       if (sessions.length > MAX_SESSIONS) {
         sessions = sessions.slice(0, MAX_SESSIONS);

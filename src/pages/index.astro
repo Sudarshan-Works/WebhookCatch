@@ -50,7 +50,7 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
             const list = document.getElementById('recent-sessions-list');
             if (container && list) {
               list.innerHTML = '';
-              sessions.forEach((s: any) => {
+              sessions.forEach((s) => {
                 const a = document.createElement('a');
                 a.href = `/${s.id}`;
                 a.className = 'recent-session-link';

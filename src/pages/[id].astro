@@ -504,7 +504,7 @@ if (!isValidSession) {
     if (stored) {
       sessions = JSON.parse(stored);
     }
-    sessions = sessions.filter((s: any) => s.id !== sessionId);
+    sessions = sessions.filter((s) => s.id !== sessionId);
     sessions.unshift({ id: sessionId, timestamp: Date.now() });
     if (sessions.length > MAX_SESSIONS) {
       sessions = sessions.slice(0, MAX_SESSIONS);
