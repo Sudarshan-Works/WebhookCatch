@@ -75,11 +75,11 @@ const handler: APIRoute = async ({ params, request }) => {
   }
 
   // Check request limit
-  if ((session.request_count as number) >= 100) {
+  if ((session.request_count as number) >= 500) {
     return new Response(
       JSON.stringify({
         ok: false,
-        error: "Request limit reached (100 requests)",
+        error: "Request limit reached (500 requests)",
       }),
       {
         status: 429,
