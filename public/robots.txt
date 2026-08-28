@@ -1,5 +1,6 @@
 User-agent: *
+Allow: /
 Disallow: /w/
 Disallow: /api/
-Disallow: /*
-Allow: /$
+
+Sitemap: https://webhookcatch.com/sitemap-index.xml
