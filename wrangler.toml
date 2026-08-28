@@ -5,17 +5,15 @@ compatibility_flags = ["nodejs_compat"]
 
 [[d1_databases]]
 binding = "DB"
-database_name = "webhookcatch-db"
-database_id = "00000000-0000-0000-0000-000000000000"
+database_name = "webhookcatch"
+database_id = "6206b37d-aa88-493f-a521-c3704760f693"
 
 [triggers]
 crons = [ "* * * * *" ] # Run every minute
-migrations_dir = "migrations"
 
 [[kv_namespaces]]
 binding = "SESSION"
-id = "0469c1c2b4d644dfa15974646a905d0e"
-migrations_dir = "migrations"
+id = "f805ba1691a3417ab6c2e2b2023f176a"
 
 
 
