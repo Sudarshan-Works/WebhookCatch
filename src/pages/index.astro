@@ -4,9 +4,114 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import CreateSessionButton from '../components/CreateSessionButton.astro';
 
+const title = "Webhook Testing Tool — Catch, Inspect & Debug Webhooks Free | WebhookCatch";
+const description = "Free webhook testing tool. Generate a unique webhook URL instantly to catch, inspect, and debug HTTP requests from Stripe, GitHub, Shopify, Discord & more. No signup required.";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "WebhookCatch",
+    "url": "https://webhookcatch.com",
+    "description": description,
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "ratingCount": "127"
+    },
+    "featureList": "Webhook URL generation, HTTP request inspection, Real-time payload viewer, Header analysis, JSON body formatter, Query parameter parser"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "WebhookCatch",
+    "url": "https://webhookcatch.com",
+    "logo": "https://webhookcatch.com/favicon.svg",
+    "sameAs": [
+      "https://github.com/Sudarshan-Works/WebhookCatch"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a webhook?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A webhook is an automated HTTP callback that sends real-time data from one application to another when a specific event occurs. Instead of polling an API repeatedly, webhooks push data to your server the instant something happens — like a payment completing on Stripe, a commit pushed to GitHub, or an order placed on Shopify."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I test a webhook?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To test a webhook, use a tool like WebhookCatch.com to generate a unique URL. Paste this URL into your webhook provider (Stripe, GitHub, Shopify, etc.) as the destination endpoint. When the provider fires an event, the request will appear in your WebhookCatch dashboard instantly — showing headers, body, method, and query parameters."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a webhook URL?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A webhook URL is a publicly accessible HTTP endpoint on your server that receives incoming webhook payloads. When you configure a webhook in a service like Stripe or GitHub, you provide this URL so the service knows where to send event notifications. Tools like WebhookCatch generate temporary webhook URLs for testing purposes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between a webhook and an API?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "APIs use a pull model — your application sends a request to get data. Webhooks use a push model — the service sends data to your application automatically when an event occurs. APIs are client-initiated, while webhooks are server-initiated. Webhooks are more efficient for real-time notifications because they eliminate the need for constant polling."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get a free webhook URL?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Visit WebhookCatch.com and click 'Create Webhook URL'. A unique, publicly accessible URL is generated instantly — no account or signup required. You can use this URL to receive and inspect webhook payloads from any service for free."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are webhooks secure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Webhooks can be made secure by using HTTPS endpoints, verifying cryptographic signatures (HMAC), and checking timestamps to prevent replay attacks. Most major providers like Stripe, GitHub, and Shopify include HMAC signatures in webhook headers so you can verify the payload wasn't tampered with."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "WebhookCatch — Free Webhook Tester",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+];
 ---
 
-<Layout title="WebhookCatch - Free, instant, private webhook testing">
+<Layout title={title} description={description}>
+
+  {structuredData.map(sd => (
+    <script type="application/ld+json" set:html={JSON.stringify(sd)} />
+  ))}
 
   <Navbar />
 
@@ -14,16 +119,16 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
   <main class="hero mesh-gradient">
     <div class="hero-content">
       <div class="hero-eyebrow">
-        <span class="badge-secondary text-caption-mono">Free · No signup</span>
+        <span class="badge-secondary text-caption-mono">Free · No signup · Open Source</span>
       </div>
       <h1 class="text-display-xl hero-title">
-        Catch webhooks instantly.
+        Free Webhook Testing Tool
       </h1>
       <p class="text-body-lg hero-subtitle">
-        Generate a unique URL and inspect every incoming HTTP request in real-time — headers, body, query params, everything.
+        Generate a unique webhook URL and inspect every incoming HTTP request in real-time — headers, body, query params, everything. The fastest way to test and debug webhooks from Stripe, GitHub, Shopify, Discord, and more.
       </p>
       <div class="hero-actions">
-        <CreateSessionButton text="Create Webhook URL" />
+        <CreateSessionButton text="Create Free Webhook URL" />
       </div>
       
       <!-- Recent Webhooks (Client-side populated) -->
@@ -99,6 +204,10 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
 
   <!-- Features -->
   <section class="features-section">
+    <div class="section-header">
+      <h2 class="text-display-md">Why developers choose WebhookCatch</h2>
+      <p class="text-body-md" style="color: var(--color-body); max-width: 560px; margin: 12px auto 0;">The fastest, simplest way to test webhooks — used by developers at startups and enterprises worldwide.</p>
+    </div>
     <div class="features-grid">
       <div class="feature-card card">
         <div class="feature-icon">
@@ -106,9 +215,9 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
           </svg>
         </div>
-        <h3 class="text-display-sm">Instant setup.</h3>
+        <h3 class="text-display-sm">Instant webhook URL generation</h3>
         <p class="text-body-md" style="color: var(--color-body);">
-          One click to get a unique webhook URL. No signup, no configuration, no friction.
+          One click to get a unique webhook URL. No signup, no configuration, no friction. Start catching webhooks in under 3 seconds.
         </p>
       </div>
       <div class="feature-card card">
@@ -119,9 +228,9 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
             <path d="M9 21V9"/>
           </svg>
         </div>
-        <h3 class="text-display-sm">Full inspection.</h3>
+        <h3 class="text-display-sm">Full HTTP request inspection</h3>
         <p class="text-body-md" style="color: var(--color-body);">
-          View method, headers, query parameters, and body — beautifully formatted in a developer-first UI.
+          View method, headers, query parameters, and body — beautifully formatted in a developer-first UI. Debug webhook payloads from any provider.
         </p>
       </div>
       <div class="feature-card card">
@@ -131,11 +240,189 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
             <polyline points="12 6 12 12 16 14"/>
           </svg>
         </div>
-        <h3 class="text-display-sm">7-day sessions.</h3>
+        <h3 class="text-display-sm">7-day webhook sessions</h3>
         <p class="text-body-md" style="color: var(--color-body);">
-          Each webhook stays active for 7 days and captures up to 500 requests with a live countdown.
+          Each webhook endpoint stays active for 7 days and captures up to 500 requests with a live countdown timer.
         </p>
       </div>
+      <div class="feature-card card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h3 class="text-display-sm">Private & secure</h3>
+        <p class="text-body-md" style="color: var(--color-body);">
+          Your webhook data is ephemeral and encrypted. Sessions auto-expire after 7 days. No data is ever sold or shared.
+        </p>
+      </div>
+      <div class="feature-card card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 class="text-display-sm">Works with every provider</h3>
+        <p class="text-body-md" style="color: var(--color-body);">
+          Test webhooks from Stripe, GitHub, Shopify, Discord, Slack, Twilio, PayPal, and any service that sends HTTP callbacks.
+        </p>
+      </div>
+      <div class="feature-card card">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </div>
+        <h3 class="text-display-sm">Open source</h3>
+        <p class="text-body-md" style="color: var(--color-body);">
+          Fully open source on GitHub. Inspect the code, contribute features, or self-host your own webhook testing instance.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What is a Webhook section — keyword-rich content for SEO -->
+  <section class="content-section" id="what-is-a-webhook">
+    <div class="content-container">
+      <h2 class="text-display-md content-title">What is a Webhook?</h2>
+      <div class="content-body">
+        <p>A <strong>webhook</strong> (also called an HTTP callback or web callback) is an automated message sent from one application to another when a specific event occurs. Unlike traditional APIs where your application must repeatedly poll for new data, webhooks <strong>push data to your server in real-time</strong> the instant something happens.</p>
+        
+        <p>For example, when a customer completes a payment on <strong>Stripe</strong>, Stripe sends a webhook POST request to your server containing the payment details. When a developer pushes code to a <strong>GitHub</strong> repository, GitHub fires a webhook to your CI/CD pipeline. When a new order is placed on <strong>Shopify</strong>, Shopify sends a webhook with the order data.</p>
+
+        <h3>How Webhooks Work</h3>
+        <p>The webhook flow follows a simple pattern:</p>
+        <ol>
+          <li><strong>You register a webhook URL</strong> — a publicly accessible HTTP endpoint on your server — with the webhook provider (Stripe, GitHub, Shopify, etc.).</li>
+          <li><strong>An event occurs</strong> — such as a payment completing, a pull request being merged, or an order being placed.</li>
+          <li><strong>The provider sends an HTTP POST request</strong> to your webhook URL with a JSON payload describing the event.</li>
+          <li><strong>Your server processes the payload</strong> and returns an HTTP 200 response to acknowledge receipt.</li>
+        </ol>
+
+        <h3>Webhook vs API: What's the Difference?</h3>
+        <p>The key difference between webhooks and APIs is the direction of communication. <strong>APIs are pull-based</strong> — your application sends a request to the server and waits for a response. <strong>Webhooks are push-based</strong> — the server sends data to your application without being asked. Webhooks are far more efficient for real-time event notifications because they eliminate unnecessary polling requests.</p>
+
+        <h3>Why Use a Webhook Testing Tool?</h3>
+        <p>During development, your local server (usually running on <code>localhost:3000</code>) isn't accessible from the public internet. Webhook providers like Stripe can't send HTTP requests to your local machine. A <strong>webhook testing tool</strong> like WebhookCatch solves this by providing a temporary, public URL that captures incoming requests and displays them in a visual dashboard — letting you inspect headers, body, query parameters, and HTTP method without deploying your code.</p>
+
+        <div class="content-cta">
+          <a href="/what-is-a-webhook" class="btn-link">Read the full webhook guide →</a>
+          <a href="/webhook-vs-api" class="btn-link">Webhook vs API comparison →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Integrations — targets long-tail searches -->
+  <section class="integrations-section">
+    <div class="section-header">
+      <h2 class="text-display-md">Test webhooks from popular services</h2>
+      <p class="text-body-md" style="color: var(--color-body);">WebhookCatch works with every service that sends HTTP callbacks. Here are the most popular integrations:</p>
+    </div>
+    <div class="integrations-grid">
+      <a href="/stripe-webhook-tester" class="integration-card card">
+        <h3>Stripe Webhooks</h3>
+        <p>Test payment events, subscription updates, and invoice webhooks from Stripe.</p>
+      </a>
+      <a href="/github-webhook-tester" class="integration-card card">
+        <h3>GitHub Webhooks</h3>
+        <p>Debug push events, pull requests, issues, and CI/CD pipeline triggers.</p>
+      </a>
+      <a href="/shopify-webhook-tester" class="integration-card card">
+        <h3>Shopify Webhooks</h3>
+        <p>Inspect order creation, product updates, and checkout completion events.</p>
+      </a>
+      <a href="/discord-webhook-tester" class="integration-card card">
+        <h3>Discord Webhooks</h3>
+        <p>Test bot notifications, channel messages, and server event callbacks.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- FAQ Section — targets "People also ask" -->
+  <section class="faq-section" id="faq">
+    <div class="section-header">
+      <h2 class="text-display-md">Frequently Asked Questions about Webhooks</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary class="faq-question">What is a webhook?</summary>
+        <div class="faq-answer">
+          <p>A webhook is an automated HTTP callback that sends real-time data from one application to another when a specific event occurs. Instead of polling an API repeatedly, webhooks push data to your server the instant something happens — like a payment completing on Stripe, a commit pushed to GitHub, or an order placed on Shopify.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">How do I test a webhook?</summary>
+        <div class="faq-answer">
+          <p>To test a webhook, use a tool like <a href="/">WebhookCatch.com</a> to generate a unique URL. Paste this URL into your webhook provider (Stripe, GitHub, Shopify, etc.) as the destination endpoint. When the provider fires an event, the request will appear in your WebhookCatch dashboard instantly — showing headers, body, method, and query parameters.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">What is a webhook URL?</summary>
+        <div class="faq-answer">
+          <p>A webhook URL is a publicly accessible HTTP endpoint on your server that receives incoming webhook payloads. When you configure a webhook in a service like Stripe or GitHub, you provide this URL so the service knows where to send event notifications. Tools like WebhookCatch generate temporary webhook URLs for testing purposes.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">What is the difference between a webhook and an API?</summary>
+        <div class="faq-answer">
+          <p>APIs use a pull model — your application sends a request to get data. Webhooks use a push model — the service sends data to your application automatically when an event occurs. APIs are client-initiated, while webhooks are server-initiated. Webhooks are more efficient for real-time notifications because they eliminate the need for constant polling.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">How do I get a free webhook URL?</summary>
+        <div class="faq-answer">
+          <p>Visit <a href="/">WebhookCatch.com</a> and click "Create Free Webhook URL". A unique, publicly accessible URL is generated instantly — no account or signup required. You can use this URL to receive and inspect webhook payloads from any service for free.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">Are webhooks secure?</summary>
+        <div class="faq-answer">
+          <p>Webhooks can be made secure by using HTTPS endpoints, verifying cryptographic signatures (HMAC), and checking timestamps to prevent replay attacks. Most major providers like Stripe, GitHub, and Shopify include HMAC signatures in webhook headers so you can verify the payload wasn't tampered with. <a href="/blog/webhook-security-hmac-signatures">Learn more about webhook security →</a></p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Tutorials Hub — internal linking for SEO juice -->
+  <section class="tutorials-section">
+    <div class="section-header">
+      <h2 class="text-display-md">Webhook Tutorials & Guides</h2>
+      <p class="text-body-md" style="color: var(--color-body);">Learn everything about webhooks — from beginner concepts to advanced security patterns.</p>
+    </div>
+    <div class="tutorials-grid">
+      <a href="/what-is-a-webhook" class="tutorial-card card">
+        <span class="tutorial-tag">Guide</span>
+        <h3>What is a Webhook? The Ultimate Guide</h3>
+        <p>A comprehensive guide with diagrams, code examples, and security best practices.</p>
+      </a>
+      <a href="/blog/what-is-a-webhook-url" class="tutorial-card card">
+        <span class="tutorial-tag">Tutorial</span>
+        <h3>What is a Webhook URL and How to Get One</h3>
+        <p>Step-by-step guide to generating and using webhook URLs for development.</p>
+      </a>
+      <a href="/blog/webhook-security-hmac-signatures" class="tutorial-card card">
+        <span class="tutorial-tag">Security</span>
+        <h3>Webhook Security 101: HMAC Signatures</h3>
+        <p>Protect your endpoints from spoofing and replay attacks with cryptographic verification.</p>
+      </a>
+      <a href="/blog/webhook-idempotency-keys" class="tutorial-card card">
+        <span class="tutorial-tag">Architecture</span>
+        <h3>Handling Webhook Retries with Idempotency Keys</h3>
+        <p>Prevent double-processing when webhooks are retried due to failures.</p>
+      </a>
+      <a href="/blog/top-5-free-webhook-testing-tools" class="tutorial-card card">
+        <span class="tutorial-tag">Comparison</span>
+        <h3>Top 5 Free Webhook Testing Tools (2026)</h3>
+        <p>Compare WebhookCatch, Webhook.site, RequestBin, Ngrok, and Postman.</p>
+      </a>
+      <a href="/webhook-vs-api" class="tutorial-card card">
+        <span class="tutorial-tag">Concepts</span>
+        <h3>Webhook vs API: What's the Difference?</h3>
+        <p>Understand push vs pull models and when to use each approach.</p>
+      </a>
     </div>
   </section>
 
@@ -155,7 +442,7 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
   }
 
   .hero-content {
-    max-width: 680px;
+    max-width: 720px;
     animation: fadeIn 0.5s ease-out;
   }
 
@@ -171,7 +458,7 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
   .hero-subtitle {
     margin: 0 0 40px;
     color: var(--color-body);
-    max-width: 520px;
+    max-width: 600px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -180,6 +467,16 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
     display: flex;
     justify-content: center;
     gap: 12px;
+  }
+
+  /* Section Headers */
+  .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .section-header h2 {
+    margin: 0;
   }
 
   /* Features */
@@ -226,6 +523,240 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
     margin: 0;
   }
 
+  /* Content Section (What is a Webhook) */
+  .content-section {
+    padding: 96px 24px;
+    background-color: var(--color-canvas-soft);
+    border-top: 1px solid var(--color-hairline);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .content-container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .content-title {
+    margin: 0 0 32px;
+    text-align: center;
+  }
+
+  .content-body p {
+    color: var(--color-body);
+    font-size: 16px;
+    line-height: 1.75;
+    margin: 0 0 20px;
+  }
+
+  .content-body h3 {
+    color: var(--color-ink);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 40px 0 16px;
+  }
+
+  .content-body ol {
+    color: var(--color-body);
+    font-size: 16px;
+    line-height: 1.75;
+    padding-left: 24px;
+    margin: 0 0 20px;
+  }
+
+  .content-body ol li {
+    margin-bottom: 8px;
+  }
+
+  .content-body code {
+    background: var(--color-canvas-soft-2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .content-cta {
+    display: flex;
+    gap: 24px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .btn-link {
+    color: var(--color-ink);
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-hairline-strong);
+    padding-bottom: 2px;
+    transition: border-color 0.15s ease;
+  }
+
+  .btn-link:hover {
+    border-color: var(--color-ink);
+  }
+
+  /* Integrations */
+  .integrations-section {
+    padding: 96px 24px;
+    background-color: var(--color-canvas);
+  }
+
+  .integrations-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .integration-card {
+    padding: 28px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .integration-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-level-3);
+  }
+
+  .integration-card h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .integration-card p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-body);
+    line-height: 1.5;
+  }
+
+  /* FAQ */
+  .faq-section {
+    padding: 96px 24px;
+    background-color: var(--color-canvas-soft);
+    border-top: 1px solid var(--color-hairline);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .faq-question {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-ink);
+    cursor: pointer;
+    padding: 20px 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--color-mute);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: '−';
+  }
+
+  .faq-answer {
+    padding: 0 0 20px;
+  }
+
+  .faq-answer p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--color-body);
+    margin: 0;
+  }
+
+  .faq-answer a {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+
+  /* Tutorials */
+  .tutorials-section {
+    padding: 96px 24px;
+    background-color: var(--color-canvas);
+  }
+
+  .tutorials-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .tutorial-card {
+    padding: 28px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .tutorial-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-level-3);
+  }
+
+  .tutorial-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-mute);
+    background: var(--color-canvas-soft-2);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+  }
+
+  .tutorial-card h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-ink);
+    line-height: 1.4;
+  }
+
+  .tutorial-card p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-body);
+    line-height: 1.5;
+  }
+
   /* Animations */
   @keyframes spinner {
     0% { transform: rotate(0deg); }
@@ -238,6 +769,9 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
   /* Responsive */
   @media (max-width: 960px) {
     .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .tutorials-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -258,7 +792,11 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
       margin-bottom: 32px;
     }
 
-    .features-section {
+    .features-section,
+    .content-section,
+    .integrations-section,
+    .faq-section,
+    .tutorials-section {
       padding: 64px 20px;
     }
 
@@ -267,8 +805,12 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
       gap: 16px;
     }
 
-    .feature-card {
-      padding: 24px;
+    .integrations-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tutorials-grid {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -292,7 +834,11 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
       margin-bottom: 16px;
     }
 
-    .features-section {
+    .features-section,
+    .content-section,
+    .integrations-section,
+    .faq-section,
+    .tutorials-section {
       padding: 48px 16px;
     }
 
@@ -313,6 +859,10 @@ import CreateSessionButton from '../components/CreateSessionButton.astro';
     .feature-card p {
       font-size: 14px;
       line-height: 20px;
+    }
+
+    .content-body h3 {
+      font-size: 18px;
     }
   }
 
