@@ -79,6 +79,10 @@ html, body {
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 *, *::before, *::after {
@@ -401,5 +405,112 @@ html, body {
 
 .toast-error svg {
   color: #ff5f56;
+}
+
+/* ─── Focus Visible ─── */
+:focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 2px;
+}
+
+/* ─── Responsive Typography ─── */
+
+/* Tablet: 768px */
+@media (max-width: 768px) {
+  .text-display-xl {
+    font-size: 36px;
+    line-height: 40px;
+    letter-spacing: -1.8px;
+  }
+
+  .text-display-lg {
+    font-size: 26px;
+    line-height: 32px;
+    letter-spacing: -1px;
+  }
+
+  .text-display-md {
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: -0.6px;
+  }
+
+  .text-body-lg {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .btn-primary {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
+
+  .toast-container {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+  }
+
+  .toast {
+    font-size: 12px;
+  }
+}
+
+/* Small mobile: 480px */
+@media (max-width: 480px) {
+  .text-display-xl {
+    font-size: 28px;
+    line-height: 32px;
+    letter-spacing: -1.2px;
+  }
+
+  .text-display-lg {
+    font-size: 22px;
+    line-height: 28px;
+    letter-spacing: -0.8px;
+  }
+
+  .text-display-md {
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: -0.4px;
+  }
+
+  .text-display-sm {
+    font-size: 17px;
+    line-height: 24px;
+    letter-spacing: -0.3px;
+  }
+
+  .text-body-lg {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .text-body-md {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .btn-primary {
+    font-size: 14px;
+    padding: 10px 18px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-secondary {
+    font-size: 14px;
+    padding: 10px 18px;
+    width: 100%;
+    justify-content: center;
+  }
 }
 

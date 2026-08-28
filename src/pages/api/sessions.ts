@@ -50,7 +50,7 @@ export const POST: APIRoute = async ({ request }) => {
   if (count >= SECURITY_CONFIG.TURNSTILE_TRIGGER_THRESHOLD) {
     let turnstileToken = "";
     try {
-      const body = await request.clone().json();
+      const body = await request.clone().json() as any;
       turnstileToken = body.turnstileToken;
     } catch {}
 
@@ -73,7 +73,7 @@ export const POST: APIRoute = async ({ request }) => {
         method: "POST",
         body: formData,
       });
-      const outcome = await res.json();
+      const outcome = await res.json() as any;
       if (!outcome.success) {
         return new Response(JSON.stringify({ ok: false, error: "Invalid Turnstile token" }), {
           status: 403,
