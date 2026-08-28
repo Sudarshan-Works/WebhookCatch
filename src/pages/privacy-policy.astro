@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+const title = "Privacy Policy - WebhookCatch";
+const description = "Privacy Policy for WebhookCatch.";
+---
+
+<Layout title={title} description={description}>
+  <Navbar />
+  <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
+    <h1 class="text-heading-1" style="margin-bottom: 24px; font-weight: 700;">Privacy Policy</h1>
+    <p class="text-body-sm" style="color: var(--color-gray-500); margin-bottom: 48px;">Last updated: August 2026</p>
+
+    <div class="content-body" style="color: var(--color-body); display: flex; flex-direction: column; gap: 24px;">
+      <p>At WebhookCatch, accessible from webhookcatch.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by WebhookCatch and how we use it.</p>
+
+      <h2 class="text-heading-3">1. Information We Collect</h2>
+      <p>We collect information to provide better services to all our users. When you use WebhookCatch to generate URLs and test HTTP requests, we temporarily store the incoming webhook request data (headers, body, query parameters) in our secure database.</p>
+      <p>This data is securely isolated to your unique session URL and is automatically deleted after 7 days or when you manually delete the session.</p>
+
+      <h2 class="text-heading-3">2. How We Use Your Information</h2>
+      <p>We use the information we collect in various ways, including to:</p>
+      <ul style="padding-left: 20px;">
+        <li>Provide, operate, and maintain our website</li>
+        <li>Improve, personalize, and expand our website</li>
+        <li>Understand and analyze how you use our website</li>
+        <li>Protect against abuse, spam, and malicious usage (e.g., via Cloudflare Turnstile)</li>
+      </ul>
+
+      <h2 class="text-heading-3">3. Third-Party Services</h2>
+      <p>We use Cloudflare Turnstile to protect our site from spam and abuse. Turnstile acts as a CAPTCHA alternative that verifies you are a real user without compromising your privacy. Cloudflare may collect non-personally identifiable telemetry to verify your session.</p>
+
+      <h2 class="text-heading-3">4. Data Retention</h2>
+      <p>We do not permanently store your webhook payloads. All webhook request data is strictly ephemeral and purged from our database after 7 days of inactivity. We do not sell or share this data with third parties.</p>
+
+      <h2 class="text-heading-3">5. Contact Us</h2>
+      <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us at <strong>contact@webhookcatch.com</strong>.</p>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  @media (max-width: 768px) {
+    main { padding-top: 80px !important; padding-left: 16px !important; padding-right: 16px !important; }
+  }
+</style>

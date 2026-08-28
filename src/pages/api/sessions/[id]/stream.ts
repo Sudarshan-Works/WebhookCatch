@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
 
 export const GET: APIRoute = async ({ params, request }) => {
-  const db = env.DB;
+  const db = (env as any).DB;
   const sessionId = params.id;
 
   let isCancelled = false;

@@ -4,8 +4,8 @@ import { env } from "cloudflare:workers";
 import { SECURITY_CONFIG } from "../../config/security";
 
 export const POST: APIRoute = async ({ request }) => {
-  const db = env.DB;
-  const limiter = env.SESSION_LIMITER;
+  const db = (env as any).DB;
+  const limiter = (env as any).SESSION_LIMITER;
 
   // 1. Determine Fingerprint
   const ip = request.headers.get("cf-connecting-ip") || "unknown";
@@ -62,7 +62,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Verify Turnstile
-    const secretKey = env.TURNSTILE_SECRET_KEY;
+    const secretKey = (env as any).TURNSTILE_SECRET_KEY;
     if (secretKey) {
       const formData = new FormData();
       formData.append("secret", secretKey);
