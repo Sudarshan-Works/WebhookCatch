@@ -1,7 +1,35 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { env } from "cloudflare:workers";
 
 const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect('/404');
+}
+
+const db = (env as any).DB;
+let isValidSession = false;
+
+try {
+  const session = await db
+    .prepare("SELECT id, expires_at FROM sessions WHERE id = ?")
+    .bind(id)
+    .first();
+  
+  if (session) {
+    if (Date.now() <= (session.expires_at as number)) {
+      isValidSession = true;
+    }
+  }
+} catch (e) {
+  // If DB fails (e.g. locally without Wrangler), we might allow it to load and fail on the client
+  console.error("Failed to verify session:", e);
+}
+
+if (!isValidSession) {
+  return Astro.redirect('/404');
+}
 ---
 
 <Layout title={`WebhookCatch — Session ${id}`} description="Inspect incoming webhook requests in real-time." noindex={true}>
