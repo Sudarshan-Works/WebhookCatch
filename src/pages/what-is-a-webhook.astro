@@ -15,15 +15,55 @@ const jsonLd = {
       "name": "What is a webhook?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A webhook is an HTTP-based callback function that allows lightweight, event-driven communication between two APIs. It automatically sends data to a specified URL when a specific event occurs."
+        "text": "A webhook is an HTTP-based callback function that allows lightweight, event-driven communication between two APIs. It automatically sends data to a specified URL when a specific event occurs, serving as a real-time HTTP push API."
       }
     },
     {
       "@type": "Question",
-      "name": "How is a webhook different from an API?",
+      "name": "What is a webhook URL or endpoint?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "An API requires you to constantly poll or ask for data, whereas a webhook pushes data to you automatically as soon as an event happens."
+        "text": "A webhook URL (or webhook endpoint) is the destination address that a webhook provider sends data to. It is an internet-accessible HTTP route configured to receive POST requests containing event data."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a webhook vs API?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An API requires you to constantly poll or ask for data, whereas a webhook pushes data to you automatically as soon as an event happens. APIs pull data; webhooks push data."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a webhook used for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Webhooks are used for real-time notifications and system integrations. Common examples include receiving alerts when a payment succeeds, getting a message when code is pushed to a repository, or syncing customer data between CRM platforms."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How to create a webhook?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To create a webhook, you must set up a web server that can accept HTTP POST requests. Once your server provides a public URL endpoint, you configure that URL in the source application's webhook settings."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the types of webhooks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There are generally two types of webhooks: 'incoming webhooks' that receive data into a platform (like posting a message to Discord or Slack), and 'outgoing webhooks' that send data out of a platform when an event occurs (like Stripe sending you a payment receipt)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a Teams or Discord webhook URL?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Teams or Discord webhook URL is a special endpoint provided by those chat applications. By sending a JSON payload to that URL, external apps or bots can automatically post messages into specific chat channels."
       }
     }
   ]
@@ -63,6 +103,46 @@ const jsonLd = {
     <p class="text-body" style="color: var(--color-body); margin-bottom: 48px;">
       That's where a Webhook Tester comes in. By using a tool like <a href="/">WebhookCatch</a>, you can instantly generate a unique URL, plug it into the third-party service, and watch the HTTP requests stream in.
     </p>
+
+    <h2 class="text-heading-2" style="margin-top: 64px; margin-bottom: 24px;">Frequently Asked Questions</h2>
+    <div style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 64px;">
+      
+      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
+        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What is a webhook?</h3>
+        <p class="text-body" style="color: var(--color-body); margin: 0;">A webhook is an HTTP-based callback function that allows lightweight, event-driven communication between two APIs. It automatically sends data to a specified URL when a specific event occurs, serving as a real-time HTTP push API.</p>
+      </div>
+
+      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
+        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What is a webhook URL or endpoint?</h3>
+        <p class="text-body" style="color: var(--color-body); margin: 0;">A webhook URL (or webhook endpoint) is the destination address that a webhook provider sends data to. It is an internet-accessible HTTP route configured to receive POST requests containing event data.</p>
+      </div>
+
+      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
+        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What is a webhook vs API?</h3>
+        <p class="text-body" style="color: var(--color-body); margin: 0;">An API requires you to constantly poll or ask for data, whereas a webhook pushes data to you automatically as soon as an event happens. APIs pull data; webhooks push data.</p>
+      </div>
+
+      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
+        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What is a webhook used for?</h3>
+        <p class="text-body" style="color: var(--color-body); margin: 0;">Webhooks are used for real-time notifications and system integrations. Common examples include receiving alerts when a payment succeeds, getting a message when code is pushed to a repository, or syncing customer data between CRM platforms.</p>
+      </div>
+
+      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
+        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">How to create a webhook?</h3>
+        <p class="text-body" style="color: var(--color-body); margin: 0;">To create a webhook, you must set up a web server that can accept HTTP POST requests. Once your server provides a public URL endpoint, you configure that URL in the source application's webhook settings.</p>
+      </div>
+
+      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
+        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What are the types of webhooks?</h3>
+        <p class="text-body" style="color: var(--color-body); margin: 0;">There are generally two types of webhooks: 'incoming webhooks' that receive data into a platform (like posting a message to Discord or Slack), and 'outgoing webhooks' that send data out of a platform when an event occurs (like Stripe sending you a payment receipt).</p>
+      </div>
+
+      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
+        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What is a Teams or Discord webhook URL?</h3>
+        <p class="text-body" style="color: var(--color-body); margin: 0;">A Teams or Discord webhook URL is a special endpoint provided by those chat applications. By sending a JSON payload to that URL, external apps or bots can automatically post messages into specific chat channels.</p>
+      </div>
+
+    </div>
 
     <div style="text-align: center; margin-top: 64px; padding: 48px; background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 12px;">
       <h3 class="text-heading-3" style="margin-bottom: 16px;">Ready to test a webhook?</h3>
