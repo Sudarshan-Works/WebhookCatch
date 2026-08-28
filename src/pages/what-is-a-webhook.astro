@@ -3,70 +3,26 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 
-const title = "What is a Webhook? A Complete Guide for Developers - WebhookCatch";
-const description = "Learn what a webhook is, how it works, and how it differs from a traditional API. Read our comprehensive guide with examples.";
+const title = "What is a Webhook? The Ultimate Guide for Developers (2026)";
+const description = "Learn exactly what a webhook is, how it works, and how it differs from APIs. A comprehensive guide with diagrams, code examples in Node/Python/PHP, and security best practices.";
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is a webhook?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A webhook is an HTTP-based callback function that allows lightweight, event-driven communication between two APIs. It automatically sends data to a specified URL when a specific event occurs, serving as a real-time HTTP push API."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a webhook URL or endpoint?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A webhook URL (or webhook endpoint) is the destination address that a webhook provider sends data to. It is an internet-accessible HTTP route configured to receive POST requests containing event data."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a webhook vs API?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "An API requires you to constantly poll or ask for data, whereas a webhook pushes data to you automatically as soon as an event happens. APIs pull data; webhooks push data."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a webhook used for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Webhooks are used for real-time notifications and system integrations. Common examples include receiving alerts when a payment succeeds, getting a message when code is pushed to a repository, or syncing customer data between CRM platforms."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How to create a webhook?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To create a webhook, you must set up a web server that can accept HTTP POST requests. Once your server provides a public URL endpoint, you configure that URL in the source application's webhook settings."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are the types of webhooks?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "There are generally two types of webhooks: 'incoming webhooks' that receive data into a platform (like posting a message to Discord or Slack), and 'outgoing webhooks' that send data out of a platform when an event occurs (like Stripe sending you a payment receipt)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a Teams or Discord webhook URL?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A Teams or Discord webhook URL is a special endpoint provided by those chat applications. By sending a JSON payload to that URL, external apps or bots can automatically post messages into specific chat channels."
-      }
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "author": {
+    "@type": "Person",
+    "name": "Sudarshan Chavan"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WebhookCatch",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://webhookcatch.com/favicon.svg"
     }
-  ]
+  }
 };
 ---
 
@@ -75,78 +31,224 @@ const jsonLd = {
 
   <Navbar />
 
-  <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
-    <h1 class="text-heading-1" style="margin-bottom: 24px; font-weight: 700;">What is a Webhook?</h1>
-    <p class="text-body-lg" style="color: var(--color-body); margin-bottom: 48px;">
-      A webhook (also called a web callback or HTTP push API) is a way for an app to provide other applications with real-time information. Unlike traditional APIs where you have to poll for data frequently, a webhook delivers data to other applications as it happens.
-    </p>
-
-    <h2 class="text-heading-2" style="margin-bottom: 16px;">How does a webhook work?</h2>
-    <p class="text-body" style="color: var(--color-body); margin-bottom: 24px;">
-      When an event occurs in the source application (like a new user signing up, or a payment succeeding), it triggers an HTTP request (usually a <code>POST</code> request) to a destination URL that you configure. This destination URL is known as the webhook endpoint.
-    </p>
-    <div style="background: var(--color-surface); padding: 24px; border-radius: 8px; border: 1px solid var(--color-hairline); margin-bottom: 48px;">
-      <code style="font-family: monospace; display: block; margin-bottom: 8px;">Event Happens ➔ Application ➔ HTTP POST ➔ Your Webhook Endpoint</code>
-    </div>
-
-    <h2 class="text-heading-2" style="margin-bottom: 16px;">Common Use Cases</h2>
-    <ul class="text-body" style="color: var(--color-body); margin-bottom: 48px; padding-left: 20px;">
-      <li style="margin-bottom: 8px;"><strong>Payment Gateways (Stripe, PayPal):</strong> Notifying your database when a subscription renews or a payment fails.</li>
-      <li style="margin-bottom: 8px;"><strong>CI/CD & Source Control (GitHub, GitLab):</strong> Triggering an automated build pipeline when a developer pushes code.</li>
-      <li style="margin-bottom: 8px;"><strong>Chat Apps (Slack, Discord):</strong> Sending an automated message to a channel when a specific event happens on your server.</li>
-    </ul>
-
-    <h2 class="text-heading-2" style="margin-bottom: 16px;">How to test webhooks?</h2>
-    <p class="text-body" style="color: var(--color-body); margin-bottom: 24px;">
-      When you are building an integration that relies on webhooks, you need a way to see exactly what payload the provider is sending you. Because webhooks are sent from a third-party server directly to a URL, you can't just view them in your browser network tab.
-    </p>
-    <p class="text-body" style="color: var(--color-body); margin-bottom: 48px;">
-      That's where a Webhook Tester comes in. By using a tool like <a href="/">WebhookCatch</a>, you can instantly generate a unique URL, plug it into the third-party service, and watch the HTTP requests stream in.
-    </p>
-
-    <h2 class="text-heading-2" style="margin-top: 64px; margin-bottom: 24px;">Frequently Asked Questions</h2>
-    <div style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 64px;">
+  <main class="guide-layout">
+    <div class="guide-container">
       
-      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
-        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What is a webhook?</h3>
-        <p class="text-body" style="color: var(--color-body); margin: 0;">A webhook is an HTTP-based callback function that allows lightweight, event-driven communication between two APIs. It automatically sends data to a specified URL when a specific event occurs, serving as a real-time HTTP push API.</p>
-      </div>
+      <!-- Table of Contents Sidebar -->
+      <aside class="guide-sidebar hidden-mobile">
+        <div class="toc-sticky">
+          <h4 class="text-caption" style="color: var(--color-mute); margin-bottom: 16px; text-transform: uppercase;">Table of Contents</h4>
+          <ul class="toc-list">
+            <li><a href="#introduction">What is a Webhook?</a></li>
+            <li><a href="#how-it-works">How Webhooks Work</a></li>
+            <li><a href="#api-vs-webhook">API Polling vs Webhooks</a></li>
+            <li><a href="#code-examples">How to Receive Webhooks (Code)</a></li>
+            <li><a href="#security">Security & Reliability</a></li>
+            <li><a href="#testing">Testing Webhooks Locally</a></li>
+          </ul>
+        </div>
+      </aside>
 
-      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
-        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What is a webhook URL or endpoint?</h3>
-        <p class="text-body" style="color: var(--color-body); margin: 0;">A webhook URL (or webhook endpoint) is the destination address that a webhook provider sends data to. It is an internet-accessible HTTP route configured to receive POST requests containing event data.</p>
-      </div>
+      <!-- Main Content -->
+      <article class="guide-content">
+        
+        <!-- Header -->
+        <header style="margin-bottom: 64px;">
+          <div class="badge" style="display: inline-block; padding: 4px 12px; background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 16px; font-size: 13px; font-weight: 500; color: var(--color-mute); margin-bottom: 16px;">
+            Developer Guides
+          </div>
+          <h1 class="text-display" style="font-weight: 800; margin-bottom: 24px; letter-spacing: -1px;">
+            What is a <span style="color: var(--color-primary);">Webhook?</span><br/>The Ultimate Guide.
+          </h1>
+          <p class="text-body-lg" style="color: var(--color-body); max-width: 600px; font-size: 20px; line-height: 32px;">
+            A complete, visual breakdown of webhooks, how they differ from traditional APIs, and exactly how to implement them securely in your next project.
+          </p>
+        </header>
 
-      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
-        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What is a webhook vs API?</h3>
-        <p class="text-body" style="color: var(--color-body); margin: 0;">An API requires you to constantly poll or ask for data, whereas a webhook pushes data to you automatically as soon as an event happens. APIs pull data; webhooks push data.</p>
-      </div>
+        <section id="introduction" style="margin-bottom: 64px;">
+          <h2 class="text-heading-2" style="margin-bottom: 24px;">Introduction: The "Push" API</h2>
+          <p class="text-body" style="margin-bottom: 16px;">
+            At its core, a <strong>webhook</strong> (sometimes called a web callback or an HTTP push API) is a way for one application to send real-time data to another application as soon as a specific event happens.
+          </p>
+          <p class="text-body" style="margin-bottom: 16px;">
+            Instead of requiring you to constantly ask a server, "Did the user pay yet? Did they pay yet?", a webhook flips the script. You give the server a URL, and the server promises to send a message (usually a JSON payload) to that URL the exact millisecond the payment succeeds.
+          </p>
+          <div style="background: #f8fafc; border-left: 4px solid var(--color-primary); padding: 24px; border-radius: 0 8px 8px 0; margin-top: 32px;">
+            <p style="margin: 0; font-size: 15px; color: #334155;">
+              <strong>TL;DR:</strong> An API is when <em>you</em> call a server to pull data. A webhook is when a <em>server</em> calls your API to push data to you.
+            </p>
+          </div>
+        </section>
 
-      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
-        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What is a webhook used for?</h3>
-        <p class="text-body" style="color: var(--color-body); margin: 0;">Webhooks are used for real-time notifications and system integrations. Common examples include receiving alerts when a payment succeeds, getting a message when code is pushed to a repository, or syncing customer data between CRM platforms.</p>
-      </div>
+        <section id="how-it-works" style="margin-bottom: 64px;">
+          <h2 class="text-heading-2" style="margin-bottom: 24px;">How does it actually work?</h2>
+          <p class="text-body" style="margin-bottom: 32px;">
+            The webhook flow consists of three main steps: the event, the payload, and your endpoint.
+          </p>
+          
+          <div class="process-grid">
+            <div class="process-card">
+              <div class="process-num">1</div>
+              <h3 style="font-size: 18px; margin-bottom: 12px; font-weight: 600;">The Trigger Event</h3>
+              <p style="font-size: 15px; color: var(--color-body); line-height: 24px;">A customer successfully purchases a product on your Stripe checkout page.</p>
+            </div>
+            <div class="process-card">
+              <div class="process-num">2</div>
+              <h3 style="font-size: 18px; margin-bottom: 12px; font-weight: 600;">The Payload</h3>
+              <p style="font-size: 15px; color: var(--color-body); line-height: 24px;">Stripe instantly packages the customer's payment details into a JSON object.</p>
+            </div>
+            <div class="process-card">
+              <div class="process-num">3</div>
+              <h3 style="font-size: 18px; margin-bottom: 12px; font-weight: 600;">The POST Request</h3>
+              <p style="font-size: 15px; color: var(--color-body); line-height: 24px;">Stripe sends that JSON payload via an HTTP POST request to your designated webhook URL.</p>
+            </div>
+          </div>
+        </section>
 
-      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
-        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">How to create a webhook?</h3>
-        <p class="text-body" style="color: var(--color-body); margin: 0;">To create a webhook, you must set up a web server that can accept HTTP POST requests. Once your server provides a public URL endpoint, you configure that URL in the source application's webhook settings.</p>
-      </div>
+        <section id="api-vs-webhook" style="margin-bottom: 64px;">
+          <h2 class="text-heading-2" style="margin-bottom: 24px;">API Polling vs. Webhooks</h2>
+          <p class="text-body" style="margin-bottom: 32px;">
+            Before webhooks, developers had to use "API Polling". This meant running a cron job every 60 seconds to ask the server if anything changed. This wasted massive amounts of bandwidth and computing power.
+          </p>
+          
+          <div class="comparison-visual">
+            <div class="comp-box polling">
+              <h4 style="margin-bottom: 16px; font-size: 16px;">API Polling (Inefficient)</h4>
+              <div class="anim-row">
+                <span class="client">Your Server</span>
+                <div class="anim-arrow">
+                  <div class="arrow-line"></div>
+                  <span style="font-size: 12px; background: white; padding: 0 4px; position: relative; z-index: 2;">"Any updates?"</span>
+                </div>
+                <span class="server">Stripe</span>
+              </div>
+              <div class="anim-row">
+                <span class="client">Your Server</span>
+                <div class="anim-arrow reverse">
+                  <div class="arrow-line"></div>
+                  <span style="font-size: 12px; background: white; padding: 0 4px; position: relative; z-index: 2;">"No."</span>
+                </div>
+                <span class="server">Stripe</span>
+              </div>
+            </div>
+            
+            <div class="comp-box webhook">
+              <h4 style="margin-bottom: 16px; font-size: 16px;">Webhooks (Real-time)</h4>
+              <div class="anim-row" style="margin-top: 24px;">
+                <span class="client">Your Server</span>
+                <div class="anim-arrow reverse success">
+                  <div class="arrow-line"></div>
+                  <span style="font-size: 12px; background: #f0fdf4; padding: 0 4px; position: relative; z-index: 2; color: #166534;">"Hey! A payment succeeded! Here is the data."</span>
+                </div>
+                <span class="server">Stripe</span>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
-        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What are the types of webhooks?</h3>
-        <p class="text-body" style="color: var(--color-body); margin: 0;">There are generally two types of webhooks: 'incoming webhooks' that receive data into a platform (like posting a message to Discord or Slack), and 'outgoing webhooks' that send data out of a platform when an event occurs (like Stripe sending you a payment receipt).</p>
-      </div>
+        <section id="code-examples" style="margin-bottom: 64px;">
+          <h2 class="text-heading-2" style="margin-bottom: 24px;">How to Receive a Webhook</h2>
+          <p class="text-body" style="margin-bottom: 24px;">
+            To receive a webhook, you just need to create an open HTTP endpoint on your server that accepts `POST` requests. Here are simple examples in various languages:
+          </p>
 
-      <div style="background: var(--color-surface); padding: 24px; border: 1px solid var(--color-hairline); border-radius: 8px;">
-        <h3 class="text-heading-3" style="margin-bottom: 12px; font-weight: 600;">What is a Teams or Discord webhook URL?</h3>
-        <p class="text-body" style="color: var(--color-body); margin: 0;">A Teams or Discord webhook URL is a special endpoint provided by those chat applications. By sending a JSON payload to that URL, external apps or bots can automatically post messages into specific chat channels.</p>
-      </div>
+          <div class="code-tabs">
+            <div class="tabs-header">
+              <button class="tab-btn active" data-target="code-node">Node.js (Express)</button>
+              <button class="tab-btn" data-target="code-python">Python (Flask)</button>
+              <button class="tab-btn" data-target="code-php">PHP</button>
+            </div>
+            
+            <div class="tab-content active" id="code-node">
+<pre is:raw style="margin:0; padding: 24px; background: #1e293b; color: #e2e8f0; border-radius: 0 0 8px 8px; overflow-x: auto;"><code>const express = require('express');
+const app = express();
+app.use(express.json());
 
-    </div>
+// This is your webhook endpoint
+app.post('/webhook', (req, res) => {
+  const payload = req.body;
+  console.log('Webhook received!', payload);
+  
+  // You must return a 2xx status code quickly!
+  res.status(200).send('Webhook processed successfully');
+});
 
-    <div style="text-align: center; margin-top: 64px; padding: 48px; background: var(--color-surface); border: 1px solid var(--color-hairline); border-radius: 12px;">
-      <h3 class="text-heading-3" style="margin-bottom: 16px;">Ready to test a webhook?</h3>
-      <a href="/" class="btn-primary" style="text-decoration: none; display: inline-flex; justify-content: center;">Generate Free Webhook URL</a>
+app.listen(3000, () => console.log('Listening on port 3000'));</code></pre>
+            </div>
+
+            <div class="tab-content" id="code-python" style="display:none;">
+<pre is:raw style="margin:0; padding: 24px; background: #1e293b; color: #e2e8f0; border-radius: 0 0 8px 8px; overflow-x: auto;"><code>from flask import Flask, request, jsonify
+app = Flask(__name__)
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    payload = request.json
+    print('Webhook received!', payload)
+    
+    # Return a 200 OK immediately
+    return jsonify(success=True), 200
+
+if __name__ == '__main__':
+    app.run(port=3000)</code></pre>
+            </div>
+            
+            <div class="tab-content" id="code-php" style="display:none;">
+<pre is:raw style="margin:0; padding: 24px; background: #1e293b; color: #e2e8f0; border-radius: 0 0 8px 8px; overflow-x: auto;"><code>&lt;?php
+// Get the JSON payload
+$payload = file_get_contents('php://input');
+$data = json_decode($payload, true);
+
+// Log or process the data
+error_log('Webhook received: ' . $payload);
+
+// Return 200 OK
+http_response_code(200);
+echo json_encode(["status" => "success"]);
+?&gt;</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section id="security" style="margin-bottom: 64px;">
+          <h2 class="text-heading-2" style="margin-bottom: 24px;">Webhook Security & Best Practices</h2>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <div style="background: var(--color-surface); padding: 24px; border-radius: 8px; border: 1px solid var(--color-hairline);">
+              <h3 style="font-size: 18px; margin-bottom: 12px; font-weight: 600;">1. Verify Signatures (HMAC)</h3>
+              <p style="font-size: 15px; color: var(--color-body); line-height: 24px;">Since your webhook URL is public, anyone can send fake requests to it. Providers (like GitHub or Stripe) include a cryptographic signature in the headers. You must verify this signature to ensure the request is actually from them.</p>
+            </div>
+            
+            <div style="background: var(--color-surface); padding: 24px; border-radius: 8px; border: 1px solid var(--color-hairline);">
+              <h3 style="font-size: 18px; margin-bottom: 12px; font-weight: 600;">2. Respond Quickly</h3>
+              <p style="font-size: 15px; color: var(--color-body); line-height: 24px;">Providers require you to respond with a <code>200 OK</code> within seconds. If your processing takes a long time, save the data to a database queue, respond 200 immediately, and process it in the background.</p>
+            </div>
+
+            <div style="background: var(--color-surface); padding: 24px; border-radius: 8px; border: 1px solid var(--color-hairline);">
+              <h3 style="font-size: 18px; margin-bottom: 12px; font-weight: 600;">3. Handle Retries Safely</h3>
+              <p style="font-size: 15px; color: var(--color-body); line-height: 24px;">If your server crashes and fails to return a 200 OK, the provider will usually retry the webhook later. Make sure your logic is <strong>idempotent</strong>, meaning if you receive the exact same webhook twice, you don't double-charge a customer.</p>
+            </div>
+            
+            <div style="background: var(--color-surface); padding: 24px; border-radius: 8px; border: 1px solid var(--color-hairline);">
+              <h3 style="font-size: 18px; margin-bottom: 12px; font-weight: 600;">4. IP Whitelisting</h3>
+              <p style="font-size: 15px; color: var(--color-body); line-height: 24px;">As an added layer of security, many providers publish a list of their exact IP addresses. You can configure your firewall to block any POST requests to your webhook URL that don't originate from those known IPs.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="testing" style="margin-bottom: 64px;">
+          <h2 class="text-heading-2" style="margin-bottom: 24px;">Testing Webhooks Locally</h2>
+          <p class="text-body" style="margin-bottom: 24px;">
+            The hardest part of building webhooks is testing them while your code is running on `localhost`. Providers like Stripe can't send requests to your local computer because it doesn't have a public IP address.
+          </p>
+          <p class="text-body" style="margin-bottom: 32px;">
+            That's exactly why we built <a href="/" style="color: var(--color-primary); font-weight: 600;">WebhookCatch</a>. You can generate a free, public URL instantly, plug it into your provider, and inspect the incoming JSON payloads live.
+          </p>
+          <div style="text-align: center;">
+            <a href="/" class="btn-primary" style="display: inline-flex; text-decoration: none;">Create a Free Webhook URL Now</a>
+          </div>
+        </section>
+
+      </article>
     </div>
   </main>
 
@@ -154,10 +256,226 @@ const jsonLd = {
 </Layout>
 
 <style>
-  @media (max-width: 768px) {
-    main { padding-top: 80px !important; padding-left: 16px !important; padding-right: 16px !important; }
+  .guide-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px;
   }
-  @media (max-width: 480px) {
-    main { padding-top: 72px !important; padding-left: 12px !important; padding-right: 12px !important; }
+  
+  .guide-container {
+    display: flex;
+    gap: 64px;
+    position: relative;
+    align-items: flex-start;
+  }
+
+  .guide-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+  }
+
+  .toc-sticky {
+    position: sticky;
+    top: 100px;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .toc-list li {
+    margin-bottom: 12px;
+  }
+
+  .toc-list a {
+    color: var(--color-body);
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+  }
+
+  .toc-list a:hover {
+    color: var(--color-primary);
+  }
+
+  .guide-content {
+    flex-grow: 1;
+    max-width: 800px;
+    color: var(--color-ink);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .process-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    padding: 24px;
+    border-radius: 12px;
+    position: relative;
+  }
+
+  .process-num {
+    width: 32px;
+    height: 32px;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  /* Comparison Visual */
+  .comparison-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .comp-box {
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    border-radius: 12px;
+    padding: 32px;
+  }
+
+  .anim-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .client, .server {
+    background: var(--color-canvas);
+    border: 1px solid var(--color-hairline-strong);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 2;
+  }
+
+  .anim-arrow {
+    flex-grow: 1;
+    margin: 0 16px;
+    height: 2px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .arrow-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #cbd5e1;
+    transform: translateY(-50%);
+  }
+
+  .arrow-line::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -4px;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #cbd5e1;
+    border-right: 2px solid #cbd5e1;
+    transform: rotate(45deg);
+  }
+
+  .anim-arrow.reverse .arrow-line::after {
+    right: auto;
+    left: 0;
+    border-top: none;
+    border-right: none;
+    border-bottom: 2px solid #cbd5e1;
+    border-left: 2px solid #cbd5e1;
+  }
+
+  .anim-arrow.success .arrow-line {
+    background: #22c55e;
+  }
+  .anim-arrow.success.reverse .arrow-line::after {
+    border-bottom-color: #22c55e;
+    border-left-color: #22c55e;
+  }
+
+  /* Tabs */
+  .code-tabs {
+    border: 1px solid var(--color-hairline);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .tabs-header {
+    display: flex;
+    background: #f1f5f9;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .tab-btn {
+    padding: 12px 24px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-body);
+    cursor: pointer;
+    border-right: 1px solid var(--color-hairline);
+  }
+
+  .tab-btn.active {
+    background: #1e293b;
+    color: white;
+    border-color: #1e293b;
+  }
+
+  @media (max-width: 900px) {
+    .hidden-mobile {
+      display: none;
+    }
+    .process-grid {
+      grid-template-columns: 1fr;
+    }
+    .guide-container {
+      flex-direction: column;
+    }
+    .comparison-visual > div > div {
+      grid-template-columns: 1fr;
+    }
+    .guide-content section > div[style*="grid-template-columns"] {
+      grid-template-columns: 1fr !important;
+    }
   }
 </style>
+
+<script>
+  // Simple tab logic
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active from all buttons
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      // Hide all contents
+      document.querySelectorAll('.tab-content').forEach(c => (c as HTMLElement).style.display = 'none');
+      
+      // Activate clicked
+      btn.classList.add('active');
+      const target = btn.getAttribute('data-target');
+      if(target) document.getElementById(target).style.display = 'block';
+    });
+  });
+</script>

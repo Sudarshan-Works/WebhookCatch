@@ -1,0 +1,101 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+
+// Sort by date (newest first)
+allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const title = "Webhook Tutorials & Blog - WebhookCatch";
+const description = "Learn how to build, test, and secure webhooks with our in-depth developer tutorials.";
+---
+
+<Layout title={title} description={description}>
+  <Navbar />
+
+  <main style="max-width: 1000px; margin: 0 auto; padding: 100px 24px;">
+    <header style="margin-bottom: 64px; text-align: center;">
+      <h1 class="text-display" style="font-weight: 800; margin-bottom: 24px; letter-spacing: -1px;">
+        Developer <span style="color: var(--color-primary);">Tutorials</span>
+      </h1>
+      <p class="text-body-lg" style="color: var(--color-body); max-width: 600px; margin: 0 auto;">
+        In-depth guides on integrating, testing, and securing webhooks across your favorite platforms.
+      </p>
+    </header>
+
+    <div class="blog-grid">
+      {allPosts.map((post) => (
+        <a href={`/blog/${post.id}`} class="blog-card">
+          <div class="blog-meta">
+            <span class="date">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+          </div>
+          <h2 class="blog-title">{post.data.title}</h2>
+          <p class="blog-desc">{post.data.description}</p>
+          <div class="read-more">Read Tutorial →</div>
+        </a>
+      ))}
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 32px;
+  }
+
+  .blog-card {
+    display: block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    color: var(--color-ink);
+    transition: all 0.2s ease;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-hairline-strong);
+    box-shadow: 0 12px 24px -10px rgba(0,0,0,0.05);
+  }
+
+  .blog-meta {
+    margin-bottom: 12px;
+  }
+
+  .date {
+    font-size: 13px;
+    color: var(--color-mute);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .blog-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .blog-desc {
+    font-size: 15px;
+    color: var(--color-body);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .read-more {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+</style>

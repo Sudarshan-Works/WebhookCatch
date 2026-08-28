@@ -1,0 +1,225 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+// JSON-LD for SEO
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": entry.data.title,
+  "description": entry.data.description,
+  "author": {
+    "@type": "Person",
+    "name": entry.data.author
+  },
+  "datePublished": entry.data.pubDate.toISOString(),
+};
+---
+
+<Layout title={`${entry.data.title} - WebhookCatch`} description={entry.data.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <Navbar />
+
+  <main class="post-layout">
+    <article class="post-content">
+      <header class="post-header">
+        <a href="/blog" class="back-link">← Back to Tutorials</a>
+        <div class="post-meta">
+          <time datetime={entry.data.pubDate.toISOString()}>
+            {entry.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          <span class="dot">•</span>
+          <span>By {entry.data.author}</span>
+        </div>
+        <h1 class="post-title">{entry.data.title}</h1>
+        <p class="post-desc">{entry.data.description}</p>
+      </header>
+
+      <div class="markdown-body">
+        <Content />
+      </div>
+
+      <div class="post-footer">
+        <div class="cta-box">
+          <h3 style="margin-top:0;">Ready to test your webhooks?</h3>
+          <p>Don't wait for your code to deploy. Generate a free public endpoint and inspect payloads instantly.</p>
+          <a href="/" class="btn-primary" style="display:inline-block; text-decoration:none;">Create Webhook URL</a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style is:global>
+  .post-layout {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--color-mute);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 32px;
+    transition: color 0.2s;
+  }
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .post-header {
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .post-meta {
+    color: var(--color-mute);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dot {
+    opacity: 0.5;
+  }
+
+  .post-title {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--color-ink);
+    line-height: 1.2;
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+  }
+
+  .post-desc {
+    font-size: 20px;
+    color: var(--color-body);
+    line-height: 1.6;
+    max-width: 650px;
+  }
+
+  /* Markdown Body Styles */
+  .markdown-body {
+    color: var(--color-ink);
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  .markdown-body h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 48px 0 24px;
+    letter-spacing: -0.5px;
+  }
+
+  .markdown-body h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 32px 0 16px;
+  }
+
+  .markdown-body p {
+    margin-bottom: 24px;
+    color: var(--color-body);
+  }
+
+  .markdown-body a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .markdown-body ul, .markdown-body ol {
+    margin-bottom: 24px;
+    padding-left: 24px;
+    color: var(--color-body);
+  }
+
+  .markdown-body li {
+    margin-bottom: 8px;
+  }
+
+  .markdown-body pre {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 24px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 32px 0;
+    font-size: 15px;
+  }
+
+  .markdown-body code {
+    font-family: monospace;
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--color-ink);
+  }
+
+  .markdown-body pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  .markdown-body blockquote {
+    border-left: 4px solid var(--color-primary);
+    margin: 32px 0;
+    padding: 16px 24px;
+    background: #f8fafc;
+    border-radius: 0 8px 8px 0;
+  }
+  
+  .markdown-body blockquote p {
+    margin: 0;
+    color: #334155;
+    font-style: italic;
+  }
+
+  .post-footer {
+    margin-top: 64px;
+    padding-top: 64px;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .cta-box {
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline-strong);
+    padding: 32px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  .cta-box p {
+    color: var(--color-body);
+    margin-bottom: 24px;
+  }
+</style>
