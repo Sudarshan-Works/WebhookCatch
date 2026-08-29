@@ -1,8 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-
+import SEOLayout from '../layouts/SEOLayout.astro';
 const title = "Webhook.site Alternative: Why Developers Choose WebhookCatch";
 const description = "Looking for a free alternative to Webhook.site? WebhookCatch offers massive free request limits (500) and keeps your debugging sessions private by default.";
 
@@ -18,10 +15,7 @@ const jsonLd = {
 };
 ---
 
-<Layout title={title} description={description}>
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-
-  <Navbar />
+<SEOLayout title={title} description={description} jsonLd={jsonLd}>
 
   <main style="max-width: 900px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
     <div style="text-align: center; margin-bottom: 64px;">
@@ -95,8 +89,7 @@ const jsonLd = {
     </div>
   </main>
 
-  <Footer />
-</Layout>
+  </SEOLayout>
 
 <style>
   @media (max-width: 768px) {

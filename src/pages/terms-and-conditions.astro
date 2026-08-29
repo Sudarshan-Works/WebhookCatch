@@ -1,14 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-
+import SEOLayout from '../layouts/SEOLayout.astro';
 const title = "Terms and Conditions - WebhookCatch";
 const description = "Terms and Conditions of use for WebhookCatch.";
 ---
 
-<Layout title={title} description={description}>
-  <Navbar />
+<SEOLayout title={title} description={description}>
   <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
     <h1 class="text-heading-1" style="margin-bottom: 24px; font-weight: 700;">Terms and Conditions</h1>
     <p class="text-body-sm" style="color: var(--color-gray-500); margin-bottom: 48px;">Last updated: August 2026</p>
@@ -42,8 +38,7 @@ const description = "Terms and Conditions of use for WebhookCatch.";
       <p>If you have any questions about these Terms, please contact us at <strong>contact@webhookcatch.com</strong>.</p>
     </div>
   </main>
-  <Footer />
-</Layout>
+  </SEOLayout>
 
 <style>
   @media (max-width: 768px) {

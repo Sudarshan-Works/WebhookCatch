@@ -1,14 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-
+import SEOLayout from '../layouts/SEOLayout.astro';
 const title = "About Us - WebhookCatch";
 const description = "Learn more about WebhookCatch and our mission to simplify webhook testing for developers.";
 ---
 
-<Layout title={title} description={description}>
-  <Navbar />
+<SEOLayout title={title} description={description}>
   <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
     <h1 class="text-heading-1" style="margin-bottom: 24px; font-weight: 700;">About Us</h1>
     <p class="text-body-lg" style="color: var(--color-body); margin-bottom: 48px;">Building the fastest, most reliable way to test and debug webhooks in real-time.</p>
@@ -32,8 +28,7 @@ const description = "Learn more about WebhookCatch and our mission to simplify w
       <p>We are always looking to improve WebhookCatch. If you have feature requests, bug reports, or just want to say hi, reach out to us at <strong>contact@webhookcatch.com</strong> or visit our <a href="/contact" style="color: var(--color-primary); font-weight: 600;">Contact Page</a>.</p>
     </div>
   </main>
-  <Footer />
-</Layout>
+  </SEOLayout>
 
 <style>
   @media (max-width: 768px) {

@@ -1,0 +1,39 @@
+---
+// SettingsModal.astro
+---
+<div id="settings-modal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="text-body-md" style="font-weight: 600;">Mock Server Settings</h3>
+      <button class="btn-ghost btn-sm" id="btn-close-settings" style="padding: 4px;">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="text-body-sm" style="color: var(--color-mute);">Configure how this webhook endpoint responds to incoming requests.</p>
+      
+      <div class="form-group">
+        <label class="meta-label">HTTP Status Code</label>
+        <input type="number" class="input-text text-code" id="setting-status" placeholder="200" min="100" max="599" />
+      </div>
+      
+      <div class="form-group">
+        <label class="meta-label">Response Delay (ms)</label>
+        <input type="number" class="input-text text-code" id="setting-delay" placeholder="0" min="0" max="30000" />
+      </div>
+
+      <div class="form-group">
+        <label class="meta-label">Custom Headers (JSON)</label>
+        <textarea class="input-textarea text-code" id="setting-headers" rows="3" placeholder='{"X-Custom-Header": "value"}'></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="meta-label">Response Body</label>
+        <textarea class="input-textarea text-code" id="setting-body" rows="4" placeholder='{"ok": true}'></textarea>
+      </div>
+    </div>
+    
+    <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+      <span id="settings-save-msg" class="text-body-sm" style="color: var(--color-success); display: none;">Saved successfully!</span>
+      <button class="btn-primary" id="btn-save-settings" style="margin-left: auto;">Save Settings</button>
+    </div>
+  </div>
+</div>

@@ -27,3 +27,5 @@ CREATE TABLE requests (
 );
 
 CREATE INDEX idx_requests_session_id ON requests(session_id);
+CREATE INDEX idx_sessions_ip ON sessions(ip_fingerprint, created_at);
+CREATE INDEX idx_sessions_expires ON sessions(expires_at);

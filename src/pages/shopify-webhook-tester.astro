@@ -1,7 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
+import SEOLayout from '../layouts/SEOLayout.astro';
 import CreateSessionButton from '../components/CreateSessionButton.astro';
 
 const title = "Shopify Webhook Tester - Inspect Shopify Events";
@@ -18,10 +16,7 @@ const jsonLd = {
 };
 ---
 
-<Layout title={title} description={description}>
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-
-  <Navbar />
+<SEOLayout title={title} description={description} jsonLd={jsonLd}>
 
   <main style="max-width: 800px; margin: 0 auto; padding: 100px 24px; text-align: center; color: var(--color-ink);">
     <div class="hero-content">
@@ -52,8 +47,7 @@ const jsonLd = {
     </div>
   </main>
 
-  <Footer />
-</Layout>
+  </SEOLayout>
 
 <style>
   @media (max-width: 768px) {

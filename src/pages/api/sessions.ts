@@ -9,9 +9,8 @@ export const POST: APIRoute = async ({ request }) => {
 
   // 1. Determine Fingerprint
   const ip = request.headers.get("cf-connecting-ip") || "unknown";
-  const userAgent = request.headers.get("user-agent") || "";
   const encoder = new TextEncoder();
-  const data = encoder.encode(ip + userAgent + "webhookcatch_salt");
+  const data = encoder.encode(ip + "webhookcatch_salt");
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const fingerprint = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("").substring(0, 16);

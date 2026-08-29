@@ -125,7 +125,7 @@ const structuredData = [
         Free Webhook Testing Tool
       </h1>
       <p class="text-body-lg hero-subtitle">
-        Generate a unique webhook URL and inspect every incoming HTTP request in real-time — headers, body, query params, everything. The fastest way to test and debug webhooks from Stripe, GitHub, Shopify, Discord, and more.
+        Instantly generate a unique URL to catch and inspect incoming webhooks in real-time.
       </p>
       <div class="hero-actions">
         <CreateSessionButton text="Create Free Webhook URL" />
@@ -155,7 +155,7 @@ const structuredData = [
             const list = document.getElementById('recent-sessions-list');
             if (container && list) {
               list.innerHTML = '';
-              sessions.forEach((s) => {
+              sessions.forEach((s: any) => {
                 const a = document.createElement('a');
                 a.href = `/${s.id}`;
                 a.className = 'recent-session-link';

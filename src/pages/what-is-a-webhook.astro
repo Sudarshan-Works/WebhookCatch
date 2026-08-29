@@ -1,8 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-
+import SEOLayout from '../layouts/SEOLayout.astro';
 const title = "What is a Webhook? The Ultimate Guide for Developers (2026)";
 const description = "Learn exactly what a webhook is, how it works, and how it differs from APIs. A comprehensive guide with diagrams, code examples in Node/Python/PHP, and security best practices.";
 
@@ -26,10 +23,7 @@ const jsonLd = {
 };
 ---
 
-<Layout title={title} description={description}>
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-
-  <Navbar />
+<SEOLayout title={title} description={description} jsonLd={jsonLd}>
 
   <main class="guide-layout">
     <div class="guide-container">
@@ -252,8 +246,7 @@ echo json_encode(["status" => "success"]);
     </div>
   </main>
 
-  <Footer />
-</Layout>
+  </SEOLayout>
 
 <style>
   .guide-layout {

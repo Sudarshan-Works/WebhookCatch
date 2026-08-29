@@ -12,8 +12,8 @@ const handler: APIRoute = async ({ params, request }) => {
     });
   }
 
-  const db = env.DB;
-  const limiter = env.WEBHOOK_BURST_LIMITER;
+  const db = (env as any).DB;
+  const limiter = (env as any).WEBHOOK_BURST_LIMITER;
 
   // Enforce IP Burst Rate Limit if bound
   if (limiter) {
@@ -106,12 +106,34 @@ const handler: APIRoute = async ({ params, request }) => {
     query[key] = value;
   });
 
-  // Collect body
+  // Collect body with strict memory size limits
   let body = "";
   try {
-    body = await request.text();
-  } catch {
-    body = "";
+    if (request.body) {
+      const reader = request.body.getReader();
+      const decoder = new TextDecoder();
+      let bytesRead = 0;
+      let isDone = false;
+      
+      while (!isDone) {
+        const { value, done } = await reader.read();
+        isDone = done;
+        if (value) {
+          bytesRead += value.byteLength;
+          if (bytesRead > SECURITY_CONFIG.MAX_REQUEST_BODY_SIZE) {
+            await reader.cancel("Payload Too Large");
+            return new Response(JSON.stringify({ ok: false, error: "Payload Too Large. Maximum size is 1MB." }), {
+              status: 413,
+              headers: { "Content-Type": "application/json" }
+            });
+          }
+          body += decoder.decode(value, { stream: !isDone });
+        }
+      }
+    }
+  } catch (e) {
+    console.error("Error reading body:", e);
+    // Ignore partial read errors and keep whatever was read
   }
 
   const now = Date.now();

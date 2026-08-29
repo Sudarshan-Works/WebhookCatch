@@ -10,6 +10,8 @@ export const GET: APIRoute = async ({ params, request }) => {
   const stream = new ReadableStream({
     async start(controller) {
       let lastCount = -1;
+      let emptyPolls = 0;
+      let currentSleepMs = 3000; // start at 3s
 
       // Send initial heartbeat to establish connection immediately
       controller.enqueue(`event: ping\ndata: ok\n\n`);
@@ -36,6 +38,8 @@ export const GET: APIRoute = async ({ params, request }) => {
           if (currentCount !== lastCount || currentSettingsHash !== (controller as any).lastSettingsHash) {
             lastCount = currentCount;
             (controller as any).lastSettingsHash = currentSettingsHash;
+            emptyPolls = 0; // reset backoff
+            currentSleepMs = 3000;
             
             const requests = await db
               .prepare(
@@ -65,6 +69,10 @@ export const GET: APIRoute = async ({ params, request }) => {
             };
 
             controller.enqueue(`data: ${JSON.stringify(payload)}\n\n`);
+          } else {
+            emptyPolls++;
+            if (emptyPolls > 10) currentSleepMs = 5000; // After ~30s idle, sleep 5s
+            if (emptyPolls > 30) currentSleepMs = 10000; // After ~2m idle, sleep 10s
           }
         } catch (err) {
           console.error("Stream polling error:", err);
@@ -72,8 +80,7 @@ export const GET: APIRoute = async ({ params, request }) => {
           break;
         }
 
-        // Wait 1.5 seconds before polling D1 again
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        await new Promise((resolve) => setTimeout(resolve, currentSleepMs));
       }
     },
     cancel() {

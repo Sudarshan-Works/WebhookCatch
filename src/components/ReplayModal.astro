@@ -1,0 +1,53 @@
+---
+// ReplayModal.astro
+---
+<div id="replay-modal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="text-body-md" style="font-weight: 600;">Edit & Replay</h3>
+      <button class="btn-ghost btn-sm" id="btn-close-modal" style="padding: 4px;">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="meta-label">Destination URL</label>
+        <div style="display: flex; gap: 8px;">
+          <select class="input-select text-code" id="replay-method">
+            <option>GET</option>
+            <option>POST</option>
+            <option>PUT</option>
+            <option>PATCH</option>
+            <option>DELETE</option>
+          </select>
+          <input type="text" class="input-text text-code" id="replay-url" placeholder="https://your-server.com/webhook" style="flex: 1;" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="meta-label">Headers (JSON format)</label>
+        <textarea class="input-textarea text-code" id="replay-headers" rows="2" style="font-size:12px;"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="meta-label">Query Params (JSON format)</label>
+        <textarea class="input-textarea text-code" id="replay-query" rows="2" style="font-size:12px;"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="meta-label">Body</label>
+        <textarea class="input-textarea text-code" id="replay-body" rows="4" style="font-size:12px;"></textarea>
+      </div>
+    </div>
+    
+    <div class="modal-response" id="replay-response-section" style="display: none;">
+      <div style="display: flex; gap: 16px; margin-bottom: 8px; align-items: center; padding: 0 24px;">
+        <span class="meta-label">Response</span>
+        <span class="badge" id="replay-res-status"></span>
+        <span class="text-caption-mono" id="replay-res-time" style="color:var(--color-mute);"></span>
+      </div>
+      <div style="padding: 0 24px 24px;">
+        <pre class="code-editor-mockup"><code class="code-content text-code" id="replay-res-body" style="padding: 16px; display: block; max-height: 200px; overflow-y: auto;"></code></pre>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-primary" id="btn-send-replay" style="width: 100%;">Send Request</button>
+    </div>
+  </div>
+</div>

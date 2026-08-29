@@ -1,15 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-
+import SEOLayout from '../layouts/SEOLayout.astro';
 const title = "Contact Us & Support - WebhookCatch";
 const description = "Contact the WebhookCatch team for support, feature requests, or bug reports.";
 ---
 
-<Layout title={title} description={description}>
-  <Navbar />
-  
+<SEOLayout title={title} description={description}>
   <main style="max-width: 600px; margin: 0 auto; padding: 100px 24px; color: var(--color-ink);">
     <h1 class="text-heading-1" style="margin-bottom: 16px; font-weight: 700;">Contact Support</h1>
     <p class="text-body" style="color: var(--color-body); margin-bottom: 48px;">
@@ -69,8 +64,7 @@ const description = "Contact the WebhookCatch team for support, feature requests
     </form>
   </main>
 
-  <Footer />
-</Layout>
+  </SEOLayout>
 
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement;
